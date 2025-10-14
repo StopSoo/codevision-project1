@@ -4,6 +4,8 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./common/**/*.{js,ts,jsx,tsx}",
+    "./layouts/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -22,10 +24,10 @@ module.exports = {
         "cart": "#C4F6EF",
       },
       fontFamily: {
-        recipe: ['Recipekorea', 'Pretendard', 'sans-serif'],
+        recipe: ["Recipekorea", "pretendard", "sans-serif"],
       },
     },
   },
   plugins: [],
-}
+};
 

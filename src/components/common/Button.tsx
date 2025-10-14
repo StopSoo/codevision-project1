@@ -4,14 +4,13 @@ interface ButtonProps {
 }
 
 export default function Button({ text, height }: ButtonProps) {
-    const handleClick = () => {
-
-    };
+    const handleClick = () => {};
 
     return (
         <button
             onClick={handleClick}
-            className={`flex flex-row w-full h-[${height}px] bg-[#01C78D] font-bold text-[24px] text-white items-center justify-center px-2.25 py-1.25 rounded-2xl`}>
+            style={{ height: `${height}px` }}
+            className={"flex flex-row w-full bg-[#01C78D] font-bold font-recipe text-[24px] text-[#ffffff] items-center justify-center px-[40px] py-[20px] rounded-[20px] outline-none"}>
             {text}
         </button>
     );

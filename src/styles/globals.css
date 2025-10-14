@@ -11,7 +11,18 @@
 
 @font-face {
     font-family: 'Pretendard';
-    src: url('/fonts/Pretendard.woff2') format('truetype');
+    src: url('/fonts/pretendard.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: 'Recipekorea', 'Pretendart', sans-serif;
+    background-color: #FBFFFC;
+    color: #2C2C2C;
 }

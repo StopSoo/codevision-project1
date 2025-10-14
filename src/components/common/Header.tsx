@@ -20,18 +20,18 @@ export default function Header({ pharmacy }: HeaderProps) {
                         width={60}
                         height={60}
                         alt="medict desktop logo"
-                        className="flex flex-row block items-center"
+                        className="flex flex-row items-center"
                     />
                     Medict
                 </div>
 
                 {pharmacy
-                    ? <nav className="flex items-center gap-y-24.25 font-bold text-[1.5rem] text-unselected-font">
+                    ? <nav className="flex items-center gap-y-24.25 font-bold text-[1.5rem] font-recipe !text-unselected-font">
                         <Link className="hover:text-[#01C78D]" href="/order">AI 오늘의 주문</Link>
                         <Link className="hover:text-[#01C78D]" href="/order-history">주문 내역</Link>
                     </nav>
                     :
-                    <nav className="flex items-center font-bold text-[1.5rem] text-unselected-font">
+                    <nav className="flex items-center font-bold text-[1.5rem] font-recipe text-unselected-font">
                         <Link className="hover:text-[#01C78D]" href="/order-item">주문 예상 품목</Link>
                     </nav>
                 }
