@@ -4,9 +4,9 @@ import Header from "../common/Header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full h-screen">
             <Header pharmacy={true} />
-            <main className="px-[66px] py-[80px] w-full min-h-screen">{children}</main>
+            <main className="px-[66px] py-[80px] w-full">{children}</main>
         </div>
     );
 }
