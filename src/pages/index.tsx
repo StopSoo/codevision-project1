@@ -30,7 +30,7 @@ export default function Home() {
           />
         </div>
         <h1
-          className="md:text-5xl text-3xl font-bold text-center text-[#4169B8] mb-12"
+          className="md:text-5xl text-4xl font-bold text-center text-main-logo mb-12"
           style={{ fontStyle: 'italic' }}
         >
           Medict
