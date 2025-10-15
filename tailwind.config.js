@@ -23,7 +23,7 @@ module.exports = {
         "sub-font": "#C5C5C5",
         "unselected-font": "#595959",
         "cart": "#C4F6EF",
-        "hover-green": "#00B585",
+        "hover-green": "#6BC6BC",
       },
       fontFamily: {
         recipe: ["Recipekorea", "pretendard", "sans-serif"],

@@ -30,7 +30,7 @@ export default function Header({ pharmacy }: HeaderProps) {
                 </div>
 
                 {pharmacy
-                    ? <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-bold text-lg md:text-2xl whitespace-nowrap">
+                    ? <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-medium text-lg md:text-2xl whitespace-nowrap">
                         <Link
                             className={`h-[84px] flex items-center transition-colors relative ${isActive('/order')
                                 ? 'text-main-color'
@@ -57,7 +57,7 @@ export default function Header({ pharmacy }: HeaderProps) {
                         </Link>
                     </nav>
                     :
-                    <nav className="flex items-center font-bold text-2xl">
+                    <nav className="flex items-center font-medium text-2xl">
                         <Link
                             className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-item')
                                 ? 'text-main-color'
@@ -73,7 +73,7 @@ export default function Header({ pharmacy }: HeaderProps) {
                     </nav>
                 }
             </div>
-            <div className="flex flex-row gap-2 font-bold text-lg md:text-2xl items-center text-main-font whitespace-nowrap">
+            <div className="flex flex-row gap-2 font-medium text-lg md:text-2xl items-center text-main-font whitespace-nowrap">
                 <button className="flex flex-row justify-center ml-2 gap-2">
                     <span>{username}</span>
                     <span>님</span>
