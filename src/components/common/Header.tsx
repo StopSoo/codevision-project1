@@ -18,7 +18,7 @@ export default function Header({ pharmacy }: HeaderProps) {
     return (
         <header className="flex flex-row w-full h-[100px] items-center justify-between pl-[66px] pr-[66px] shadow-md">
             <div className="flex flex-row gap-[30px] md:gap-[100px]">
-                <div className="flex flex-row items-center justify-center text-main-logo font-bold gap-8 md:gap-12 mr-5" style={{ fontStyle: 'italic' }}>
+                <div className="flex flex-row w-[600px] items-center justify-center text-main-logo font-bold gap-6 md:gap-10 mr-5" style={{ fontStyle: 'italic' }}>
                     <Image
                         src="/assets/pharmacy-logo.png"
                         width={60}

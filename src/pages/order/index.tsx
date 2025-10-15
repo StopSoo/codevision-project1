@@ -62,7 +62,7 @@ const medicineDetailData400T = {
 
 export default function Order() {
     const [hasAnalysis, setHasAnalysis] = useState(false);
-    const [selectedMedicine, setSelectedMedicine] = useState<typeof medicineDetailData | null>(medicineDetailData);
+    const [selectedMedicine, setSelectedMedicine] = useState<typeof medicineDetailData | null>(null);
     const [hasList, setHasList] = useState(false);
 
     return (
