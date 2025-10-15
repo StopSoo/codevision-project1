@@ -90,7 +90,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                 <span className="text-mileage-font font-medium">{variant.margin}</span>
                             </div>
                             <span className="text-main-font">{variant.available}</span>
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-row items-center justify-center gap-2">
                                 <input
                                     type="number"
                                     min="0"
