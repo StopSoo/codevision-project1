@@ -30,14 +30,14 @@ export default function Home() {
           />
         </div>
         <h1
-          className="md:text-5xl text-4xl font-bold text-center text-main-logo mb-12"
+          className="text-4xl md:text-5xl font-bold text-center text-main-logo mb-12"
           style={{ fontStyle: 'italic' }}
         >
           Medict
         </h1>
 
-        <div className="space-y-7">
-          <h2 className="md:text-3xl text-2xl font-bold text-center text-gray-800">
+        <div className="space-y-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-main-font mb-4">
             로그인
           </h2>
 
@@ -46,7 +46,7 @@ export default function Home() {
             placeholder="아이디"
             value={id}
             onChange={(e) => setId(e.target.value)}
-            className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-[#6BC6BC] transition-colors text-[#2C2C2C] placeholder-[#C5C5C5]"
+            className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
 
           <input
@@ -54,12 +54,12 @@ export default function Home() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-[#6BC6BC] transition-colors text-[#2C2C2C] placeholder-[#C5C5C5]"
+            className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
 
           <button
             onClick={handleLogin}
-            className="w-full py-4 rounded-xl bg-main-color text-white font-bold text-xl hover:bg-[#00B585] transition-colors"
+            className="w-full py-4 rounded-xl bg-main-color text-white font-bold text-xl hover:bg-hover-green transition-colors"
           >
             로그인
           </button>

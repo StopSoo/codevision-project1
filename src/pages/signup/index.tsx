@@ -64,28 +64,28 @@ export default function SignUp() {
 
                 <div className="mb-8">
                     <h3 className="text-lg font-medium text-main-font border-b-2 border-gray-800 pb-2">
-                        <span className="text-point-negative">•</span> 회원 구분
+                        회원 구분
                     </h3>
-                    <div className="bg-gray-100 p-6 flex items-center gap-16 border-b-2 border-gray-200">
-                        <label className="flex items-center gap-3 cursor-pointer">
+                    <div className="bg-gray-100 p-6 flex items-center gap-20 border-b-2 border-gray-200">
+                        <label className="flex flex-row items-center justify-center gap-3 cursor-pointer">
                             <input
                                 type="radio"
                                 name="memberType"
                                 value="pharmacy"
                                 checked={memberType === 'pharmacy'}
                                 onChange={(e) => setMemberType(e.target.value as 'pharmacy')}
-                                className="w-5 h-5 accent-gray-800"
+                                className="w-5 h-5 accent-main-font"
                             />
                             <span className="text-main-font font-medium">약국</span>
                         </label>
-                        <label className="flex items-center gap-3 cursor-pointer w-50%">
+                        <label className="flex flex-row items-center justify-center gap-3 cursor-pointer w-50%">
                             <input
                                 type="radio"
                                 name="memberType"
                                 value="wholesaler"
                                 checked={memberType === 'wholesaler'}
                                 onChange={(e) => setMemberType(e.target.value as 'wholesaler')}
-                                className="w-5 h-5 accent-gray-800"
+                                className="w-5 h-5 accent-main-font"
                             />
                             <span className="text-main-font font-medium">도매상</span>
                         </label>
@@ -93,12 +93,12 @@ export default function SignUp() {
                 </div>
 
                 <div className="mb-8">
-                    <h3 className="text-lg font-medium text-gray-800 border-b-2 border-gray-800 pb-2">
+                    <h3 className="text-lg font-medium text-main-font border-b-2 border-gray-800 pb-2">
                         기본 정보
                     </h3>
                     <div>
                         <div className="bg-gray-100 p-6 flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 font-medium text-gray-800">
+                            <label className="w-32 pt-3 text-main-font font-medium">
                                 <span className="text-point-negative">•</span> 아이디
                             </label>
                             <div className="flex-1">
@@ -108,12 +108,12 @@ export default function SignUp() {
                                     onChange={(e) => setId(e.target.value)}
                                     className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
-                                <p className="text-xs text-gray-400 mt-2">(영문소문자/숫자, 4~16자)</p>
+                                <p className="text-xs text-sub-font mt-2">(영문소문자/숫자, 4~16자)</p>
                             </div>
                         </div>
 
                         <div className="bg-gray-100 p-6 flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 font-medium text-gray-800">
+                            <label className="w-32 pt-3 text-main-font font-medium">
                                 <span className="text-point-negative">•</span> 비밀번호
                             </label>
                             <div className="flex-1">
@@ -123,14 +123,14 @@ export default function SignUp() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
-                                <p className="text-xs text-gray-400 mt-2">
+                                <p className="text-xs text-sub-font mt-2">
                                     (영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)
                                 </p>
                             </div>
                         </div>
 
                         <div className="bg-gray-100 p-6 flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 font-medium text-gray-800">
+                            <label className="w-32 pt-3 text-main-font font-medium">
                                 <span className="text-point-negative">•</span> 비밀번호 확인
                             </label>
                             <div className="flex-1">
@@ -144,7 +144,7 @@ export default function SignUp() {
                         </div>
 
                         <div className="bg-gray-100 p-6 flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 font-medium text-gray-800">
+                            <label className="w-32 pt-3 text-main-font font-medium">
                                 <span className="text-point-negative">•</span> 이름
                             </label>
                             <div className="flex-1">
@@ -158,14 +158,14 @@ export default function SignUp() {
                         </div>
 
                         <div className="bg-gray-100 p-6 flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 font-medium text-gray-800">
+                            <label className="w-32 pt-3 text-main-font font-medium">
                                 <span className="text-point-negative">•</span> 휴대전화
                             </label>
                             <div className="flex-1 flex items-center gap-2">
                                 <select
                                     value={areaCode}
                                     onChange={(e) => setAreaCode(e.target.value)}
-                                    className="w-full max-w-[90px] px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                    className="w-full max-w-[90px] px-4 py-3 border border-gray-300 text-main-font focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 >
                                     <option value="010">010</option>
                                     <option value="011">011</option>
@@ -204,7 +204,7 @@ export default function SignUp() {
                     </button>
                     <button
                         onClick={handleSignUp}
-                        className="flex-1 py-4 bg-black text-white font-medium text-lg hover:bg-gray-700 transition-colors"
+                        className="flex-1 py-4 bg-main-logo text-white font-medium text-lg hover:bg-gray-700 transition-colors"
                     >
                         회원가입
                     </button>
