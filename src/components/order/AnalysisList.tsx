@@ -135,7 +135,7 @@ export default function AnalysisList() {
                                 <span>수량</span>
                             </div>
                             {
-                                analysis.detail.map((d: [string, number][], index: number) => (
+                                analysis.detail.map((d: [string, number], index: number) => (
                                     <div key={index} className="flex flex-row flex-1 text-main-font text-center justify-around text-[11px]">
                                         <span>{d[0]}</span>
                                         <span>{d[1]}</span>

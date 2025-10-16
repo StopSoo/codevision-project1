@@ -1,3 +1,5 @@
+import { DataType } from '@/components/order/AnalysisList';
+
 export type AnalysisStore = {
     clickAnalysis: boolean; // [오늘의 주문] 버튼 클릭 여부
     setClickAnalysis: () => void;

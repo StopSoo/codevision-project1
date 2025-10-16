@@ -1,5 +1,6 @@
 import Button from "./Button";
 import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
+import { useEffect } from "react";
 
 interface AreaProps {
     size: 's' | 'm' | 'l' | 'xl' | 'default';
@@ -12,13 +13,14 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
     const sizeMap = { 's': 380, 'm': 530, 'l': 750, 'xl': 1300, 'default': 'full' };
 
     const { clickAnalysis, setClickAnalysis } = useAnalysisStore();
-    const { selectedMedNumber, setSelectedMedNumber } = useSelectedMedStore();
+    const { setSelectedMedNumber } = useSelectedMedStore();
 
-    if (!clickAnalysis) {
-        // 오늘의 주문 버튼을 통해 분석 내용을 끄면 다른 내용도 모두 off
-        setSelectedMedNumber(null);
-        // 장바구니도 끄기
-    }
+    useEffect(() => {
+        if (!clickAnalysis) {
+            // 오늘의 주문 버튼을 통해 분석 내용을 끄면 약품 담기 영역 내용 off
+            setSelectedMedNumber(null);
+        }
+    }, [clickAnalysis, setSelectedMedNumber]);
 
     if (sizeMap[size] !== 'full') {
         return (

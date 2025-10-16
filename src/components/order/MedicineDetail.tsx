@@ -39,11 +39,6 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const handleAddToCart = (variant: MedicineVariant) => {
         const quantity = quantities[variant.name] || 0;
 
-        if (quantity <= 0) {
-            // 다른 모달
-            return;
-        }
-
         if (quantity > variant.available) {
             alert(`재고가 부족합니다. (재고: ${variant.available})`);
             return;
