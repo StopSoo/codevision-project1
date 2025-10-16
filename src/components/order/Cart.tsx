@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Button from "@/components/common/Button";
-import { useCartStore } from "@/store/store";
 import { VscChromeClose } from "react-icons/vsc";
+
+import { useCartStore } from "@/store/store";
+import { useOrderedListStore } from "@/store/store";
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
+    const { orderedList, addToOrderedList } = useOrderedListStore();
 
     const handleQuantityChange = (id: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -18,7 +21,10 @@ export default function Cart() {
     };
 
     const handleOrder = () => {
-        // 주문 내역에 추가하는 로직
+        cart.map((item) => {
+            console.log(item);
+            addToOrderedList(item);
+        })
     };
 
     if (cart.length === 0) {
@@ -70,7 +76,8 @@ export default function Cart() {
                                             <input
                                                 type="number"
                                                 min="1"
-                                                value={item.quantity}
+                                                placeholder="0"
+                                                value={item.quantity || ""}
                                                 onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                                                 className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
                                             />
@@ -79,7 +86,7 @@ export default function Cart() {
                                 </div>
                                 <button
                                     onClick={() => handleRemoveItem(item.id)}
-                                    className="text-gray-600 hover:text-red-600 transition-colors"
+                                    className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-colors transition-transform"
                                 >
                                     <VscChromeClose size={28} />
                                 </button>

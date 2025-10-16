@@ -1,24 +1,14 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
 import { useState } from "react";
-
-type OrderList = {
-    date: string;
-    wholesaler: string;
-    price: number;
-    unit: string;
-    quantity: string;
-    totalPrice: number;
-};
+import { OrderedItem } from "@/types/orderedList";
 
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState("2025-10-01");
     const [endDate, setEndDate] = useState("2025-10-01");
     const [selectedWholesaler, setSelectedWholesaler] = useState("도매상 A");
-
-    // API 연결 시 타입 수정
-    const [orders, setOrders] = useState<OrderList[]>([]);
-
+    const [orders, setOrders] = useState<OrderedItem[]>([]);
+    // TODO: 주문 내역 정상 렌더링되면 날짜 영역 삭제
     return (
         <Layout>
             <div className="flex flex-col h-screen">

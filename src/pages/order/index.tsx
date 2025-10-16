@@ -74,7 +74,7 @@ export default function Order() {
                 <Area size='s' hasHeader={false}>
                     {clickAnalysis
                         ? <AnalysisList />
-                        : <div className="flex flex-col h-full items-center justify-center mx-[18px]">
+                        : <div className="flex flex-col h-full items-center justify-center mx-[17px]">
                             <Image
                                 src="/assets/icon1.png"
                                 width={138}

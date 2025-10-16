@@ -1,22 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useCartStore, useCartModalStore } from "@/store/store";
-
-type MedicineVariant = {
-    name: string;
-    price: number;
-    margin: string;
-    available: number;
-};
-
-type MedicineDetailData = {
-    name: string;
-    unit: string;
-    dosage: string;
-    manufacturer: string;
-    code: string;
-    variants: MedicineVariant[];
-};
+import { MedicineVariant, MedicineDetailData } from "@/types/medicine";
 
 interface MedicineDetailProps {
     medicine: MedicineDetailData;
@@ -134,7 +119,8 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                 <input
                                     type="number"
                                     min="0"
-                                    value={quantities[variant.name] || 0}
+                                    placeholder="0"
+                                    value={quantities[variant.name] || ""}
                                     onChange={(e) => handleQuantityChange(variant.name, e.target.value)}
                                     className="w-15 md:w-20 px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                 />

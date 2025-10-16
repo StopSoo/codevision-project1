@@ -3,6 +3,7 @@ import { create } from 'zustand';
 
 import { CartItem, CartStore, CartModalStore } from '@/types/cart';
 import { AnalysisStore, SelectedMedStore } from '@/types/todaysOrder';
+import { OrderedListStore } from '@/types/orderedList';
 
 /* 약국 */
 // 오늘의 주문
@@ -56,6 +57,22 @@ export const useCartStore = create<CartStore>((set, get) => ({
 export const useCartModalStore = create<CartModalStore>((set) => ({
     isCartModalOpen: false,
     setIsCartModalOpen: () => set((state) => ({ isCartModalOpen: !state.isCartModalOpen }))
+}))
+
+// 주문 내역
+export const useOrderedListStore = create<OrderedListStore>((set) => ({
+    orderedList: [],
+    addToOrderedList: (item: CartItem) => set((state) => {
+        const newOrderHistory = {
+            date: new Date().toDateString(),
+            wholesaler: item.wholesaler,
+            price: item.price,
+            unit: item.unit,
+            quantity: item.quantity,
+            totalPrice: item.price * item.quantity,
+        }
+        return { orderedList: [...state.orderedList, newOrderHistory] }
+    })
 }))
 
 

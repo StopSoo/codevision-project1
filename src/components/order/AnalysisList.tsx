@@ -1,14 +1,8 @@
 import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
 import { useEffect } from "react";
+import { DataType } from "@/types/medicine";
 
-export type DataType = {
-    name: string;
-    company: string;
-    code: string;
-    detail: [string, number][];
-}
 // 목데이터
-// API 연결 시 변경
 const analysisData: DataType[] = [
     {
         name: "스틸렌투엑스정 90mg",
