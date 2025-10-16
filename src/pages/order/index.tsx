@@ -2,10 +2,11 @@ import Area from "@/components/common/Area";
 import Layout from "@/components/layout/Layout";
 import AnalysisList from "@/components/order/AnalysisList";
 import MedicineDetail from "@/components/order/MedicineDetail";
+import Cart from "@/components/order/Cart";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
+import { useAnalysisStore, useSelectedMedStore, useCartStore } from "@/store/store";
 // API 구조 보고 수정할 것
 const medicineDetailData = {
     name: "스틸렌투엑스정 90mg",
@@ -65,8 +66,7 @@ const medicineDetailData400T = {
 export default function Order() {
     const { clickAnalysis } = useAnalysisStore();
     const { selectedMedNumber } = useSelectedMedStore();
-
-    const [hasList, setHasList] = useState(false);
+    const { cart } = useCartStore();
 
     return (
         <Layout>
@@ -96,25 +96,14 @@ export default function Order() {
                                 height={138}
                                 alt="ai todays order logo"
                                 className="mb-[24px]"
+                                priority
                             />
                             <div className="text-center text-sub-font whitespace-nowrap">원하는 약품을 선택해<br />주문 가능한 수량을 확인하세요!</div>
                         </div>
                     }
                 </Area>
                 <Area size='m' hasHeader={true} title={"장바구니"}>
-                    {hasList
-                        ? <AnalysisList />
-                        : <div className="flex flex-col h-full items-center justify-center">
-                            <Image
-                                src="/assets/icon3.png"
-                                width={138}
-                                height={138}
-                                alt="ai todays order logo"
-                                className="mb-[24px]"
-                            />
-                            <div className="text-center text-sub-font whitespace-nowrap">필요한 약품과 수량을 선택해<br />장바구니에 담아보세요!</div>
-                        </div>
-                    }
+                    <Cart />
                 </Area>
             </div>
         </Layout>

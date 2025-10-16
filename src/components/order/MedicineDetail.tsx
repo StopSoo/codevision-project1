@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+import { useCartStore } from "@/store/store";
 
 type MedicineVariant = {
     name: string;
@@ -23,6 +24,7 @@ interface MedicineDetailProps {
 
 export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const { addToCart } = useCartStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -32,10 +34,37 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
         }));
     };
 
-    const handleAddToCart = (variantName: string) => {
-        const quantity = quantities[variantName] || 0;
-        console.log(`Adding to cart: ${medicine.name} - ${variantName}, Quantity: ${quantity}`);
-        // TODO: Implement add to cart logic
+    const handleAddToCart = (variant: MedicineVariant) => {
+        const quantity = quantities[variant.name] || 0;
+
+        if (quantity <= 0) {
+            alert("수량을 입력해주세요.");
+            return;
+        }
+
+        if (quantity > variant.available) {
+            alert(`재고가 부족합니다. (재고: ${variant.available})`);
+            return;
+        }
+
+        const cartItem = {
+            id: `${medicine.code}-${variant.name}-${medicine.unit}`,
+            name: medicine.name,
+            dosage: medicine.dosage,
+            unit: medicine.unit,
+            price: variant.price,
+            quantity: quantity,
+            wholesaler: variant.name,
+            manufacturer: medicine.manufacturer,
+            code: medicine.code
+        };
+
+        addToCart(cartItem);
+
+        setQuantities(prev => ({
+            ...prev,
+            [variant.name]: 0
+        }));
     };
 
     return (
@@ -49,6 +78,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                         width={150}
                         height={150}
                         alt={medicine.name}
+                        priority
                     />
                 </div>
                 {/* 약품 정보 */}
@@ -83,7 +113,10 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                         <span>선택 수량</span>
                     </div>
                     {medicine.variants.map((variant, index) => (
-                        <div className="grid grid-cols-5 gap-4 p-3 items-center text-sm text-center">
+                        <div
+                            key={index}
+                            className="grid grid-cols-5 gap-4 p-3 items-center text-sm text-center"
+                        >
                             <span className="text-main-font">{variant.name}</span>
                             <span className="text-main-font">{variant.price.toLocaleString()}</span>
                             <div className="p-2 mx-4 bg-mileage-bg rounded-xl">
@@ -99,7 +132,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                     className="w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-main-color text-center"
                                 />
                                 <button
-                                    onClick={() => handleAddToCart(variant.name)}
+                                    onClick={() => handleAddToCart(variant)}
                                     className="px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
                                 >
                                     <Image
