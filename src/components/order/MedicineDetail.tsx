@@ -56,14 +56,12 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
             code: medicine.code
         };
 
-        addToCart(cartItem);
-
-        setQuantities(prev => ({
-            ...prev,
-            [variant.name]: 0
-        }));
-
         if (quantity > 0) {
+            addToCart(cartItem); // 장바구니에 담기
+            setQuantities(prev => ({ // 선택 수량 초기화
+                ...prev,
+                [variant.name]: 0
+            }));
             setIsCartModalOpen(); // 모달창 열기        
         }
     };
@@ -124,7 +122,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                     {medicine.variants.map((variant, index) => (
                         <div
                             key={index}
-                            className="grid grid-cols-5 gap-4 p-3 items-center text-sm text-center"
+                            className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"
                         >
                             <span className="text-main-font">{variant.name}</span>
                             <span className="text-main-font">{variant.price.toLocaleString()}</span>
@@ -138,7 +136,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                     min="0"
                                     value={quantities[variant.name] || 0}
                                     onChange={(e) => handleQuantityChange(variant.name, e.target.value)}
-                                    className="w-20 px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
+                                    className="w-15 md:w-20 px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                 />
                                 <button
                                     onClick={() => handleAddToCart(variant)}

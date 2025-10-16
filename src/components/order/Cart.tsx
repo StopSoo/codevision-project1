@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { useCartStore } from "@/store/store";
 import Button from "@/components/common/Button";
+import { useCartStore } from "@/store/store";
+import { VscChromeClose } from "react-icons/vsc";
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
@@ -17,8 +18,7 @@ export default function Cart() {
     };
 
     const handleOrder = () => {
-        console.log("Placing order:", cart);
-        // TODO: Implement order logic
+        // 주문 내역에 추가하는 로직
     };
 
     if (cart.length === 0) {
@@ -52,46 +52,42 @@ export default function Cart() {
                                     <h3 className="text-lg font-medium text-main-font mb-1">
                                         {item.name}
                                     </h3>
-                                    <div className="text-sm text-sub-font space-y-1">
-                                        <div>규격: {item.dosage}</div>
-                                        <div>단위: {item.unit}</div>
-                                        <div>도매상: {item.wholesaler}</div>
+                                    <div className="text-sm space-y-1">
+                                        <div className="flex flex-row">
+                                            <span className="w-[40%] text-sub-font">단위</span>
+                                            <span className="w-[60%] text-main-color">{item.unit}</span>
+                                        </div>
+                                        <div className="flex flex-row">
+                                            <span className="w-[40%] text-sub-font">도매상</span>
+                                            <span className="w-[60%] text-main-color">{item.wholesaler}</span>
+                                        </div>
+                                        <div className="flex flex-row">
+                                            <span className="w-[40%] text-sub-font">약품 단가</span>
+                                            <span className="w-[60%] text-main-font">{item.price.toLocaleString()}</span>
+                                        </div>
+                                        <div className="flex flex-row items-center">
+                                            <span className="text-sm text-sub-font w-[40%]">수량</span>
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={item.quantity}
+                                                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                                className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <button
                                     onClick={() => handleRemoveItem(item.id)}
-                                    className="text-gray-400 hover:text-red-500 transition-colors"
+                                    className="text-gray-600 hover:text-red-600 transition-colors"
                                 >
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M15 5L5 15M5 5L15 15"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                        />
-                                    </svg>
+                                    <VscChromeClose size={28} />
                                 </button>
                             </div>
 
                             <div className="w-full h-[1px] bg-gray-200" />
 
-                            <div className="flex flex-row items-center justify-between">
-                                <div className="flex flex-row items-center gap-2">
-                                    <span className="text-sm text-sub-font">수량:</span>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        value={item.quantity}
-                                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                                        className="w-16 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-main-color text-center text-sm"
-                                    />
-                                </div>
+                            <div className="flex flex-row items-center justify-end">
                                 <div className="text-lg font-medium text-main-font">
                                     {(item.price * item.quantity).toLocaleString()}원
                                 </div>

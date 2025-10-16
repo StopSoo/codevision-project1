@@ -23,6 +23,7 @@ export const useSelectedMedStore = create<SelectedMedStore>((set) => ({
 export const useCartStore = create<CartStore>((set, get) => ({
     cart: [],
     addToCart: (item: CartItem) => set((state) => {
+        // 동일한 상품이 존재할 경우 수량만 추가
         const existingItem = state.cart.find(cartItem => cartItem.id === item.id);
         if (existingItem) {
             return {
@@ -33,6 +34,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
                 )
             };
         }
+        // 상품이 존재하지 않을 경우 새로운 항목으로 추가
         return { cart: [...state.cart, item] };
     }),
     removeFromCart: (id: string) => set((state) => ({
