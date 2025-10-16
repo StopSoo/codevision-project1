@@ -1,4 +1,4 @@
-import { useAnalysisStore } from "@/store/store";
+import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
 import { useEffect } from "react";
 
 export type DataType = {
@@ -92,6 +92,7 @@ const analysisData: DataType[] = [
 
 export default function AnalysisList() {
     const { clickAnalysis, result, setResult } = useAnalysisStore();
+    const { selectedMedNumber, setSelectedMedNumber } = useSelectedMedStore();
 
     useEffect(() => {
         // API 연결 시 수정
@@ -112,10 +113,14 @@ export default function AnalysisList() {
 
             <div className="flex-1 overflow-y-auto space-y-4 pr-2">
                 {
-                    result.map((analysis, index) => (
+                    result.map((analysis, index) =>
                         <button
                             key={index}
-                            className="w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-main-color hover:bg-selected-bg transition-colors"
+                            className={(index !== selectedMedNumber)
+                                ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                            }
+                            onClick={() => setSelectedMedNumber(index)}
                         >
                             <div className="flex flex-row items-start text-sm font-medium text-main-font text-left">
                                 {analysis.name}
@@ -138,9 +143,9 @@ export default function AnalysisList() {
                                 ))
                             }
                         </button>
-                    ))
+                    )
                 }
             </div>
-        </div>
+        </div >
     );
 }
