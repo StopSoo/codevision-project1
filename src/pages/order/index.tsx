@@ -4,6 +4,8 @@ import AnalysisList from "@/components/order/AnalysisList";
 import MedicineDetail from "@/components/order/MedicineDetail";
 import Image from "next/image";
 import { useState } from "react";
+
+import { useAnalysisStore } from "@/store/store";
 // API 구조 보고 수정할 것
 const medicineDetailData = {
     name: "스틸렌투엑스정 90mg",
@@ -61,7 +63,7 @@ const medicineDetailData400T = {
 };
 
 export default function Order() {
-    const [hasAnalysis, setHasAnalysis] = useState(false);
+    const { clickAnalysis } = useAnalysisStore();
     const [selectedMedicine, setSelectedMedicine] = useState<typeof medicineDetailData | null>(null);
     const [hasList, setHasList] = useState(false);
 
@@ -69,9 +71,9 @@ export default function Order() {
         <Layout>
             <div className="flex flex-row space-x-6 h-screen">
                 <Area size='s' hasHeader={false}>
-                    {!hasAnalysis
+                    {clickAnalysis
                         ? <AnalysisList />
-                        : <div className="flex flex-col h-full items-center justify-center">
+                        : <div className="flex flex-col h-full items-center justify-center mx-[18px]">
                             <Image
                                 src="/assets/icon1.png"
                                 width={138}

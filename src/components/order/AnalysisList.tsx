@@ -1,10 +1,14 @@
-type DataType = {
+import { useAnalysisStore } from "@/store/store";
+import { useEffect } from "react";
+
+export type DataType = {
     name: string;
     company: string;
     code: string;
     detail: [string, number][];
 }
-
+// 목데이터
+// API 연결 시 변경
 const analysisData: DataType[] = [
     {
         name: "스틸렌투엑스정 90mg",
@@ -87,6 +91,14 @@ const analysisData: DataType[] = [
 ];
 
 export default function AnalysisList() {
+    const { clickAnalysis, result, setResult } = useAnalysisStore();
+
+    useEffect(() => {
+        // API 연결 시 수정
+        // 버튼 클릭 여부가 변경되었을 때 AI 분석 결과 리스트가 업데이트되도록
+        setResult(analysisData);
+    }, [clickAnalysis]);
+
     return (
         <div className="h-full flex flex-col">
             <div className="flex flex-col space-y-4 mb-6">
@@ -100,7 +112,7 @@ export default function AnalysisList() {
 
             <div className="flex-1 overflow-y-auto space-y-4 pr-2">
                 {
-                    analysisData.map((analysis, index) => (
+                    result.map((analysis, index) => (
                         <button
                             key={index}
                             className="w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-main-color hover:bg-selected-bg transition-colors"

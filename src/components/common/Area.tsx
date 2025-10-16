@@ -1,4 +1,5 @@
 import Button from "./Button";
+import { useAnalysisStore } from "@/store/store";
 
 interface AreaProps {
     size: 's' | 'm' | 'l' | 'xl' | 'default';
@@ -10,18 +11,24 @@ interface AreaProps {
 export default function Area({ size, hasHeader, title, children }: AreaProps) {
     const sizeMap = { 's': 380, 'm': 530, 'l': 750, 'xl': 1300, 'default': 'full' };
 
+    const { clickAnalysis, setClickAnalysis } = useAnalysisStore();
+
     if (sizeMap[size] !== 'full') {
         return (
             <div
                 style={{ width: `${sizeMap[size]}px` }}
-                className={`bg-white p-[15px] rounded-xl outline-solid shadow-lg min-w-[${sizeMap[size]}px] flex flex-col h-full`}
+                className={"bg-white p-[15px] rounded-xl outline-solid shadow-lg flex flex-col h-full"}
             >
                 {hasHeader ? (
                     <div className="flex flex-row font-bold text-2xl md:text-3xl items-start whitespace-nowrap">
                         {title}
                     </div>
                 ) : (
-                    <Button text="오늘의 주문" height={70} />
+                    <Button
+                        text="오늘의 주문"
+                        height={70}
+                        onClick={setClickAnalysis}
+                    />
                 )}
                 <div className="w-full h-1 bg-gray-300 rounded-xl my-[24px]" />
                 <div className="flex-1 overflow-hidden">
@@ -39,7 +46,11 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
                         {title}
                     </div>
                 ) : (
-                    <Button text="오늘의 주문" height={70} />
+                    <Button
+                        text="오늘의 주문"
+                        height={70}
+                        onClick={() => setClickAnalysis()}
+                    />
                 )}
                 <div className="w-full h-1 bg-gray-300 rounded-xl my-[24px]" />
                 <div className="flex-1 overflow-hidden">
