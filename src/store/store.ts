@@ -1,8 +1,9 @@
 import { DataType } from '@/components/order/AnalysisList';
 import { create } from 'zustand';
 
-import { CartItem, CartStore } from '@/types/cart';
+import { CartItem, CartStore, CartModalStore } from '@/types/cart';
 import { AnalysisStore, SelectedMedStore } from '@/types/todaysOrder';
+
 /* 약국 */
 // 오늘의 주문
 export const useAnalysisStore = create<AnalysisStore>((set) => ({
@@ -15,7 +16,7 @@ export const useAnalysisStore = create<AnalysisStore>((set) => ({
 // 약품 선택
 export const useSelectedMedStore = create<SelectedMedStore>((set) => ({
     selectedMedNumber: null,
-    setSelectedMedNumber: (index: number) => set({ selectedMedNumber: index }),
+    setSelectedMedNumber: (index: number | null) => set({ selectedMedNumber: index }),
 }))
 
 // 장바구니
@@ -47,6 +48,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
         const state = get();
         return state.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     }
+}))
+
+// 장바구니 담기 모달
+export const useCartModalStore = create<CartModalStore>((set) => ({
+    isCartModalOpen: false,
+    setIsCartModalOpen: () => set((state) => ({ isCartModalOpen: !state.isCartModalOpen }))
 }))
 
 

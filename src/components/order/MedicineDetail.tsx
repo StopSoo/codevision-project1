@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import { useCartStore } from "@/store/store";
+import { useCartStore, useCartModalStore } from "@/store/store";
 
 type MedicineVariant = {
     name: string;
@@ -24,6 +24,8 @@ interface MedicineDetailProps {
 
 export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const { isCartModalOpen, setIsCartModalOpen } = useCartModalStore();
+
     const { addToCart } = useCartStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
@@ -38,7 +40,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
         const quantity = quantities[variant.name] || 0;
 
         if (quantity <= 0) {
-            alert("수량을 입력해주세요.");
+            // 다른 모달
             return;
         }
 
@@ -65,12 +67,16 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
             ...prev,
             [variant.name]: 0
         }));
+
+        if (quantity > 0) {
+            setIsCartModalOpen(); // 모달창 열기        
+        }
     };
 
     return (
         <div className="flex flex-col space-y-6 h-full overflow-y-auto pr-2">
             <h2 className="text-2xl font-medium text-main-font">{medicine.name}</h2>
-            <div className="flex flex-row gap-4 h-40">
+            <div className="flex flex-row gap-10">
                 {/* 약품 이미지 */}
                 <div className="w-40 border border-gray-200 rounded-lg flex items-center justify-center bg-white p-5">
                     <Image
@@ -82,23 +88,31 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                     />
                 </div>
                 {/* 약품 정보 */}
-                <div className="w-[400px] border border-gray-200 rounded-lg p-4 space-y-2">
-                    <div className="flex flex-row items-center gap-5 font-medium text-lg">
-                        <span className="text-main-font">단위</span>
-                        <span>{medicine.unit}</span>
+                <div className="flex flex-col justify-center w-[400px] border border-gray-200 rounded-lg p-4 space-y-2">
+                    <div className="flex flex-row items-center justify-around font-medium text-lg">
+                        <span className="text-main-font w-[40%]">단위</span>
+                        <span className="w-[60%]">{medicine.unit}</span>
                     </div>
-                    <div className="w-full h-[1px] bg-gray-300 my-3" />
+                    <div className="w-full h-[1px] bg-gray-300 my-5 justify-center" />
                     <div className="flex flex-row items-center justify-around gap-4 text-sm font-medium text-sub-font">
-                        <span>규격</span>
-                        <span>{medicine.dosage}</span>
+                        <span className="w-[40%]">규격</span>
+                        <span className="w-[60%]">{medicine.dosage}</span>
                     </div>
                     <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
-                        <span>제조사</span>
-                        <span>{medicine.manufacturer}</span>
+                        <span className="w-[40%]">제조사</span>
+                        <span className="w-[60%]">{medicine.manufacturer}</span>
                     </div>
                     <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
-                        <span>보험코드</span>
-                        <span>{medicine.code}</span>
+                        <span className="w-[40%]">보험코드</span>
+                        <span className="w-[60%]">{medicine.code}</span>
+                    </div>
+                    <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
+                        <span className="w-[40%]">보험코드</span>
+                        <span className="w-[60%]">{medicine.code}</span>
+                    </div>
+                    <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
+                        <span className="w-[40%]">보험코드</span>
+                        <span className="w-[60%]">{medicine.code}</span>
                     </div>
                 </div>
             </div>
@@ -129,7 +143,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                     min="0"
                                     value={quantities[variant.name] || 0}
                                     onChange={(e) => handleQuantityChange(variant.name, e.target.value)}
-                                    className="w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-main-color text-center"
+                                    className="w-20 px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                 />
                                 <button
                                     onClick={() => handleAddToCart(variant)}

@@ -7,5 +7,5 @@ export type AnalysisStore = {
 
 export type SelectedMedStore = {
     selectedMedNumber: number | null; // 선택한 약품의 인덱스 번호 or 약품 번호
-    setSelectedMedNumber: (index: number) => void;
+    setSelectedMedNumber: (index: number | null) => void;
 }
