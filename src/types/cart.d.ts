@@ -22,4 +22,5 @@ export type CartStore = {
 export type CartModalStore = {
     isCartModalOpen: boolean;
     setIsCartModalOpen: () => void;
+    setIsCartModalClose: () => void;
 }

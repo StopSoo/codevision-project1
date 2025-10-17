@@ -1,4 +1,4 @@
-import { DataType } from '@/components/order/AnalysisList';
+import { DataType } from '@/types/medicine';
 import { create } from 'zustand';
 
 import { CartItem, CartStore, CartModalStore } from '@/types/cart';
@@ -56,7 +56,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
 // 장바구니 담기 모달
 export const useCartModalStore = create<CartModalStore>((set) => ({
     isCartModalOpen: false,
-    setIsCartModalOpen: () => set((state) => ({ isCartModalOpen: !state.isCartModalOpen }))
+    setIsCartModalOpen: () => set({ isCartModalOpen: true }),
+    setIsCartModalClose: () => set({ isCartModalOpen: false })
 }))
 
 // 주문 내역

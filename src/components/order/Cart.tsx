@@ -22,9 +22,9 @@ export default function Cart() {
 
     const handleOrder = () => {
         cart.map((item) => {
-            console.log(item);
             addToOrderedList(item);
         })
+        // TODO: 주문 완료 모달창 띄우기 
     };
 
     if (cart.length === 0) {
@@ -113,7 +113,11 @@ export default function Cart() {
                         {getTotalPrice().toLocaleString()}원
                     </span>
                 </div>
-                <Button text="주문하기" height={60} onClick={handleOrder} />
+                <Button
+                    text="주문하기"
+                    height={60}
+                    onClick={handleOrder}
+                />
             </div>
         </div>
     );

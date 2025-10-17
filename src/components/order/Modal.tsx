@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { useCartModalStore } from "@/store/store";
+import { useEffect } from "react";
 
 interface CartModalProps {
     message: string; // 모달창 인내 멘트
@@ -6,12 +8,23 @@ interface CartModalProps {
 }
 
 export default function CartModal({ message, onClose }: CartModalProps) {
+    const { isCartModalOpen, setIsCartModalClose } = useCartModalStore();
+
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         // 모달 이외 영역 클릭 시 모달창 종료
         if (e.target === e.currentTarget) {
             onClose();
         }
     };
+
+    useEffect(() => {
+        if (isCartModalOpen) {
+            setTimeout(() => {
+                setIsCartModalClose();
+            }, 1000);
+        }
+    }, [isCartModalOpen])
+
 
     return (
         <div
