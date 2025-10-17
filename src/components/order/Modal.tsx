@@ -23,7 +23,7 @@ export default function CartModal({ message, onClose }: CartModalProps) {
                 setIsCartModalClose();
             }, 1000);
         }
-    }, [isCartModalOpen])
+    }, [isCartModalOpen, setIsCartModalClose])
 
 
     return (

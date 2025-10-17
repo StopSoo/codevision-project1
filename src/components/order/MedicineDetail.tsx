@@ -9,7 +9,7 @@ interface MedicineDetailProps {
 
 export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-    const { isCartModalOpen, setIsCartModalOpen } = useCartModalStore();
+    const { setIsCartModalOpen } = useCartModalStore();
 
     const { addToCart } = useCartStore();
 

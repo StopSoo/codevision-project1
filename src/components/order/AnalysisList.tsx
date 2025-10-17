@@ -92,7 +92,7 @@ export default function AnalysisList() {
         // API 연결 시 수정
         // 버튼 클릭 여부가 변경되었을 때 AI 분석 결과 리스트가 업데이트되도록
         setResult(analysisData);
-    }, [clickAnalysis]);
+    }, [clickAnalysis, setResult]);
 
     return (
         <div className="h-full flex flex-col">

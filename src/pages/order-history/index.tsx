@@ -1,13 +1,13 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
 import { useState } from "react";
-import { OrderedItem } from "@/types/orderedList";
+import { useOrderedListStore } from "@/store/store";
 
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState("2025-10-01");
     const [endDate, setEndDate] = useState("2025-10-01");
     const [selectedWholesaler, setSelectedWholesaler] = useState("도매상 A");
-    const [orders, setOrders] = useState<OrderedItem[]>([]);
+    const { orderedList } = useOrderedListStore();
     // TODO: 주문 내역 정상 렌더링되면 날짜 영역 삭제
     return (
         <Layout>
@@ -67,7 +67,7 @@ export default function OrderHistory() {
                     </div>
 
                     <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 rounded-b-lg p-8">
-                        {orders.length === 0 ? (
+                        {orderedList.length === 0 ? (
                             <div className="flex flex-col items-center">
                                 <Image
                                     src="/assets/icon3.png"
@@ -84,7 +84,7 @@ export default function OrderHistory() {
                             </div>
                         ) : (
                             <div className="w-full space-y-2">
-                                {orders.map((order, index) => (
+                                {orderedList.map((order, index) => (
                                     <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
                                         <span>{order.date}</span>
                                         <span>{order.wholesaler}</span>

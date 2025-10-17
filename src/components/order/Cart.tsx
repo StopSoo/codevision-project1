@@ -7,7 +7,7 @@ import { useOrderedListStore } from "@/store/store";
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
-    const { orderedList, addToOrderedList } = useOrderedListStore();
+    const { addToOrderedList } = useOrderedListStore();
 
     const handleQuantityChange = (id: string, value: string) => {
         const numValue = parseInt(value) || 0;

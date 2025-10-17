@@ -4,9 +4,8 @@ import AnalysisList from "@/components/order/AnalysisList";
 import MedicineDetail from "@/components/order/MedicineDetail";
 import Cart from "@/components/order/Cart";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-import { useAnalysisStore, useSelectedMedStore, useCartStore } from "@/store/store";
+import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
 // API 구조 보고 수정할 것
 const medicineDetailData = {
     name: "스틸렌투엑스정 90mg",
@@ -39,34 +38,34 @@ const medicineDetailData = {
     ]
 };
 
-const medicineDetailData400T = {
-    name: "스틸렌투엑스정 90mg",
-    unit: "400T",
-    dosage: "90mg",
-    manufacturer: "대웅제약",
-    code: "642507290",
-    variants: [
-        {
-            name: "도매상 A",
-            price: 82000,
-            margin: "+ 9.1%",
-            available: 50,
-            unit: "400T"
-        },
-        {
-            name: "도매상 B",
-            price: 82000,
-            margin: "+ 4.1%",
-            available: 100,
-            unit: "400T"
-        }
-    ]
-};
+// const medicineDetailData400T = {
+//     name: "스틸렌투엑스정 90mg",
+//     unit: "400T",
+//     dosage: "90mg",
+//     manufacturer: "대웅제약",
+//     code: "642507290",
+//     variants: [
+//         {
+//             name: "도매상 A",
+//             price: 82000,
+//             margin: "+ 9.1%",
+//             available: 50,
+//             unit: "400T"
+//         },
+//         {
+//             name: "도매상 B",
+//             price: 82000,
+//             margin: "+ 4.1%",
+//             available: 100,
+//             unit: "400T"
+//         }
+//     ]
+// };
 
 export default function Order() {
     const { clickAnalysis } = useAnalysisStore();
     const { selectedMedNumber } = useSelectedMedStore();
-    const { cart } = useCartStore();
+    // const { cart } = useCartStore();
 
     return (
         <Layout>
