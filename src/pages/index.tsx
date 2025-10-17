@@ -50,7 +50,7 @@ export default function Home() {
         router.push('/order-item');
       }
     }
-  }, [isModalOpen, setIsModalClose]);
+  }, [isLogin, member, isModalOpen, setIsModalClose, router]);
 
   useEffect(() => {
     // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능

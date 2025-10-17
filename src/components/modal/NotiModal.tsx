@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useEffect } from "react";
 
 interface NotiModalProps {
     message: string; // 모달창 안내 멘트

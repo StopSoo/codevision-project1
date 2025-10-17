@@ -1,7 +1,6 @@
-import { DataType } from '@/types/medicine';
 import { create } from 'zustand';
 
-import { CartItem, CartStore } from '@/types/cart';
+import { CartStore } from '@/types/cart';
 import { AnalysisStore, SelectedMedStore } from '@/types/todaysOrder';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';

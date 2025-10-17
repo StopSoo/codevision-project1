@@ -61,7 +61,7 @@ export default function SignUp() {
         } else if (isSignup && !isModalOpen) {
             router.push('/');
         }
-    }, [isModalOpen, setIsModalClose]);
+    }, [isSignup, router, isModalOpen, setIsModalClose]);
 
     useEffect(() => {
         // 입력칸이 모두 채워졌을 때만 로그인 가능
@@ -71,9 +71,7 @@ export default function SignUp() {
         setIsNameFilled(name.trim() !== "");
         setIsP1L4(Number(phone1).toString().trim().length === 4);
         setIsP2L4(Number(phone2).toString().trim().length === 4);
-        console.log(isIdFilled, isPwFilled, isPwConfirmFilled, isNameFilled, isP1L4, isP2L4);
-        console.log(isP1L4, isP2L4);
-    }, [id, pw, pwConfirm, name, phone1, phone2]);
+    }, [id, pw, pwConfirm, name, phone1, phone2, isIdFilled, isNameFilled, isP1L4, isP2L4, isPwConfirmFilled, isPwFilled]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-main-bg py-12">
