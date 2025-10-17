@@ -5,7 +5,7 @@ import CartModal from "../modal/CartModal";
 import { useMemberStore } from "@/store/store";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const { isModalOpen, setIsModalClose } = useCartModalStore();
+    const { isModalOpen, setIsCartModalClose: setIsModalClose } = useCartModalStore();
     const { member } = useMemberStore();
 
     return (

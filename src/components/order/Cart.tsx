@@ -55,10 +55,10 @@ export default function Cart() {
                         >
                             <div className="flex flex-row items-start justify-between">
                                 <div className="flex-1">
-                                    <h3 className="text-lg font-medium text-main-font mb-1">
+                                    <span className="text-sm md:text-lg font-medium text-main-font mb-1">
                                         {item.name}
-                                    </h3>
-                                    <div className="text-sm space-y-1">
+                                    </span>
+                                    <div className="text-[8px] md:text-sm space-y-1">
                                         <div className="flex flex-row">
                                             <span className="w-[40%] text-sub-font">단위</span>
                                             <span className="w-[60%] text-main-color">{item.unit}</span>

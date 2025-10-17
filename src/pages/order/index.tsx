@@ -18,7 +18,7 @@ const medicineDetailData = {
             name: "도매상 A",
             price: 6150,
             margin: "+ 10.3%",
-            available: 540,
+            available: 40,
             unit: "30T"
         },
         {
@@ -32,7 +32,7 @@ const medicineDetailData = {
             name: "도매상 C",
             price: 6150,
             margin: "+ 5.7%",
-            available: 115,
+            available: 80,
             unit: "30T"
         }
     ]
@@ -79,6 +79,7 @@ export default function Order() {
                                 height={138}
                                 alt="ai todays order logo"
                                 className="mb-[24px]"
+                                priority
                             />
                             <div className="text-center text-sub-font whitespace-nowrap">[오늘의 주문] 버튼을 눌러<br />AI가 분석한<br />예상 주문 목록을 확인하세요!</div>
                         </div>

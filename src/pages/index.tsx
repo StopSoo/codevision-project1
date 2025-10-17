@@ -125,6 +125,7 @@ export default function Home() {
       {
         isModalOpen
           ? <NotiModal
+            type='check'
             message='로그인되었습니다.'
             onClose={setIsModalClose}
           />

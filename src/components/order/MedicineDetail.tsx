@@ -9,8 +9,8 @@ interface MedicineDetailProps {
 
 export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-    const { setIsModalOpen } = useCartModalStore();
 
+    const { setIsModalOpen } = useCartModalStore();
     const { addToCart } = useCartStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
@@ -23,11 +23,6 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
 
     const handleAddToCart = (variant: MedicineVariant) => {
         const quantity = quantities[variant.name] || 0;
-
-        if (quantity > variant.available) {
-            alert(`재고가 부족합니다. (재고: ${variant.available})`);
-            return;
-        }
 
         const cartItem = {
             id: `${medicine.code}-${variant.name}-${medicine.unit}`,
@@ -119,6 +114,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                 <input
                                     type="number"
                                     min="0"
+                                    max={variant.available}
                                     placeholder="0"
                                     value={quantities[variant.name] || ""}
                                     onChange={(e) => handleQuantityChange(variant.name, e.target.value)}
