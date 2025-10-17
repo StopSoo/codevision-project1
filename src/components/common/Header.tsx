@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-// import { useState } from "react";
 import { SlArrowDown } from "react-icons/sl";
 import { useRouter } from "next/router";
+
+import { useMemberStore } from "@/store/store";
 
 interface HeaderProps {
     // 약국, 도매상 여부에 따른 헤더 속성 변경
@@ -10,8 +11,8 @@ interface HeaderProps {
 };
 
 export default function Header({ pharmacy }: HeaderProps) {
-    // const [username, setUsername] = useState("정지수");
     const router = useRouter();
+    const { name } = useMemberStore();
 
     const isActive = (path: string) => router.pathname === path;
 
@@ -76,7 +77,7 @@ export default function Header({ pharmacy }: HeaderProps) {
             {/* API 연결 시 수정 */}
             <div className="flex flex-row gap-2 font-medium text-lg md:text-2xl items-center text-main-font whitespace-nowrap">
                 <button className="flex flex-row justify-center ml-2 gap-2">
-                    <span>정지수</span>
+                    <span>{name}</span>
                     <span>님</span>
                     <div className="w-7 h-7">
                         <SlArrowDown />

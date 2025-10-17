@@ -18,9 +18,3 @@ export type CartStore = {
     clearCart: () => void;
     getTotalPrice: () => number;
 }
-
-export type CartModalStore = {
-    isCartModalOpen: boolean;
-    setIsCartModalOpen: () => void;
-    setIsCartModalClose: () => void;
-}

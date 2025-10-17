@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NotiModal from '@/components/modal/NotiModal';
+import Button from '@/components/common/Button';
 
 import { useMemberStore, useLoginModalStore } from '@/store/store';
 
@@ -12,6 +13,16 @@ export default function Home() {
 
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [isIdFilled, setIsIdFilled] = useState(id.trim() !== "");
+  const [isPwFilled, setIsPwFilled] = useState(id.trim() !== "");
+  const isButtonActive = () => {
+    // 로그인 버튼 활성화 여부
+    if (isIdFilled && isPwFilled) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const handleLogin = () => {
     // TODO: 서버에서 아이디, 비밀번호 검증
@@ -40,6 +51,12 @@ export default function Home() {
       }
     }
   }, [isModalOpen, setIsModalClose]);
+
+  useEffect(() => {
+    // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능
+    setIsIdFilled(id.trim() !== "");
+    setIsPwFilled(password.trim() !== "");
+  }, [id, password]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
@@ -81,12 +98,12 @@ export default function Home() {
             className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
 
-          <button
+          <Button
+            text="로그인"
+            height={57}
+            disabled={!isButtonActive()}
             onClick={handleLogin}
-            className="w-full py-4 rounded-xl bg-main-color text-white font-bold text-xl hover:bg-hover-green transition-colors"
-          >
-            로그인
-          </button>
+          />
 
           <div className="mt-8 py-10 px-12 rounded-xl border border-gray-200 bg-white">
             <h3 className="text-lg md:text-2xl font-bold text-center text-main-font mb-2">

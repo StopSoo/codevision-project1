@@ -65,7 +65,6 @@ const medicineDetailData = {
 export default function Order() {
     const { clickAnalysis } = useAnalysisStore();
     const { selectedMedNumber } = useSelectedMedStore();
-    // const { cart } = useCartStore();
 
     return (
         <Layout>

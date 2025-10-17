@@ -8,7 +8,7 @@ interface CartModalProps {
 }
 
 export default function CartModal({ message, onClose }: CartModalProps) {
-    const { isCartModalOpen, setIsCartModalClose } = useCartModalStore();
+    const { isModalOpen, setIsModalClose } = useCartModalStore();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         // 모달 이외 영역 클릭 시 모달창 종료
@@ -18,12 +18,12 @@ export default function CartModal({ message, onClose }: CartModalProps) {
     };
 
     useEffect(() => {
-        if (isCartModalOpen) {
+        if (isModalOpen) {
             setTimeout(() => {
-                setIsCartModalClose();
+                setIsModalClose();
             }, 1000);
         }
-    }, [isCartModalOpen, setIsCartModalClose])
+    }, [isModalOpen, setIsModalClose])
 
 
     return (

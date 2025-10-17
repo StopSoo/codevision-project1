@@ -13,16 +13,30 @@ export default function SignUp() {
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('pharmacy');
-    const [isSignup, setIsSignUp] = useState(false);
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [name, setName] = useState('');
+    const [isSignup, setIsSignUp] = useState<boolean>(false);
+    const [id, setId] = useState<string>('');
+    const [pw, setPw] = useState<string>('');
+    const [pwConfirm, setPwConfirm] = useState<string>('');
+    const [name, setName] = useState<string>('');
 
-    const [areaCode, setAreaCode] = useState('010');
-    const [phone1, setPhone1] = useState('');
-    const [phone2, setPhone2] = useState('');
+    const [areaCode, setAreaCode] = useState<string>('010');
+    const [phone1, setPhone1] = useState<string>('');
+    const [phone2, setPhone2] = useState<string>('');
 
+    const [isIdFilled, setIsIdFilled] = useState<boolean>(id.trim() !== "");
+    const [isPwFilled, setIsPwFilled] = useState<boolean>(pw.trim() !== "");
+    const [isPwConfirmFilled, setIsPwConfirmFilled] = useState<boolean>(pwConfirm.trim() !== "" && pw === pwConfirm);
+    const [isNameFilled, setIsNameFilled] = useState<boolean>(name.trim() !== "");
+    const [isP1L4, setIsP1L4] = useState<boolean>(Number(phone1).toString().trim().length === 4);
+    const [isP2L4, setIsP2L4] = useState<boolean>(Number(phone2).toString().trim().length === 4);
+    const isButtonActive = () => {
+        // 회원가입 버튼 활성화 여부
+        if (isIdFilled && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     const handleCancel = () => {
         // 취소 버튼 누를 시 이전 페이지로 이동
@@ -48,6 +62,18 @@ export default function SignUp() {
             router.push('/');
         }
     }, [isModalOpen, setIsModalClose]);
+
+    useEffect(() => {
+        // 입력칸이 모두 채워졌을 때만 로그인 가능
+        setIsIdFilled(id.trim() !== "");
+        setIsPwFilled(pw.trim() !== "");
+        setIsPwConfirmFilled(pwConfirm.trim() !== "" && pw === pwConfirm);
+        setIsNameFilled(name.trim() !== "");
+        setIsP1L4(Number(phone1).toString().trim().length === 4);
+        setIsP2L4(Number(phone2).toString().trim().length === 4);
+        console.log(isIdFilled, isPwFilled, isPwConfirmFilled, isNameFilled, isP1L4, isP2L4);
+        console.log(isP1L4, isP2L4);
+    }, [id, pw, pwConfirm, name, phone1, phone2]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-main-bg py-12">
@@ -130,8 +156,8 @@ export default function SignUp() {
                             <div className="flex-1">
                                 <input
                                     type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={pw}
+                                    onChange={(e) => setPw(e.target.value)}
                                     className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                                 <p className="text-xs text-sub-font mt-2">
@@ -147,8 +173,8 @@ export default function SignUp() {
                             <div className="flex-1">
                                 <input
                                     type="password"
-                                    value={passwordConfirm}
-                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                    value={pwConfirm}
+                                    onChange={(e) => setPwConfirm(e.target.value)}
                                     className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                             </div>
@@ -189,6 +215,7 @@ export default function SignUp() {
                                 <input
                                     type="text"
                                     value={phone1}
+                                    placeholder='1234'
                                     onChange={(e) => setPhone1(e.target.value)}
                                     maxLength={4}
                                     className="w-full max-w-lg flex-1 px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
@@ -197,6 +224,7 @@ export default function SignUp() {
                                 <input
                                     type="text"
                                     value={phone2}
+                                    placeholder='5678'
                                     onChange={(e) => setPhone2(e.target.value)}
                                     maxLength={4}
                                     className="w-full max-w-lg flex-1 px-4 py-3 border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
@@ -215,7 +243,11 @@ export default function SignUp() {
                     </button>
                     <button
                         onClick={handleSignUp}
-                        className="flex-1 py-4 bg-main-logo text-white font-medium text-lg hover:bg-gray-700 transition-colors"
+                        className={isButtonActive()
+                            ? "flex-1 py-4 bg-main-logo text-white font-medium text-lg hover:bg-gray-700 transition-colors"
+                            : "flex-1 py-4 bg-sub-font text-white font-medium text-lg"
+                        }
+                        disabled={!isButtonActive()}
                     >
                         회원가입
                     </button>

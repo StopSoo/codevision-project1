@@ -9,7 +9,7 @@ interface MedicineDetailProps {
 
 export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-    const { setIsCartModalOpen } = useCartModalStore();
+    const { setIsModalOpen } = useCartModalStore();
 
     const { addToCart } = useCartStore();
 
@@ -47,7 +47,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                 ...prev,
                 [variant.name]: 0
             }));
-            setIsCartModalOpen(); // 모달창 열기        
+            setIsModalOpen(); // 모달창 열기        
         }
     };
 
