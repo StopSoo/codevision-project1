@@ -1,21 +1,45 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import NotiModal from '@/components/modal/NotiModal';
+
+import { useMemberStore, useLoginModalStore } from '@/store/store';
 
 export default function Home() {
   const router = useRouter();
+  const { member, isLogin, setLogin } = useMemberStore();
+  const { isModalOpen, setIsModalOpen, setIsModalClose } = useLoginModalStore();
 
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // 로그인 API 연결 시 수정
-    console.log('Login attempt:', { id, password });
+    // TODO: 서버에서 아이디, 비밀번호 검증
+
+    // 성공
+    setLogin(); // 일단 무조건 연결되는 상태
+    setIsModalOpen();
+
+    // 실패
   };
 
   const handleSignup = () => {
     router.push('/signup');
   };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setTimeout(() => {
+        setIsModalClose();
+      }, 2000);
+    } else if (isLogin && !isModalOpen) {
+      if (member === 'pharmacy') {
+        router.push('/order');
+      } else {
+        router.push('/order-item');
+      }
+    }
+  }, [isModalOpen, setIsModalClose]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
@@ -80,6 +104,15 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {
+        isModalOpen
+          ? <NotiModal
+            message='로그인되었습니다.'
+            onClose={setIsModalClose}
+          />
+          : null
+      }
     </div>
   );
 }

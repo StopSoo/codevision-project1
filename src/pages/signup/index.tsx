@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useSignupModalStore } from '@/store/store';
+import NotiModal from '@/components/modal/NotiModal';
 
 type MemberProps = {
     member: 'pharmacy' | 'wholesaler'
@@ -8,9 +10,10 @@ type MemberProps = {
 
 export default function SignUp() {
     const router = useRouter();
+    const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('pharmacy');
-
+    const [isSignup, setIsSignUp] = useState(false);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -28,15 +31,23 @@ export default function SignUp() {
 
     const handleSignUp = () => {
         // 회원가입 API 연동
-        console.log('Signup attempt:', {
-            memberType,
-            id,
-            password,
-            passwordConfirm,
-            name,
-            phone: `${areaCode}-${phone1}-${phone2}`,
-        });
+
+        // 성공
+        setIsSignUp(true); // 일단 무조건 연결되는 상태
+        setIsModalOpen();
+
+        // 실패
     };
+
+    useEffect(() => {
+        if (isModalOpen) {
+            setTimeout(() => {
+                setIsModalClose();
+            }, 2000);
+        } else if (isSignup && !isModalOpen) {
+            router.push('/');
+        }
+    }, [isModalOpen, setIsModalClose]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-main-bg py-12">
@@ -209,6 +220,15 @@ export default function SignUp() {
                         회원가입
                     </button>
                 </div>
+
+                {
+                    isModalOpen
+                        ? <NotiModal
+                            message={"회원가입에 성공했습니다.\n로그인 페이지로 넘어갑니다."}
+                            onClose={setIsModalClose}
+                        />
+                        : null
+                }
             </div>
         </div>
     );

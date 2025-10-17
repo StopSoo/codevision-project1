@@ -3,7 +3,7 @@ import { useCartModalStore } from "@/store/store";
 import { useEffect } from "react";
 
 interface CartModalProps {
-    message: string; // 모달창 인내 멘트
+    message: string; // 모달창 안내 멘트
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
 }
 

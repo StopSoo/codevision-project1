@@ -4,6 +4,28 @@ import { create } from 'zustand';
 import { CartItem, CartStore, CartModalStore } from '@/types/cart';
 import { AnalysisStore, SelectedMedStore } from '@/types/todaysOrder';
 import { OrderedListStore } from '@/types/orderedList';
+import { MemberStore, ModalStore } from '@/types/member';
+
+/* 회원 */
+export const useMemberStore = create<MemberStore>((set) => ({
+    member: 'pharmacy',
+    isLogin: false,
+    setLogin: () => set({ isLogin: true }),
+    setLogout: () => set({ isLogin: false }),
+}))
+
+/* 로그인 / 회원가입 모달 */
+export const useLoginModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+
+export const useSignupModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
 
 /* 약국 */
 // 오늘의 주문

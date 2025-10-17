@@ -1,19 +1,21 @@
 import React from "react";
 import Header from "../common/Header";
 import { useCartModalStore } from "@/store/store";
-import CartModal from "../order/Modal";
+import CartModal from "../modal/CartModal";
+import { useMemberStore } from "@/store/store";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { isCartModalOpen, setIsCartModalClose } = useCartModalStore();
+    const { member } = useMemberStore();
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <Header pharmacy={true} />
+            <Header pharmacy={member === 'pharmacy'} />
             {
                 isCartModalOpen
                     ? <CartModal
                         message="약품이 정상적으로 장바구니에 담겼습니다!"
-                        onClose={() => setIsCartModalClose()}
+                        onClose={setIsCartModalClose}
                     />
                     : null
             }
