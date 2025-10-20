@@ -17,7 +17,7 @@ export default function OrderHistory() {
             setEndDate(startDate);
             setTimeout(() => setIsModalClose(), 2000);
         }
-    }, [startDate, endDate, setIsModalOpen]);
+    }, [startDate, endDate, setIsModalOpen, setIsModalClose]);
 
     return (
         <Layout>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useSignupModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
+import { isValidId, isValidPassword } from '@/utils/utility';
 
 type MemberProps = {
     member: 'pharmacy' | 'wholesaler'
@@ -10,6 +11,7 @@ type MemberProps = {
 
 export default function SignUp() {
     const router = useRouter();
+
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('pharmacy');
@@ -18,11 +20,10 @@ export default function SignUp() {
     const [pw, setPw] = useState<string>('');
     const [pwConfirm, setPwConfirm] = useState<string>('');
     const [name, setName] = useState<string>('');
-
     const [areaCode, setAreaCode] = useState<string>('010');
     const [phone1, setPhone1] = useState<string>('');
     const [phone2, setPhone2] = useState<string>('');
-
+    // 조건 검사
     const [isIdFilled, setIsIdFilled] = useState<boolean>(id.trim() !== "");
     const [isPwFilled, setIsPwFilled] = useState<boolean>(pw.trim() !== "");
     const [isPwConfirmFilled, setIsPwConfirmFilled] = useState<boolean>(pwConfirm.trim() !== "" && pw === pwConfirm);
@@ -31,7 +32,7 @@ export default function SignUp() {
     const [isP2L4, setIsP2L4] = useState<boolean>(Number(phone2).toString().trim().length === 4);
     const isButtonActive = () => {
         // 회원가입 버튼 활성화 여부
-        if (isIdFilled && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4) {
+        if (isIdFilled && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4 && isValidId(id) && isValidPassword(pw)) {
             return true;
         } else {
             return false;
