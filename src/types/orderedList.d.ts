@@ -10,4 +10,5 @@ export type OrderedItem = {
 export type OrderedListStore = {
     orderedList: OrderedItem[];
     addToOrderedList: (item: CartItem) => void;
+    getTotalPrice: () => number;
 }

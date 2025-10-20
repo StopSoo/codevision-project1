@@ -16,7 +16,7 @@ export const useMemberStore = create<MemberStore>((set) => ({
     setName: (memberName) => set({ name: memberName })
 }))
 
-/* 로그인 / 회원가입 / 장바구니 / 주문하기 / 재고수량초과주의 모달 */
+/* 로그인/회원가입/장바구니/주문하기/재고수량초과/날짜 변경/회원명 버튼/로그아웃 모달 */
 export const useLoginModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
@@ -48,6 +48,18 @@ export const useCautionModalStore = create<ModalStore>((set) => ({
 }))
 
 export const useDateModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+
+export const useMemberModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+
+export const useLogoutModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
@@ -118,7 +130,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 }))
 
 // 주문 내역
-export const useOrderedListStore = create<OrderedListStore>((set) => ({
+export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
     orderedList: [],
     addToOrderedList: (item) => set((state) => {
         const newOrderHistory = {
@@ -130,7 +142,11 @@ export const useOrderedListStore = create<OrderedListStore>((set) => ({
             totalPrice: item.price * item.quantity,
         }
         return { orderedList: [...state.orderedList, newOrderHistory] }
-    })
+    }),
+    getTotalPrice: () => {
+        const state = get();
+        return state.orderedList.reduce((total, item) => total + item.totalPrice, 0);
+    }
 }))
 
 

@@ -8,14 +8,13 @@ export default function OrderHistory() {
     const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedWholesaler, setSelectedWholesaler] = useState("도매상 A");
 
-    const { orderedList } = useOrderedListStore();
+    const { orderedList, getTotalPrice } = useOrderedListStore();
     const { setIsModalOpen } = useDateModalStore();
 
-    // TODO: startDate보다 endDate가 항상 크거나 같도록
     useEffect(() => {
         if (startDate > endDate) {
             setIsModalOpen();
-            // 추가 설정
+            setEndDate(startDate);
         }
     }, [startDate, endDate])
 
@@ -94,7 +93,7 @@ export default function OrderHistory() {
                             </div>
                         </div>
                     ) : (
-                        <div className="flex-1 flex flex-col items-center justify-start bg-gray-50 rounded-b-lg py-4">
+                        <div className="flex-1 flex flex-col items-center justify-start overflow-y-auto bg-gray-50 rounded-b-lg py-4">
                             <div className="justify-start w-full space-y-2">
                                 {orderedList.map((order, index) => {
                                     if (startDate <= order.date && order.date <= endDate && selectedWholesaler === order.wholesaler)
@@ -102,7 +101,7 @@ export default function OrderHistory() {
                                             <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
                                                 <span>{order.date}</span>
                                                 <span>{order.wholesaler}</span>
-                                                <span>{order.price}</span>
+                                                <span>{order.price.toLocaleString()}</span>
                                                 <span>{order.unit}</span>
                                                 <span>{order.quantity}</span>
                                                 <span>{order.totalPrice.toLocaleString()}원</span>
@@ -115,7 +114,7 @@ export default function OrderHistory() {
 
                     <div className="flex justify-between items-center pt-6 mt-6 border-t-2 border-gray-300">
                         <span className="text-2xl font-bold text-main-font">합계</span>
-                        <span className="text-2xl font-bold text-main-font">0 원</span>
+                        <span className="text-2xl font-bold text-main-font">{getTotalPrice().toLocaleString()} 원</span>
                     </div>
                 </div>
             </div>

@@ -1,19 +1,31 @@
 import React from "react";
 import Header from "../common/Header";
-import { useCartModalStore, useCautionModalStore, useDateModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
+import { useCartModalStore, useCautionModalStore, useDateModalStore, useLogoutModalStore, useMemberModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
 import CartModal from "../modal/CartModal";
+import MemberModal from "../modal/MemberModal";
+import NotiModal from "../modal/NotiModal";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen, setIsModalClose } = useCartModalStore();
     const { isModalOpen: isOrderModalOpen, setIsModalClose: setIsOrderModalClose } = useOrderModalStore();
     const { isModalOpen: isCautionModalOpen, setIsModalClose: setIsCautionModalClose } = useCautionModalStore();
     const { isModalOpen: isDateModalOpen, setIsModalClose: setIsDateModalClose } = useDateModalStore();
-
+    const { isModalOpen: isMemberModalOpen, setIsModalClose: setIsMemberModalClose } = useMemberModalStore();
+    const { isModalOpen: isLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
     const { member } = useMemberStore();
 
     return (
         <div className="flex flex-col w-full h-screen">
             <Header pharmacy={member === 'pharmacy'} />
+            {
+                isLogoutModalOpen
+                    ? <NotiModal
+                        type='alert'
+                        message={`3초 후 로그아웃되고\n로그인 페이지로 이동합니다.`}
+                        onClose={setIsLogoutModalClose}
+                    />
+                    : null
+            }
             {
                 isModalOpen
                     ? <CartModal
@@ -48,6 +60,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         type='caution'
                         message={`선택하신 기간이 잘못되었습니다!\n날짜를 다시 선택해주세요.`}
                         onClose={setIsDateModalClose}
+                    />
+                    : null
+            }
+            {
+                isMemberModalOpen
+                    ? <MemberModal
+                        onClose={setIsMemberModalClose}
                     />
                     : null
             }
