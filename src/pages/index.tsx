@@ -102,6 +102,7 @@ export default function Home() {
             text="로그인"
             height={57}
             disabled={!isButtonActive()}
+            bgColor="main-color"
             onClick={handleLogin}
           />
 

@@ -12,6 +12,7 @@ module.exports = {
       colors: {
         "main-bg": "#FBFFFC",
         "main-color": "#01C78D",
+        "sub-color": "#FFCC00",
         "main-logo": "#4169B8",
         "selected-line": "#6BC6BC",
         "selected-bg": "#F2F8FF",

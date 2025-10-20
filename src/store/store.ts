@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import { CartStore } from '@/types/cart';
-import { AnalysisStore, SelectedMedStore } from '@/types/todaysOrder';
+import { DataStore, SelectedMedStore } from '@/types/todaysOrder';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';
 
@@ -67,9 +67,19 @@ export const useLogoutModalStore = create<ModalStore>((set) => ({
 
 /* 약국 */
 // 오늘의 주문
-export const useAnalysisStore = create<AnalysisStore>((set) => ({
-    clickAnalysis: false,
-    setClickAnalysis: () => set((state) => ({ clickAnalysis: !state.clickAnalysis })),
+export const useAnalysisStore = create<DataStore>((set) => ({
+    click: false,
+    setButtonOn: () => set({ click: true }),
+    setButtonOff: () => set({ click: false }),
+    result: [],
+    setResult: (newResult) => set({ result: newResult })
+}))
+
+// 요즘 약국 랭킹
+export const useMedRankingStore = create<DataStore>((set) => ({
+    click: false,
+    setButtonOn: () => set({ click: true }),
+    setButtonOff: () => set({ click: false }),
     result: [],
     setResult: (newResult) => set({ result: newResult })
 }))

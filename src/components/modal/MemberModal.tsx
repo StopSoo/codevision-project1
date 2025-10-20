@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useMemberStore, useMemberModalStore, useLogoutModalStore } from "@/store/store";
 import { useRouter } from "next/router";
 

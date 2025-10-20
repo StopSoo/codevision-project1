@@ -119,6 +119,7 @@ export default function Cart() {
                 <Button
                     text="주문하기"
                     height={60}
+                    bgColor="main-color"
                     onClick={handleOrder}
                 />
             </div>

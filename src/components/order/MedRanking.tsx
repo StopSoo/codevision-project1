@@ -84,7 +84,7 @@ const analysisData: DataType[] = [
     },
 ];
 
-export default function AnalysisList() {
+export default function MedRanking() {
     const { click: clickAnalysis, result, setResult } = useAnalysisStore();
     const { selectedMedNumber, setSelectedMedNumber } = useSelectedMedStore();
 
@@ -98,10 +98,10 @@ export default function AnalysisList() {
         <div className="h-full flex flex-col">
             <div className="flex flex-col space-y-4 mb-6">
                 <div className="text-main-font text-xl font-medium">
-                    AI 분석 결과
+                    요즘 약국 랭킹
                 </div>
                 <div className="text-xs text-sub-font leading-relaxed whitespace-nowrap">
-                    지난 1주일 간 판매된 약품을 분석해<br />오늘 주문해야 할 품목을 선정했습니다.<br />
+                    지난 1주일 간 주변약국 주문자가 가장 많이<br />주문한 약품부터 주문율 떨어지는 약품까지<br />순위로 정리했습니다.<br />
                 </div>
             </div>
 
