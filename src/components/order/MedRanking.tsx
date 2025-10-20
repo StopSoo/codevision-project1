@@ -1,6 +1,7 @@
 import { useMedRankingStore, useSelectedMedStore } from "@/store/store";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { DataType } from "@/types/medicine";
+import DataListSkeleton from "../skeleton/DataListSkeleton";
 
 // 목데이터
 const analysisData: DataType[] = [
@@ -75,38 +76,40 @@ export default function MedRanking() {
                 </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-                {
-                    result.map((analysis, index) =>
-                        <button
-                            key={index}
-                            className={(index !== selectedMedNumber)
-                                ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
-                            }
-                            onClick={() => setSelectedMedNumber(index)}
-                        >
-                            <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
-                                <span className="text-sub-color text-lg">{index + 1}</span>
-                                {analysis.name}
-                            </div>
-                            <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
-                                <span>{analysis.company}</span>
-                                <span>보험코드 {analysis.code}</span>
-                            </div>
-                            <div className="w-full h-[1px] bg-gray-300" />
-                            <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
-                                <span className="w-[40%]">주문율</span>
-                                <span
-                                    className={index < result.length / 3 ? "w-[60%] text-point-positive" : index < result.length * 2 / 3 ? "w-[60%] text-main-color" : "w-[60%] text-point-negative"}
-                                >
-                                    {analysis.percentage}
-                                </span>
-                            </div>
-                        </button>
-                    )
-                }
-            </div>
+            <Suspense fallback={<DataListSkeleton />}>
+                <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                    {
+                        result.map((analysis, index) =>
+                            <button
+                                key={index}
+                                className={(index !== selectedMedNumber)
+                                    ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                    : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                }
+                                onClick={() => setSelectedMedNumber(index)}
+                            >
+                                <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
+                                    <span className="text-sub-color text-lg">{index + 1}</span>
+                                    {analysis.name}
+                                </div>
+                                <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
+                                    <span>{analysis.company}</span>
+                                    <span>보험코드 {analysis.code}</span>
+                                </div>
+                                <div className="w-full h-[1px] bg-gray-300" />
+                                <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
+                                    <span className="w-[40%]">주문율</span>
+                                    <span
+                                        className={index < result.length / 3 ? "w-[60%] text-point-positive" : index < result.length * 2 / 3 ? "w-[60%] text-main-color" : "w-[60%] text-point-negative"}
+                                    >
+                                        {analysis.percentage}
+                                    </span>
+                                </div>
+                            </button>
+                        )
+                    }
+                </div>
+            </Suspense>
         </div >
     );
 }

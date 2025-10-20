@@ -1,6 +1,7 @@
 import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { DataType } from "@/types/medicine";
+import DataListSkeleton from "../skeleton/DataListSkeleton";
 
 // 목데이터
 const analysisData: DataType[] = [
@@ -105,41 +106,45 @@ export default function AnalysisList() {
                 </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+            <Suspense fallback={<DataListSkeleton />}>
                 {
-                    result.map((analysis, index) =>
-                        <button
-                            key={index}
-                            className={(index !== selectedMedNumber)
-                                ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
-                            }
-                            onClick={() => setSelectedMedNumber(index)}
-                        >
-                            <div className="flex flex-row items-start text-sm font-medium text-main-font text-left">
-                                {analysis.name}
-                            </div>
-                            <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
-                                <span>{analysis.company}</span>
-                                <span>보험코드 {analysis.code}</span>
-                            </div>
-                            <div className="w-full h-[1px] bg-gray-300" />
-                            <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">
-                                <span className="w-[50%]">단위</span>
-                                <span className="w-[50%]">수량</span>
-                            </div>
-                            {
-                                analysis.detail.map((d: [string, number], index: number) => (
-                                    <div key={index} className="flex flex-row flex-1 text-main-font text-center text-[11px]">
-                                        <span className="w-[50%]">{d[0]}</span>
-                                        <span className="w-[50%]">{d[1]}</span>
+                    <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                        {
+                            result.map((analysis, index) =>
+                                <button
+                                    key={index}
+                                    className={(index !== selectedMedNumber)
+                                        ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                        : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                    }
+                                    onClick={() => setSelectedMedNumber(index)}
+                                >
+                                    <div className="flex flex-row items-start text-sm font-medium text-main-font text-left">
+                                        {analysis.name}
                                     </div>
-                                ))
-                            }
-                        </button>
-                    )
+                                    <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
+                                        <span>{analysis.company}</span>
+                                        <span>보험코드 {analysis.code}</span>
+                                    </div>
+                                    <div className="w-full h-[1px] bg-gray-300" />
+                                    <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">
+                                        <span className="w-[50%]">단위</span>
+                                        <span className="w-[50%]">수량</span>
+                                    </div>
+                                    {
+                                        analysis.detail.map((d: [string, number], index: number) => (
+                                            <div key={index} className="flex flex-row flex-1 text-main-font text-center text-[11px]">
+                                                <span className="w-[50%]">{d[0]}</span>
+                                                <span className="w-[50%]">{d[1]}</span>
+                                            </div>
+                                        ))
+                                    }
+                                </button>
+                            )
+                        }
+                    </div>
                 }
-            </div>
+            </Suspense>
         </div >
     );
 }

@@ -16,7 +16,7 @@ export default function NotiModal({ type, message, onClose }: NotiModalProps) {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-main-font bg-opacity-30"
+            className="fixed inset-0 z-50 flex items-center justify-center pt-20 bg-main-font bg-opacity-30"
             onClick={handleBackdropClick}
         >
             <div className="bg-white rounded-xl shadow-lg px-6 py-4 flex flex-col items-center justify-center gap-3 min-w-[400px] min-h-[300px] animate-slideDown">

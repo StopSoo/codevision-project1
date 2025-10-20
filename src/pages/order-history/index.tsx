@@ -9,12 +9,13 @@ export default function OrderHistory() {
     const [selectedWholesaler, setSelectedWholesaler] = useState("도매상 A");
 
     const { orderedList, getTotalPrice } = useOrderedListStore();
-    const { setIsModalOpen } = useDateModalStore();
+    const { setIsModalOpen, setIsModalClose } = useDateModalStore();
 
     useEffect(() => {
         if (startDate > endDate) {
             setIsModalOpen();
             setEndDate(startDate);
+            setTimeout(() => setIsModalClose(), 2000);
         }
     }, [startDate, endDate, setIsModalOpen]);
 
