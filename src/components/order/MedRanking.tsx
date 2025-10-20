@@ -1,98 +1,68 @@
-import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
+import { useMedRankingStore, useSelectedMedStore } from "@/store/store";
 import { useEffect } from "react";
 import { DataType } from "@/types/medicine";
 
 // 목데이터
 const analysisData: DataType[] = [
     {
-        name: "스틸렌투엑스정 90mg",
-        company: "동아에스티(주)",
-        code: "642507290",
-        detail: [
-            ['30T', 8],
-            ['400T', 20],
-        ],
-    },
-    {
         name: "우루사정 100mg",
         company: "대웅제약",
         code: "642502040",
-        detail: [
-            ['30T (병)', 8],
-            ['100T (PTP)', 3],
-        ],
-    },
-    {
-        name: "판콜에스내복액 30ml",
-        company: "동화약품(주)",
-        code: "642506512",
-        detail: [
-            ['30T', 10]
-        ],
+        percentage: '95.8%',
     },
     {
         name: "스틸렌투엑스정 90mg",
         company: "동아에스티(주)",
         code: "642507290",
-        detail: [
-            ['30T', 8],
-            ['400T', 20],
-        ],
-    },
-    {
-        name: "우루사정 100mg",
-        company: "대웅제약",
-        code: "642502040",
-        detail: [
-            ['30T (병)', 8],
-            ['100T (PTP)', 3],
-        ],
+        percentage: '93.1%',
     },
     {
         name: "판콜에스내복액 30ml",
         company: "동화약품(주)",
         code: "642506512",
-        detail: [
-            ['30T', 10]
-        ],
+        percentage: '90.2%',
+    },
+    {
+        name: "우루사정 100mg",
+        company: "대웅제약",
+        code: "642502040",
+        percentage: '89.8%',
     },
     {
         name: "스틸렌투엑스정 90mg",
         company: "동아에스티(주)",
         code: "642507290",
-        detail: [
-            ['30T', 8],
-            ['400T', 20],
-        ],
-    },
-    {
-        name: "우루사정 100mg",
-        company: "대웅제약",
-        code: "642502040",
-        detail: [
-            ['30T (병)', 8],
-            ['100T (PTP)', 3],
-        ],
+        percentage: '88.8%',
     },
     {
         name: "판콜에스내복액 30ml",
         company: "동화약품(주)",
         code: "642506512",
-        detail: [
-            ['30T', 10]
-        ],
+        percentage: '85.4%',
+    },
+    {
+        name: "스틸렌투엑스정 90mg",
+        company: "동아에스티(주)",
+        code: "642507290",
+        percentage: '82.1%',
+    },
+    {
+        name: "우루사정 100mg",
+        company: "대웅제약",
+        code: "642502040",
+        percentage: '78.6%',
     },
 ];
 
 export default function MedRanking() {
-    const { click: clickAnalysis, result, setResult } = useAnalysisStore();
+    const { click: clickMedRanking, result, setResult } = useMedRankingStore();
     const { selectedMedNumber, setSelectedMedNumber } = useSelectedMedStore();
 
     useEffect(() => {
         // API 연결 시 수정
         // 버튼 클릭 여부가 변경되었을 때 AI 분석 결과 리스트가 업데이트되도록
         setResult(analysisData);
-    }, [clickAnalysis, setResult]);
+    }, [clickMedRanking, setResult]);
 
     return (
         <div className="h-full flex flex-col">
@@ -116,7 +86,8 @@ export default function MedRanking() {
                             }
                             onClick={() => setSelectedMedNumber(index)}
                         >
-                            <div className="flex flex-row items-start text-sm font-medium text-main-font text-left">
+                            <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
+                                <span className="text-sub-color text-lg">{index + 1}</span>
                                 {analysis.name}
                             </div>
                             <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
@@ -124,18 +95,14 @@ export default function MedRanking() {
                                 <span>보험코드 {analysis.code}</span>
                             </div>
                             <div className="w-full h-[1px] bg-gray-300" />
-                            <div className="flex flex-row flex-1 text-sub-font text-center justify-around text-[10px] font-medium">
-                                <span>단위</span>
-                                <span>수량</span>
+                            <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
+                                <span className="w-[40%]">주문율</span>
+                                <span
+                                    className={index < result.length / 3 ? "w-[60%] text-point-positive" : index < result.length * 2 / 3 ? "w-[60%] text-main-color" : "w-[60%] text-point-negative"}
+                                >
+                                    {analysis.percentage}
+                                </span>
                             </div>
-                            {
-                                analysis.detail.map((d: [string, number], index: number) => (
-                                    <div key={index} className="flex flex-row flex-1 text-main-font text-center justify-around text-[11px]">
-                                        <span>{d[0]}</span>
-                                        <span>{d[1]}</span>
-                                    </div>
-                                ))
-                            }
                         </button>
                     )
                 }

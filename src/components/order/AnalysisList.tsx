@@ -124,15 +124,15 @@ export default function AnalysisList() {
                                 <span>보험코드 {analysis.code}</span>
                             </div>
                             <div className="w-full h-[1px] bg-gray-300" />
-                            <div className="flex flex-row flex-1 text-sub-font text-center justify-around text-[10px] font-medium">
-                                <span>단위</span>
-                                <span>수량</span>
+                            <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">
+                                <span className="w-[50%]">단위</span>
+                                <span className="w-[50%]">수량</span>
                             </div>
                             {
                                 analysis.detail.map((d: [string, number], index: number) => (
-                                    <div key={index} className="flex flex-row flex-1 text-main-font text-center justify-around text-[11px]">
-                                        <span>{d[0]}</span>
-                                        <span>{d[1]}</span>
+                                    <div key={index} className="flex flex-row flex-1 text-main-font text-center text-[11px]">
+                                        <span className="w-[50%]">{d[0]}</span>
+                                        <span className="w-[50%]">{d[1]}</span>
                                     </div>
                                 ))
                             }

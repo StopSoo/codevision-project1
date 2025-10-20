@@ -6,7 +6,6 @@ import Cart from "@/components/order/Cart";
 import Image from "next/image";
 
 import { useAnalysisStore, useMedRankingStore, useSelectedMedStore } from "@/store/store";
-import { useEffect } from "react";
 import MedRanking from "@/components/order/MedRanking";
 // API 구조 보고 수정할 것
 const medicineDetailData = {
@@ -40,46 +39,10 @@ const medicineDetailData = {
     ]
 };
 
-// const medicineDetailData400T = {
-//     name: "스틸렌투엑스정 90mg",
-//     unit: "400T",
-//     dosage: "90mg",
-//     manufacturer: "대웅제약",
-//     code: "642507290",
-//     variants: [
-//         {
-//             name: "도매상 A",
-//             price: 82000,
-//             margin: "+ 9.1%",
-//             available: 50,
-//             unit: "400T"
-//         },
-//         {
-//             name: "도매상 B",
-//             price: 82000,
-//             margin: "+ 4.1%",
-//             available: 100,
-//             unit: "400T"
-//         }
-//     ]
-// };
-
 export default function Order() {
-    const { click: clickAnalysis, setButtonOn: setAnalysisButtonOn, setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
-    const { click: clickMedRanking, setButtonOn: setMedButtonOn, setButtonOff: setMedButtonOff } = useMedRankingStore();
+    const { click: clickAnalysis } = useAnalysisStore();
+    const { click: clickMedRanking } = useMedRankingStore();
     const { selectedMedNumber } = useSelectedMedStore();
-    // 두 버튼 중 하나만 켜진 상태로 조절
-    useEffect(() => {
-        if (clickAnalysis) {
-            setMedButtonOff();
-            setAnalysisButtonOn();
-        }
-
-        if (clickMedRanking) {
-            setAnalysisButtonOff();
-            setMedButtonOn();
-        }
-    }, [clickAnalysis, clickMedRanking, setAnalysisButtonOff, setAnalysisButtonOn, setMedButtonOff, setMedButtonOn]);
 
     return (
         <Layout>

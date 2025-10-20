@@ -3,7 +3,8 @@ export type DataType = {
     name: string;
     company: string;
     code: string;
-    detail: [string, number][];
+    detail?: [string, number][];
+    percentage?: string;
 }
 
 /* 약품 담기 */
