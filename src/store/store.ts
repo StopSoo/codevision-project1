@@ -47,6 +47,12 @@ export const useCautionModalStore = create<ModalStore>((set) => ({
     setIsModalClose: () => set({ isModalOpen: false })
 }))
 
+export const useDateModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+
 /* 약국 */
 // 오늘의 주문
 export const useAnalysisStore = create<AnalysisStore>((set) => ({
@@ -116,7 +122,7 @@ export const useOrderedListStore = create<OrderedListStore>((set) => ({
     orderedList: [],
     addToOrderedList: (item) => set((state) => {
         const newOrderHistory = {
-            date: new Date().toDateString(),
+            date: new Date().toISOString().split('T')[0],
             wholesaler: item.wholesaler,
             price: item.price,
             unit: item.unit,

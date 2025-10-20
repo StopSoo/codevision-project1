@@ -49,6 +49,10 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                 }));
             } else {
                 setIsCautionModalOpen();
+                setQuantities(prev => ({ // 선택 수량 초기화
+                    ...prev,
+                    [variant.name]: 0
+                }));
             }
         }
     };

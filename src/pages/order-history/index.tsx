@@ -1,14 +1,24 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
-import { useState } from "react";
-import { useOrderedListStore } from "@/store/store";
+import { useEffect, useState } from "react";
+import { useDateModalStore, useOrderedListStore } from "@/store/store";
 
 export default function OrderHistory() {
-    const [startDate, setStartDate] = useState("2025-10-01");
-    const [endDate, setEndDate] = useState("2025-10-01");
+    const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedWholesaler, setSelectedWholesaler] = useState("도매상 A");
+
     const { orderedList } = useOrderedListStore();
-    // TODO: 주문 내역 정상 렌더링되면 날짜 영역 삭제
+    const { setIsModalOpen } = useDateModalStore();
+
+    // TODO: startDate보다 endDate가 항상 크거나 같도록
+    useEffect(() => {
+        if (startDate > endDate) {
+            setIsModalOpen();
+            // 추가 설정
+        }
+    }, [startDate, endDate])
+
     return (
         <Layout>
             <div className="flex flex-col h-screen">
@@ -66,8 +76,8 @@ export default function OrderHistory() {
                         <span>가격</span>
                     </div>
 
-                    <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 rounded-b-lg p-8">
-                        {orderedList.length === 0 ? (
+                    {orderedList.length === 0 ? (
+                        <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 rounded-b-lg py-4">
                             <div className="flex flex-col items-center">
                                 <Image
                                     src="/assets/icon3.png"
@@ -82,21 +92,26 @@ export default function OrderHistory() {
                                     <p>약품 주문을 시작해보세요!</p>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="w-full space-y-2">
-                                {orderedList.map((order, index) => (
-                                    <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
-                                        <span>{order.date}</span>
-                                        <span>{order.wholesaler}</span>
-                                        <span>{order.price}</span>
-                                        <span>{order.unit}</span>
-                                        <span>{order.quantity}</span>
-                                        <span>{order.totalPrice.toLocaleString()}원</span>
-                                    </div>
-                                ))}
+                        </div>
+                    ) : (
+                        <div className="flex-1 flex flex-col items-center justify-start bg-gray-50 rounded-b-lg py-4">
+                            <div className="justify-start w-full space-y-2">
+                                {orderedList.map((order, index) => {
+                                    if (startDate <= order.date && order.date <= endDate && selectedWholesaler === order.wholesaler)
+                                        return (
+                                            <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
+                                                <span>{order.date}</span>
+                                                <span>{order.wholesaler}</span>
+                                                <span>{order.price}</span>
+                                                <span>{order.unit}</span>
+                                                <span>{order.quantity}</span>
+                                                <span>{order.totalPrice.toLocaleString()}원</span>
+                                            </div>
+                                        )
+                                })}
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
 
                     <div className="flex justify-between items-center pt-6 mt-6 border-t-2 border-gray-300">
                         <span className="text-2xl font-bold text-main-font">합계</span>
@@ -104,6 +119,6 @@ export default function OrderHistory() {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </Layout >
     );
 }

@@ -5,7 +5,7 @@ import { VscChromeClose } from "react-icons/vsc";
 import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
 
 export default function Cart() {
-    const { cart, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
+    const { cart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCartStore();
     const { addToOrderedList } = useOrderedListStore();
     const { setIsModalOpen } = useOrderModalStore();
 
@@ -21,10 +21,11 @@ export default function Cart() {
     };
 
     const handleOrder = () => {
+        // 주문 내역에 물품들 추가
         cart.map((item) => {
             addToOrderedList(item);
         })
-
+        clearCart(); // 장바구니 비우기
         setIsModalOpen();
     };
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useCartModalStore } from "@/store/store";
+import { useCartModalStore, useCautionModalStore, useOrderModalStore } from "@/store/store";
 import { useEffect } from "react";
 
 interface CartModalProps {
@@ -10,6 +10,8 @@ interface CartModalProps {
 
 export default function CartModal({ type, message, onClose }: CartModalProps) {
     const { isModalOpen, setIsModalClose } = useCartModalStore();
+    const { isModalOpen: isCautionModalOpen, setIsModalClose: setIsCautionModalClose } = useCautionModalStore();
+    const { isModalOpen: isOrderModalOpen, setIsModalClose: setIsOrderModalClose } = useOrderModalStore();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         // 모달 이외 영역 클릭 시 모달창 종료
@@ -24,8 +26,21 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                 setIsModalClose();
             }, 1000);
         }
-    }, [isModalOpen, setIsModalClose])
 
+        if (isCautionModalOpen) {
+            setTimeout(() => {
+                setIsCautionModalClose();
+            }, 1000);
+        }
+    }, [isModalOpen, setIsModalClose, isCautionModalOpen, setIsCautionModalClose]);
+
+    useEffect(() => {
+        if (isOrderModalOpen) {
+            setTimeout(() => {
+                setIsOrderModalClose();
+            }, 2000);
+        }
+    }, [isOrderModalOpen, setIsOrderModalClose]);
 
     return (
         <div
