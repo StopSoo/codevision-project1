@@ -8,6 +8,7 @@ export type CartItem = {
     wholesaler: string;
     manufacturer: string;
     code: string;
+    available: number;
 }
 
 export type CartStore = {

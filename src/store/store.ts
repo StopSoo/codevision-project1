@@ -16,7 +16,7 @@ export const useMemberStore = create<MemberStore>((set) => ({
     setName: (memberName) => set({ name: memberName })
 }))
 
-/* 로그인 / 회원가입 / 장바구니 모달 */
+/* 로그인 / 회원가입 / 장바구니 / 주문하기 모달 */
 export const useLoginModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
@@ -30,6 +30,12 @@ export const useSignupModalStore = create<ModalStore>((set) => ({
 }))
 
 export const useCartModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+
+export const useOrderModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })

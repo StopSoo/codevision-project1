@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "../common/Header";
-import { useCartModalStore } from "@/store/store";
+import { useCartModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
 import CartModal from "../modal/CartModal";
-import { useMemberStore } from "@/store/store";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen, setIsModalClose } = useCartModalStore();
+    const { isModalOpen: isOrderModalOpen, setIsModalClose: setIsOrderModalClose } = useOrderModalStore();
     const { member } = useMemberStore();
 
     return (
@@ -14,8 +14,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {
                 isModalOpen
                     ? <CartModal
+                        type='cart'
                         message="약품이 정상적으로 장바구니에 담겼습니다!"
                         onClose={setIsModalClose}
+                    />
+                    : null
+            }
+            {
+                isOrderModalOpen
+                    ? <CartModal
+                        type='order'
+                        message={`주문이 정상적으로 완료되었습니다!\n지금 바로 주문내역을 확인해보세요.`}
+                        onClose={setIsOrderModalClose}
                     />
                     : null
             }

@@ -2,12 +2,12 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 import { VscChromeClose } from "react-icons/vsc";
 
-import { useCartStore } from "@/store/store";
-import { useOrderedListStore } from "@/store/store";
+import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
     const { addToOrderedList } = useOrderedListStore();
+    const { setIsModalOpen } = useOrderModalStore();
 
     const handleQuantityChange = (id: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -24,7 +24,8 @@ export default function Cart() {
         cart.map((item) => {
             addToOrderedList(item);
         })
-        // TODO: 주문 완료 모달창 띄우기 
+
+        setIsModalOpen();
     };
 
     if (cart.length === 0) {
@@ -76,6 +77,7 @@ export default function Cart() {
                                             <input
                                                 type="number"
                                                 min="1"
+                                                max={item.available}
                                                 placeholder="0"
                                                 value={item.quantity || ""}
                                                 onChange={(e) => handleQuantityChange(item.id, e.target.value)}

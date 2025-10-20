@@ -33,7 +33,8 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
             quantity: quantity,
             wholesaler: variant.name,
             manufacturer: medicine.manufacturer,
-            code: medicine.code
+            code: medicine.code,
+            available: variant.available,
         };
 
         if (quantity > 0) {
@@ -50,7 +51,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
         <div className="flex flex-col space-y-6 h-full overflow-y-auto pr-2">
             <h2 className="text-2xl font-medium text-main-font">{medicine.name}</h2>
             <div className="flex flex-row gap-10">
-                {/* 약품 이미지 */}
+
                 <div className="w-40 border border-gray-200 rounded-lg flex items-center justify-center bg-white p-5">
                     <Image
                         src="/assets/icon2.png"
@@ -60,7 +61,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                         priority
                     />
                 </div>
-                {/* 약품 정보 */}
+
                 <div className="flex flex-col justify-center w-[400px] border border-gray-200 rounded-lg p-4 space-y-2">
                     <div className="flex flex-row items-center justify-around font-medium text-lg">
                         <span className="text-main-font w-[40%]">단위</span>
