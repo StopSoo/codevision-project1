@@ -16,7 +16,7 @@ export const useMemberStore = create<MemberStore>((set) => ({
     setName: (memberName) => set({ name: memberName })
 }))
 
-/* 로그인 / 회원가입 / 장바구니 / 주문하기 모달 */
+/* 로그인 / 회원가입 / 장바구니 / 주문하기 / 재고수량초과주의 모달 */
 export const useLoginModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
@@ -36,6 +36,12 @@ export const useCartModalStore = create<ModalStore>((set) => ({
 }))
 
 export const useOrderModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+
+export const useCautionModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
@@ -66,7 +72,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
             return {
                 cart: state.cart.map(cartItem =>
                     cartItem.id === item.id
-                        ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+                        ? (cartItem.quantity + item.quantity <= item.available
+                            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+                            : cartItem
+                        )
                         : cartItem
                 )
             };
@@ -86,6 +95,19 @@ export const useCartStore = create<CartStore>((set, get) => ({
     getTotalPrice: () => {
         const state = get();
         return state.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    },
+    isAbleToAdd: (item) => {
+        const state = get();
+        const isExist = state.cart.some(cartItem => cartItem.id === item.id);
+        // 해당 물품이 존재할 경우에만 수량 체크
+        if (isExist) {
+            return state.cart.some(cartItem =>
+                cartItem.id === item.id &&
+                cartItem.quantity + item.quantity <= item.available
+            )
+        } else {
+            return true;
+        }
     }
 }))
 

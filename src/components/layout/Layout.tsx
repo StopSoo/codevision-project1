@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../common/Header";
-import { useCartModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
+import { useCartModalStore, useCautionModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
 import CartModal from "../modal/CartModal";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen, setIsModalClose } = useCartModalStore();
     const { isModalOpen: isOrderModalOpen, setIsModalClose: setIsOrderModalClose } = useOrderModalStore();
+    const { isModalOpen: isCautionModalOpen, setIsModalClose: setIsCautionModalClose } = useCautionModalStore();
     const { member } = useMemberStore();
 
     return (
@@ -20,6 +21,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     />
                     : null
             }
+            {
+                isCautionModalOpen
+                    ? <CartModal
+                        type='caution'
+                        message="재고 수량 초과입니다."
+                        onClose={setIsCautionModalClose}
+                    />
+                    : null
+            }
+
             {
                 isOrderModalOpen
                     ? <CartModal

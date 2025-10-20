@@ -18,4 +18,5 @@ export type CartStore = {
     updateQuantity: (id: string, quantity: number) => void;
     clearCart: () => void;
     getTotalPrice: () => number;
+    isAbleToAdd: (item: CartItem) => boolean;
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import { useCartStore, useCartModalStore } from "@/store/store";
+import { useCartStore, useCartModalStore, useCautionModalStore } from "@/store/store";
 import { MedicineVariant, MedicineDetailData } from "@/types/medicine";
 
 interface MedicineDetailProps {
@@ -11,7 +11,8 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
     const { setIsModalOpen } = useCartModalStore();
-    const { addToCart } = useCartStore();
+    const { addToCart, isAbleToAdd } = useCartStore();
+    const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -38,12 +39,17 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
         };
 
         if (quantity > 0) {
-            addToCart(cartItem); // 장바구니에 담기
-            setQuantities(prev => ({ // 선택 수량 초기화
-                ...prev,
-                [variant.name]: 0
-            }));
-            setIsModalOpen(); // 모달창 열기        
+            // 모달창 열기 
+            if (isAbleToAdd(cartItem)) {
+                setIsModalOpen();
+                addToCart(cartItem); // 장바구니에 담기
+                setQuantities(prev => ({ // 선택 수량 초기화
+                    ...prev,
+                    [variant.name]: 0
+                }));
+            } else {
+                setIsCautionModalOpen();
+            }
         }
     };
 

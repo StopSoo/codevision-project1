@@ -3,7 +3,7 @@ import { useCartModalStore } from "@/store/store";
 import { useEffect } from "react";
 
 interface CartModalProps {
-    type: 'cart' | 'order';
+    type: 'cart' | 'order' | 'caution';
     message: string; // 모달창 안내 멘트
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
 }
@@ -43,13 +43,21 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                                 alt="modal check icon"
                                 priority
                             />
-                            : <Image
-                                src="/assets/check_list_icon.png"
-                                width={50}
-                                height={50}
-                                alt="modal check icon"
-                                priority
-                            />
+                            : type === 'order'
+                                ? <Image
+                                    src="/assets/check_list_icon.png"
+                                    width={50}
+                                    height={50}
+                                    alt="modal check list icon"
+                                    priority
+                                />
+                                : <Image
+                                    src="/assets/alert_icon.png"
+                                    width={50}
+                                    height={50}
+                                    alt="modal alert icon"
+                                    priority
+                                />
                     }
                 </div>
                 <p className="text-base text-main-font text-lg flex-1 whitespace-pre-line text-center">{message}</p>
