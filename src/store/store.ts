@@ -191,7 +191,15 @@ export const useSelectedItemStore = create<SelectedMedStore>((set) => ({
 export const useOrderItemStore = create<OrderItemStore>((set, get) => ({
     orderedList: [],
     addToOrderedList: (item) => set((state) => {
-        return { orderedList: [...state.orderedList, item] };
+        const newOrderHistory = {
+            id: state.orderedList.length,
+            date: new Date().toISOString().split('T')[0],
+            name: item.name,
+            unitPrice: item.unitPrice,
+            quantity: item.quantity,
+            price: item.unitPrice * item.quantity,
+        }
+        return { orderedList: [...state.orderedList, newOrderHistory] }
     }),
     removeFromOrderedList: (id) => set((state) => ({
         orderedList: state.orderedList.filter(item => item.id !== id)
@@ -199,7 +207,7 @@ export const useOrderItemStore = create<OrderItemStore>((set, get) => ({
     clearOrderedList: () => set({ orderedList: [] }),
     getTotalPrice: () => {
         const state = get();
-        return state.orderedList.reduce((total, item) => total + (item.price * item.quantity), 0);
+        return state.orderedList.reduce((total, item) => total + item.price, 0);
     },
 }))
 

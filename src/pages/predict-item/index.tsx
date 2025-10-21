@@ -11,7 +11,7 @@ export default function PredictItem() {
                 <Area size='default' hasHeader={true} title={"주문 예상 품목"}>
                     <PredictItemList />
                 </Area>
-                <Area size='m' hasHeader={true} title={"주문 예상 약국"}>
+                <Area size='l' hasHeader={true} title={"주문 예상 약국"}>
                     <PredictPharmacyList />
                 </Area>
             </div>

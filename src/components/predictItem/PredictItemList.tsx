@@ -44,7 +44,7 @@ export default function PredictItemList() {
     const [selectedList, setSelectedList] = useState<number[]>([]); // 주문용으로 선택한 항목의 인덱스 배열
     const [totalPrice, setTotalPrice] = useState(0); // 주문하기로 선택한 품목들의 가격 합
 
-    const { addToOrderedList } = useOrderItemStore();
+    const { orderedList, addToOrderedList } = useOrderItemStore();
     const { setSelectedMedNumber } = useSelectedItemStore(); // 주문 예상 약국 렌더링용 인덱스
     const { setIsModalOpen } = useOrderModalStore();
 
@@ -64,6 +64,7 @@ export default function PredictItemList() {
                 addToOrderedList(item);
             }
         })
+        console.log(orderedList);
         setSelectedList([]);
         setSelectedMedNumber(null);
         setIsModalOpen();
@@ -114,7 +115,7 @@ export default function PredictItemList() {
                                     onChange={() => handleChange(index)}
                                     className="w-8 h-8 flex flex-col justify-start accent-main-logo"
                                 />
-                                <div key={index} className="w-full grid grid-cols-4 gap-4 py-4 bg-white text-center">
+                                <div key={index} className="w-full grid grid-cols-4 gap-4 py-4 bg-white text-sm whitespace-nowrap text-center">
                                     <span>{predictItem.name}</span>
                                     <div className="flex flex-row items-center justify-center px-10">
                                         <input

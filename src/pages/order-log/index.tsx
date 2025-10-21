@@ -56,11 +56,10 @@ export default function OrderLog() {
                         까지의 주문 내역입니다.
                     </div>
 
-                    <div className="bg-gray-200 grid grid-cols-6 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
+                    <div className="bg-gray-200 grid grid-cols-5 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
                         <span>날짜</span>
-                        <span>도매상 명</span>
+                        <span>품목 명</span>
                         <span>약품 단가</span>
-                        <span>단위</span>
                         <span>수량</span>
                         <span>가격</span>
                     </div>
@@ -88,10 +87,10 @@ export default function OrderLog() {
                                 {orderedList.map((order, index) => {
                                     if (startDate <= order.date && order.date <= endDate)
                                         return (
-                                            <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
+                                            <div key={index} className="grid grid-cols-5 gap-4 p-4 bg-white text-center">
                                                 <span>{order.date}</span>
-                                                <span>{order.price.toLocaleString()}</span>
-                                                <span>{order.unitPrice}</span>
+                                                <span>{order.name}</span>
+                                                <span>{order.unitPrice.toLocaleString()}</span>
                                                 <span>{order.quantity}</span>
                                                 <span>{order.price.toLocaleString()}원</span>
                                             </div>

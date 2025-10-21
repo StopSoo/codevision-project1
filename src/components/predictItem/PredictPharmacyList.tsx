@@ -129,7 +129,7 @@ export default function PredictPharmacyList() {
                             총 수량: {getTotalQuantity().toLocaleString()}
                         </div>
 
-                        <div className="bg-gray-200 grid grid-cols-3 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
+                        <div className="w-full flex flex-row items-center bg-gray-200 grid grid-cols-3 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
                             <span>약국명</span>
                             <span>주문 수량</span>
                             <span>주문 확률</span>
@@ -138,7 +138,7 @@ export default function PredictPharmacyList() {
                             medInfoList.map((predictItem, index) =>
                                 <div
                                     key={index}
-                                    className="flex-1 flex flex-row w-full items-center justify-start p-4 space-2 gap-4 overflow-y-auto bg-gray-50 rounded-b-lg"
+                                    className="flex-1 flex flex-row w-full items-center justify-start py-4 space-2 gap-4 overflow-y-auto bg-gray-50 rounded-b-lg"
                                 >
                                     <div key={index} className="w-full grid grid-cols-3 gap-4 p-4 bg-white text-center">
                                         <span>{predictItem.name}</span>
@@ -157,6 +157,7 @@ export default function PredictPharmacyList() {
                                 height={150}
                                 alt="pharmacy icon"
                                 className="mb-6"
+                                priority
                             />
                         </div>
                     </div>

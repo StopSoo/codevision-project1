@@ -80,7 +80,7 @@ export default function OrderHistory() {
                         <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 rounded-b-lg py-4">
                             <div className="flex flex-col items-center">
                                 <Image
-                                    src="/assets/icon3.png"
+                                    src="/assets/cart_plus_icon.png"
                                     width={150}
                                     height={150}
                                     alt="empty cart"
