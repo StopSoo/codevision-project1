@@ -7,7 +7,7 @@ import Area from "@/components/common/Area";
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
-    const [selectedWholesaler, setSelectedWholesaler] = useState("도매상 A");
+    const [selectedWholesaler, setSelectedWholesaler] = useState("전체");
 
     const { orderedList, getTotalPrice } = useOrderedListStore();
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
@@ -53,6 +53,7 @@ export default function OrderHistory() {
                                 onChange={(e) => setSelectedWholesaler(e.target.value)}
                                 className="px-10 py-2 h-11 border-2 border-gray-300 rounded focus:outline-none focus:border-main-color focus:bg-selected-bg"
                             >
+                                <option value="전체">전체</option>
                                 <option value="도매상 A">도매상 A</option>
                                 <option value="도매상 B">도매상 B</option>
                                 <option value="도매상 C">도매상 C</option>
@@ -95,19 +96,25 @@ export default function OrderHistory() {
                                         </div>
                                     )
                                     : (<div className="justify-start w-full space-y-2">
-                                        {orderedList.map((order, index) => {
-                                            if (startDate <= order.date && order.date <= endDate && selectedWholesaler === order.wholesaler)
-                                                return (
-                                                    <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
-                                                        <span>{order.date}</span>
-                                                        <span>{order.wholesaler}</span>
-                                                        <span>{order.price.toLocaleString()}</span>
-                                                        <span>{order.unit}</span>
-                                                        <span>{order.quantity}</span>
-                                                        <span>{order.totalPrice.toLocaleString()}원</span>
-                                                    </div>
+                                        {
+                                            orderedList.map((order, index) => {
+                                                if (
+                                                    startDate <= order.date &&
+                                                    order.date <= endDate
+                                                    && (selectedWholesaler === "전체" || selectedWholesaler === order.wholesaler)
                                                 )
-                                        })}
+                                                    return (
+                                                        <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
+                                                            <span>{order.date}</span>
+                                                            <span>{order.wholesaler}</span>
+                                                            <span>{order.price.toLocaleString()}</span>
+                                                            <span>{order.unit}</span>
+                                                            <span>{order.quantity}</span>
+                                                            <span>{order.totalPrice.toLocaleString()}원</span>
+                                                        </div>
+                                                    )
+                                            })
+                                        }
                                     </div>
                                     )
                             }

@@ -33,7 +33,7 @@ export default function Cart() {
         return (
             <div className="flex flex-col h-full items-center justify-center">
                 <Image
-                    src="/assets/icon3.png"
+                    src="/assets/cart_plus_icon.png"
                     width={138}
                     height={138}
                     alt="empty cart logo"
