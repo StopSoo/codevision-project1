@@ -87,7 +87,7 @@ export default function PredictItemList() {
         // 선택한 품목의 가격 총합 계산
         const total = selectedList.reduce((total, idx) => total + result[idx].price, 0);
         setTotalPrice(total);
-    }, [selectedList]);
+    }, [selectedList, result]);
 
 
     return (

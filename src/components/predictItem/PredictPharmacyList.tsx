@@ -112,7 +112,7 @@ export default function PredictPharmacyList() {
         if (selectedMedNumber !== null) {
             setMedInfoList(predictData[selectedMedNumber]);
         }
-    }, [selectedMedNumber]);
+    }, [selectedMedNumber, setMedInfoList]);
 
     return (
         <div className="h-full flex flex-col">
