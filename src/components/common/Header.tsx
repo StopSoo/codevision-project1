@@ -63,16 +63,40 @@ export default function Header({ pharmacy }: HeaderProps) {
                         </Link>
                     </nav>
                     :
-                    <nav className="flex items-center font-medium text-2xl">
+                    <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-medium text-lg md:text-2xl whitespace-nowrap">
                         <Link
-                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-item')
+                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/predict-item')
                                 ? 'text-main-color'
                                 : 'text-unselected-font hover:text-main-color'
                                 }`}
-                            href="/order-item"
+                            href="/predict-item"
                         >
                             주문 예상 품목
-                            {isActive('/order-item') && (
+                            {isActive('/predict-item') && (
+                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
+                            )}
+                        </Link>
+                        <Link
+                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/predict-pharmacy')
+                                ? 'text-main-color'
+                                : 'text-unselected-font hover:text-main-color'
+                                }`}
+                            href="/predict-pharmacy"
+                        >
+                            약국별 예측
+                            {isActive('/predict-pharmacy') && (
+                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
+                            )}
+                        </Link>
+                        <Link
+                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-log')
+                                ? 'text-main-color'
+                                : 'text-unselected-font hover:text-main-color'
+                                }`}
+                            href="/order-log"
+                        >
+                            주문 내역
+                            {isActive('/order-log') && (
                                 <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
                             )}
                         </Link>

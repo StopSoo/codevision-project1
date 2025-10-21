@@ -7,8 +7,3 @@ export type DataStore = {
     result: DataType[]; // AI 분석 결과 리스트
     setResult: (newResult: DataType[]) => void;
 }
-
-export type SelectedMedStore = {
-    selectedMedNumber: number | null; // 선택한 약품의 인덱스 번호 or 약품 번호
-    setSelectedMedNumber: (index: number | null) => void;
-}

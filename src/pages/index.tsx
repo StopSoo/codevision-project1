@@ -45,9 +45,11 @@ export default function Home() {
       }, 2000);
     } else if (isLogin && !isModalOpen) {
       if (member === 'pharmacy') {
+        // 약국 회원일 경우 AI 오늘의 주문 페이지로 이동
         router.push('/order');
       } else {
-        router.push('/order-item');
+        // 도매상 회원일 경우 주문 예상 품목 페이지로 이동
+        router.push('/predict-item');
       }
     }
   }, [isLogin, member, isModalOpen, setIsModalClose, router]);

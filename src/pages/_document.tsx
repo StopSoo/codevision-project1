@@ -19,7 +19,7 @@ export default function Document() {
           crossOrigin="anonymous"
         />
       </Head>
-      <body className="font-recipe bg-[#FBFFFC]">
+      <body className="font-recipe bg-main-bg">
         <Main />
         <NextScript />
       </body>

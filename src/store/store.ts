@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 
 import { CartStore } from '@/types/cart';
-import { DataStore, SelectedMedStore } from '@/types/todaysOrder';
+import { DataStore } from '@/types/todaysOrder';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';
+import { PredictItemStore } from '@/types/predictItem';
+import { SelectedMedStore } from '@/types/medicine';
 
 /* 회원 */
 export const useMemberStore = create<MemberStore>((set) => ({
-    member: 'pharmacy',
+    member: 'wholesaler',
     isLogin: false,
     setLogin: () => set({ isLogin: true }),
     setLogout: () => set({ isLogin: false }),
@@ -161,3 +163,14 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
 
 
 /* 도매상 */
+// 주문 예상 품목
+export const usePredictItemStore = create<PredictItemStore>((set) => ({
+    result: [],
+    setResult: (newResult) => set({ result: newResult })
+}))
+
+// 주문 예상 품목 - 약품 선택
+export const useSelectedItemStore = create<SelectedMedStore>((set) => ({
+    selectedMedNumber: null,
+    setSelectedMedNumber: (index) => set({ selectedMedNumber: index }),
+}))
