@@ -64,7 +64,7 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
 
                 <div className="w-40 border border-gray-200 rounded-lg flex items-center justify-center bg-white p-5">
                     <Image
-                        src="/assets/icon2.png"
+                        src="/assets/med_icon.png"
                         width={150}
                         height={150}
                         alt={medicine.name}

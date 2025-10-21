@@ -4,7 +4,7 @@ import { CartStore } from '@/types/cart';
 import { DataStore } from '@/types/todaysOrder';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';
-import { PredictItemStore } from '@/types/predictItem';
+import { OrderItemStore, PredictItemStore, PredictPharmacyStore } from '@/types/predictItem';
 import { SelectedMedStore } from '@/types/medicine';
 
 /* 회원 */
@@ -166,11 +166,49 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
 // 주문 예상 품목
 export const usePredictItemStore = create<PredictItemStore>((set) => ({
     result: [],
-    setResult: (newResult) => set({ result: newResult })
+    setResult: (newResult) => set({ result: newResult }),
+    updateQuantity: (id, quantity) =>
+        set((state) => ({
+            result: state.result.map(item =>
+                item.id === id ? { ...item, quantity } : item
+            ),
+        })),
+    updateTotalPrice: (id, unitPrice, quantity) =>
+        set((state) => ({
+            result: state.result.map(item =>
+                item.id === id ? { ...item, price: unitPrice * quantity } : item
+            ),
+        })),
 }))
 
 // 주문 예상 품목 - 약품 선택
 export const useSelectedItemStore = create<SelectedMedStore>((set) => ({
     selectedMedNumber: null,
     setSelectedMedNumber: (index) => set({ selectedMedNumber: index }),
+}))
+
+// 주문 내역
+export const useOrderItemStore = create<OrderItemStore>((set, get) => ({
+    orderedList: [],
+    addToOrderedList: (item) => set((state) => {
+        return { orderedList: [...state.orderedList, item] };
+    }),
+    removeFromOrderedList: (id) => set((state) => ({
+        orderedList: state.orderedList.filter(item => item.id !== id)
+    })),
+    clearOrderedList: () => set({ orderedList: [] }),
+    getTotalPrice: () => {
+        const state = get();
+        return state.orderedList.reduce((total, item) => total + (item.price * item.quantity), 0);
+    },
+}))
+
+// 주문 예상 약국
+export const usePredictPharmacyStore = create<PredictPharmacyStore>((set, get) => ({
+    medInfoList: [],
+    setMedInfoList: (newList) => set({ medInfoList: newList }),
+    getTotalQuantity: () => {
+        const state = get();
+        return state.medInfoList.reduce((totalQuantity, item) => totalQuantity + item.quantity, 0);
+    }
 }))

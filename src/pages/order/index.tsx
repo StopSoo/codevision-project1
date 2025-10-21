@@ -56,7 +56,7 @@ export default function Order() {
                                     ? <MedRanking />
                                     : <div className="flex flex-col h-full items-center justify-center mx-[17px]">
                                         <Image
-                                            src="/assets/icon1.png"
+                                            src="/assets/analysis_icon.png"
                                             width={138}
                                             height={138}
                                             alt="ai todays order logo"
@@ -74,7 +74,7 @@ export default function Order() {
                             ? <MedicineDetail medicine={medicineDetailData} />
                             : <div className="flex flex-col h-full items-center justify-center">
                                 <Image
-                                    src="/assets/icon2.png"
+                                    src="/assets/med_icon.png"
                                     width={138}
                                     height={138}
                                     alt="ai selected med info"
