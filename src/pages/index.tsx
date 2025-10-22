@@ -102,7 +102,7 @@ export default function Home() {
             className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
 
-          <div className="bg-white rounded-xl shadow-md px-6 py-4 flex items-center border-2 border-gray-200">
+          <div className="bg-white rounded-xl shadow-md px-6 py-4 flex items-center border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors">
             <label className="flex flex-row w-full items-center justify-center gap-3 cursor-pointer">
               <input
                 type="radio"

@@ -8,7 +8,6 @@ interface NotiModalProps {
 
 export default function NotiModal({ type, message, onClose }: NotiModalProps) {
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        // 모달 이외 영역 클릭 시 모달창 종료
         if (e.target === e.currentTarget) {
             onClose();
         }

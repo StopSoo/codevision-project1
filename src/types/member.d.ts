@@ -10,6 +10,12 @@ export type MemberStore = {
     setLogout: () => void; // 로그아웃 상태로 변경하는 함수
     name: string; // 회원명
     setName: (memberName: string) => void; // 회원명을 변경하는 함수
+    zipCode: string;
+    setZipCode: (data: string) => void;
+    roadAddress: string;
+    setRoadAddress: (data: string) => void;
+    detailAddress: string;
+    setDetailAddress: (data: string) => void;
 }
 
 /* 모달 */
