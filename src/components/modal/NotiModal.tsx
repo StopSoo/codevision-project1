@@ -18,7 +18,7 @@ export default function NotiModal({ type, message, onClose }: NotiModalProps) {
             className="fixed inset-0 z-50 flex items-center justify-center pt-20 bg-main-font bg-opacity-30"
             onClick={handleBackdropClick}
         >
-            <div className="bg-white rounded-xl shadow-lg px-6 py-4 flex flex-col items-center justify-center gap-3 min-w-[400px] min-h-[300px] animate-slideDown">
+            <div className="bg-white rounded-xl shadow-lg px-6 py-4 flex flex-col items-center justify-center gap-8 min-w-[400px] min-h-[300px] animate-slideDown">
                 <div className="flex-shrink-0">
                     {
                         type === 'check'

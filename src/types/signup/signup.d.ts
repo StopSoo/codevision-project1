@@ -1,4 +1,9 @@
-export interface signupReq {
+export interface SignupApi {
+    username: string;
+    role: string;
+}
+
+export interface SignupReq {
     username: string; // 사용자 이름
     email: string;
     password: string;
@@ -10,4 +15,11 @@ export interface signupReq {
         roadAddress: string; // 일반 주소
         detailAddress: string; // 상세 주소
     }
+}
+
+export interface SignupRes {
+    isSuccess: boolean;
+    code: number;
+    message: string;
+    result: SignupApi;
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import auth from "./auth";
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_APP_API,
@@ -33,4 +34,4 @@ axiosInstance.interceptors.response.use(
     }
 )
 
-export default axiosInstance;
+export const AuthAPI = auth(axiosInstance);

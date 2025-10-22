@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <Header pharmacy={member === 'pharmacy'} />
+            <Header pharmacy={member === 'PHARMACY'} />
             {
                 isLogoutModalOpen
                     ? <NotiModal

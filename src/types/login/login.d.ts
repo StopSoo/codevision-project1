@@ -2,13 +2,13 @@ export interface LoginApi {
     accessToken: string;
 }
 
-export interface postLoginReq {
+export interface LoginReq {
     email: string;
     password: string;
     role: string;
 }
 
-export interface PostLoginRes {
+export interface LoginRes {
     isSuccess: boolean;
     code: number;
     message: string;

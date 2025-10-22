@@ -5,16 +5,18 @@ import NotiModal from '@/components/modal/NotiModal';
 import Button from '@/components/common/Button';
 
 import { MemberProps } from '@/types/member';
-import { useMemberStore, useLoginModalStore } from '@/store/store';
+import { useMemberStore, useLoginModalStore, useLoginFailModalStore } from '@/store/store';
+import { postLoginInfo } from '@/apis/login';
 
 export default function Home() {
   const router = useRouter();
-  const { member, isLogin, setLogin } = useMemberStore();
+  const { member, setMember, isLogin, setLogin } = useMemberStore();
   const { isModalOpen, setIsModalOpen, setIsModalClose } = useLoginModalStore();
+  const { isModalOpen: isFailModalOpen, setIsModalClose: setIsFailModalClose } = useLoginFailModalStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [memberType, setMemberType] = useState<MemberProps['member']>('pharmacy');
+  const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
   const [isEmailFilled, setIsEmailFilled] = useState(email.trim() !== "");
   const [isPwFilled, setIsPwFilled] = useState(password.trim() !== "");
   const isButtonActive = () => {
@@ -26,14 +28,22 @@ export default function Home() {
     }
   }
 
-  const handleLogin = () => {
-    // TODO: 서버에서 아이디, 비밀번호 검증
+  const handleLogin = async () => {
+    // 서버에서 아이디, 비밀번호 검증
+    try {
+      const result = await postLoginInfo({ email, password, role: 'ROLE_' + memberType });
 
-    // 성공
-    setLogin(); // 일단 무조건 연결되는 상태
-    setIsModalOpen();
-
-    // 실패
+      if (result) {
+        setLogin(); // 로그인 상태로 변경
+        setMember(memberType);
+        setIsModalOpen();
+      } else {
+        setIsFailModalClose();
+      }
+    } catch (error) {
+      alert("서버 오류 또는 로그인 실패");
+      console.log(error)
+    }
   };
 
   const handleSignup = () => {
@@ -46,7 +56,7 @@ export default function Home() {
         setIsModalClose();
       }, 2000);
     } else if (isLogin && !isModalOpen) {
-      if (member === 'pharmacy') {
+      if (member === 'PHARMACY') {
         // 약국 회원일 경우 AI 오늘의 주문 페이지로 이동
         router.push('/order');
       } else {
@@ -107,9 +117,9 @@ export default function Home() {
               <input
                 type="radio"
                 name="memberType"
-                value="pharmacy"
-                checked={memberType === 'pharmacy'}
-                onChange={(e) => setMemberType(e.target.value as 'pharmacy')}
+                value="PHARMACY"
+                checked={memberType === 'PHARMACY'}
+                onChange={(e) => setMemberType(e.target.value as 'PHARMACY')}
                 className="w-5 h-5 accent-main-font"
               />
               <span className="text-main-font font-medium">약국</span>
@@ -118,9 +128,9 @@ export default function Home() {
               <input
                 type="radio"
                 name="memberType"
-                value="wholesaler"
-                checked={memberType === 'wholesaler'}
-                onChange={(e) => setMemberType(e.target.value as 'wholesaler')}
+                value="WHOLESALE"
+                checked={memberType === 'WHOLESALE'}
+                onChange={(e) => setMemberType(e.target.value as 'WHOLESALE')}
                 className="w-5 h-5 accent-main-font"
               />
               <span className="text-main-font font-medium">도매상</span>
@@ -153,11 +163,23 @@ export default function Home() {
       </div>
 
       {
+        // 로그인 성공
         isModalOpen
           ? <NotiModal
             type='check'
             message='로그인되었습니다.'
             onClose={setIsModalClose}
+          />
+          : null
+      }
+
+      {
+        // 로그인 실패
+        isFailModalOpen
+          ? <NotiModal
+            type='alert'
+            message='로그인에 실패했습니다.'
+            onClose={setIsFailModalClose}
           />
           : null
       }
