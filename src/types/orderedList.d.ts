@@ -1,3 +1,4 @@
+/* 약국 - 주문 내역 */
 export type OrderedItem = {
     date: string;
     wholesaler: string;

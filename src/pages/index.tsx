@@ -4,6 +4,7 @@ import Image from 'next/image';
 import NotiModal from '@/components/modal/NotiModal';
 import Button from '@/components/common/Button';
 
+import { MemberProps } from '@/types/member';
 import { useMemberStore, useLoginModalStore } from '@/store/store';
 
 export default function Home() {
@@ -11,13 +12,14 @@ export default function Home() {
   const { member, isLogin, setLogin } = useMemberStore();
   const { isModalOpen, setIsModalOpen, setIsModalClose } = useLoginModalStore();
 
-  const [id, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isIdFilled, setIsIdFilled] = useState(id.trim() !== "");
-  const [isPwFilled, setIsPwFilled] = useState(id.trim() !== "");
+  const [memberType, setMemberType] = useState<MemberProps['member']>('pharmacy');
+  const [isEmailFilled, setIsEmailFilled] = useState(email.trim() !== "");
+  const [isPwFilled, setIsPwFilled] = useState(password.trim() !== "");
   const isButtonActive = () => {
     // 로그인 버튼 활성화 여부
-    if (isIdFilled && isPwFilled) {
+    if (isEmailFilled && isPwFilled) {
       return true;
     } else {
       return false;
@@ -56,9 +58,9 @@ export default function Home() {
 
   useEffect(() => {
     // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능
-    setIsIdFilled(id.trim() !== "");
+    setIsEmailFilled(email.trim() !== "");
     setIsPwFilled(password.trim() !== "");
-  }, [id, password]);
+  }, [email, password]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
@@ -86,9 +88,9 @@ export default function Home() {
 
           <input
             type="text"
-            placeholder="아이디"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            placeholder="이메일"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
 
@@ -99,6 +101,31 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
+
+          <div className="bg-white rounded-xl shadow-md px-6 py-4 flex items-center border-2 border-gray-200">
+            <label className="flex flex-row w-full items-center justify-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="memberType"
+                value="pharmacy"
+                checked={memberType === 'pharmacy'}
+                onChange={(e) => setMemberType(e.target.value as 'pharmacy')}
+                className="w-5 h-5 accent-main-font"
+              />
+              <span className="text-main-font font-medium">약국</span>
+            </label>
+            <label className="flex flex-row w-full items-center justify-center gap-3 cursor-pointer w-50%">
+              <input
+                type="radio"
+                name="memberType"
+                value="wholesaler"
+                checked={memberType === 'wholesaler'}
+                onChange={(e) => setMemberType(e.target.value as 'wholesaler')}
+                className="w-5 h-5 accent-main-font"
+              />
+              <span className="text-main-font font-medium">도매상</span>
+            </label>
+          </div>
 
           <Button
             text="로그인"

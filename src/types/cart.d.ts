@@ -1,3 +1,4 @@
+/* 약국 - 장바구니 */
 export type CartItem = {
     id: string;
     name: string;

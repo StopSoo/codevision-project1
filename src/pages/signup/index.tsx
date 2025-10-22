@@ -3,11 +3,8 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useSignupModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
-import { isValidId, isValidPassword } from '@/utils/utility';
-
-type MemberProps = {
-    member: 'pharmacy' | 'wholesaler'
-};
+import { isValidEmail, isValidPassword } from '@/utils/utility';
+import { MemberProps } from '@/types/member';
 
 export default function SignUp() {
     const router = useRouter();
@@ -32,7 +29,7 @@ export default function SignUp() {
     const [isP2L4, setIsP2L4] = useState<boolean>(Number(phone2).toString().trim().length === 4);
     const isButtonActive = () => {
         // 회원가입 버튼 활성화 여부
-        if (isIdFilled && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4 && isValidId(id) && isValidPassword(pw)) {
+        if (isIdFilled && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4 && isValidEmail(id) && isValidPassword(pw)) {
             return true;
         } else {
             return false;

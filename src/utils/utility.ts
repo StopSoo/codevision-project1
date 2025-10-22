@@ -1,6 +1,6 @@
-export const isValidId = (id: string) => {
+export const isValidEmail = (email: string) => {
     return (
-        id.match('^(?=.*[a-z0-9])[a-z0-9]{4,16}$') !== null
+        email.match('/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i') !== null
     );
 }
 
