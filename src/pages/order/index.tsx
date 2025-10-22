@@ -42,7 +42,7 @@ const medicineDetailData = {
 export default function Order() {
     const { click: clickAnalysis } = useAnalysisStore();
     const { click: clickMedRanking } = useMedRankingStore();
-    const { selectedMedNumber } = useSelectedMedStore();
+    const { selectedNumber: selectedMedNumber } = useSelectedMedStore();
 
     return (
         <Layout>

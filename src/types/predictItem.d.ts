@@ -36,3 +36,14 @@ export type PredictPharmacyStore = {
     setMedInfoList: (newList: PredictPharmacyType[]) => void;
     getTotalQuantity: () => number;
 }
+// 도매상 - 약국 회원 선택
+export type PharmacyMemberType = {
+    name: string;
+    country: string;
+    signUpDate: string;
+}
+
+export type PharmacyMemberStore = {
+    result: PharmacyMemberType[];
+    setResult: (newResult: PharmacyMemberType[]) => void;
+}

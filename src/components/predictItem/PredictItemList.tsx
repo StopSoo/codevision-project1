@@ -45,7 +45,7 @@ export default function PredictItemList() {
     const [totalPrice, setTotalPrice] = useState(0); // 주문하기로 선택한 품목들의 가격 합
 
     const { orderedList, addToOrderedList } = useOrderItemStore();
-    const { setSelectedMedNumber } = useSelectedItemStore(); // 주문 예상 약국 렌더링용 인덱스
+    const { setSelectedNumber: setSelectedMedNumber } = useSelectedItemStore(); // 주문 예상 약국 렌더링용 인덱스
     const { setIsModalOpen } = useOrderModalStore();
 
     const handleChange = (index: number) => {
@@ -104,33 +104,37 @@ export default function PredictItemList() {
                 <div className="flex-1 overflow-y-auto">
                     {
                         result.map((predictItem, index) =>
-                            <button
+                            <div
                                 key={index}
-                                onClick={() => setSelectedMedNumber(index)}
                                 className="flex-1 flex flex-row w-full items-center justify-start p-4 space-2 gap-4 overflow-y-auto bg-gray-50 rounded-b-lg"
                             >
                                 <input
                                     type="checkbox"
                                     checked={selectedList.includes(index)}
                                     onChange={() => handleChange(index)}
-                                    className="w-8 h-8 flex flex-col justify-start accent-main-logo"
+                                    className="w-12 h-12 flex flex-col justify-start accent-main-logo"
                                 />
-                                <div key={index} className="w-full grid grid-cols-4 gap-4 py-4 bg-white text-sm whitespace-nowrap text-center">
-                                    <span>{predictItem.name}</span>
-                                    <div className="flex flex-row items-center justify-center px-10">
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            placeholder="0"
-                                            value={predictItem.quantity || ""}
-                                            onChange={(e) => handleQuantityChange(predictItem.id, predictItem.unitPrice, e.target.value)}
-                                            className="w-full py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
-                                        />
+                                <button
+                                    key={index}
+                                    onClick={() => setSelectedMedNumber(index)}
+                                >
+                                    <div key={index} className="w-full grid grid-cols-4 gap-4 py-4 bg-white text-sm whitespace-nowrap text-center">
+                                        <span>{predictItem.name}</span>
+                                        <div className="flex flex-row items-center justify-center px-10">
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                placeholder="0"
+                                                value={predictItem.quantity || ""}
+                                                onChange={(e) => handleQuantityChange(predictItem.id, predictItem.unitPrice, e.target.value)}
+                                                className="w-full py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
+                                            />
+                                        </div>
+                                        <span>{predictItem.price.toLocaleString()}</span>
+                                        <span>{predictItem.date}</span>
                                     </div>
-                                    <span>{predictItem.price.toLocaleString()}</span>
-                                    <span>{predictItem.date}</span>
-                                </div>
-                            </button>
+                                </button>
+                            </div>
                         )
                     }
                 </div>

@@ -57,7 +57,7 @@ const analysisData: DataType[] = [
 
 export default function MedRanking() {
     const { click: clickMedRanking, result, setResult } = useMedRankingStore();
-    const { selectedMedNumber, setSelectedMedNumber } = useSelectedMedStore();
+    const { selectedNumber: selectedMedNumber, setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
 
     useEffect(() => {
         // API 연결 시 수정

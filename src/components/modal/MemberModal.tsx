@@ -11,7 +11,7 @@ export default function MemberModal({ onClose }: MemberModalProps) {
     const { setIsModalOpen: setIsLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
     const { setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
     const { setButtonOff: setMedRankingButtonOff } = useMedRankingStore();
-    const { setSelectedMedNumber } = useSelectedMedStore();
+    const { setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
     const router = useRouter();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {

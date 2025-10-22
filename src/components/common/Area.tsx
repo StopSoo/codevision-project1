@@ -18,7 +18,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
         return (
             <div
                 style={{ width: `${sizeMap[size]}px` }}
-                className={"bg-white px-[14px] py-[30px] rounded-xl outline-solid shadow-lg flex flex-col h-screen"}
+                className={"bg-white px-[14px] py-[30px] rounded-xl outline-solid shadow-lg flex flex-col h-full"}
             >
                 {hasHeader ? (
                     <div className="flex flex-row font-bold text-2xl md:text-3xl items-start whitespace-nowrap">

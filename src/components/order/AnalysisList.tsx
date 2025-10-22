@@ -87,7 +87,7 @@ const analysisData: DataType[] = [
 
 export default function AnalysisList() {
     const { click: clickAnalysis, result, setResult } = useAnalysisStore();
-    const { selectedMedNumber, setSelectedMedNumber } = useSelectedMedStore();
+    const { selectedNumber, setSelectedNumber } = useSelectedMedStore();
 
     useEffect(() => {
         // API 연결 시 수정
@@ -113,11 +113,11 @@ export default function AnalysisList() {
                             result.map((analysis, index) =>
                                 <button
                                     key={index}
-                                    className={(index !== selectedMedNumber)
+                                    className={(index !== selectedNumber)
                                         ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
                                         : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                     }
-                                    onClick={() => setSelectedMedNumber(index)}
+                                    onClick={() => setSelectedNumber(index)}
                                 >
                                     <div className="flex flex-row items-start text-sm font-medium text-main-font text-left">
                                         {analysis.name}

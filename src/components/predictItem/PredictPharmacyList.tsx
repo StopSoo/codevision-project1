@@ -106,7 +106,7 @@ const predictData: PredictPharmacyType[][] = [
 export default function PredictPharmacyList() {
     const { result } = usePredictItemStore();
     const { medInfoList, setMedInfoList, getTotalQuantity } = usePredictPharmacyStore();
-    const { selectedMedNumber } = useSelectedItemStore();
+    const { selectedNumber: selectedMedNumber } = useSelectedItemStore();
 
     useEffect(() => {
         if (selectedMedNumber !== null) {
@@ -132,7 +132,7 @@ export default function PredictPharmacyList() {
                         <div className="w-full flex flex-row items-center bg-gray-200 grid grid-cols-3 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
                             <span>약국명</span>
                             <span>주문 수량</span>
-                            <span>주문 확률</span>
+                            <span>주문 확률 (%)</span>
                         </div>
                         {
                             medInfoList.map((predictItem, index) =>

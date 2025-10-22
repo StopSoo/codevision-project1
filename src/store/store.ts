@@ -4,8 +4,8 @@ import { CartStore } from '@/types/cart';
 import { DataStore } from '@/types/todaysOrder';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';
-import { OrderItemStore, PredictItemStore, PredictPharmacyStore } from '@/types/predictItem';
-import { SelectedMedStore } from '@/types/medicine';
+import { OrderItemStore, PharmacyMemberStore, PredictItemStore, PredictPharmacyStore } from '@/types/predictItem';
+import { SelectedStore } from '@/types/medicine';
 
 /* 회원 */
 export const useMemberStore = create<MemberStore>((set) => ({
@@ -87,9 +87,9 @@ export const useMedRankingStore = create<DataStore>((set) => ({
 }))
 
 // 약품 선택
-export const useSelectedMedStore = create<SelectedMedStore>((set) => ({
-    selectedMedNumber: null,
-    setSelectedMedNumber: (index) => set({ selectedMedNumber: index }),
+export const useSelectedMedStore = create<SelectedStore>((set) => ({
+    selectedNumber: null,
+    setSelectedNumber: (index) => set({ selectedNumber: index }),
 }))
 
 // 장바구니
@@ -182,9 +182,9 @@ export const usePredictItemStore = create<PredictItemStore>((set) => ({
 }))
 
 // 주문 예상 품목 - 약품 선택
-export const useSelectedItemStore = create<SelectedMedStore>((set) => ({
-    selectedMedNumber: null,
-    setSelectedMedNumber: (index) => set({ selectedMedNumber: index }),
+export const useSelectedItemStore = create<SelectedStore>((set) => ({
+    selectedNumber: null,
+    setSelectedNumber: (index) => set({ selectedNumber: index }),
 }))
 
 // 주문 내역
@@ -219,4 +219,16 @@ export const usePredictPharmacyStore = create<PredictPharmacyStore>((set, get) =
         const state = get();
         return state.medInfoList.reduce((totalQuantity, item) => totalQuantity + item.quantity, 0);
     }
+}))
+
+// 약국 회원 리스트
+export const usePharmacyMemberStore = create<PharmacyMemberStore>((set) => ({
+    result: [],
+    setResult: (newResult) => set({ result: newResult }),
+}))
+
+// 약국 회원 선택
+export const useSelectedMemberStore = create<SelectedStore>((set) => ({
+    selectedNumber: null,
+    setSelectedNumber: (index) => set({ selectedNumber: index }),
 }))
