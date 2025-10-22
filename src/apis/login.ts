@@ -1,15 +1,5 @@
-export interface LoginApi {
-    accessToken: string;
-}
+// import { postLoginReq, PostLoginRes } from "@/types/login/login";
 
-export interface postLoginReq {
-    email: string;
-    password: string;
-}
+// export const postLoginInfo = async ({ email, password, role }: postLoginReq) => {
 
-export interface PostLoginRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: LoginApi;
-}
+// }
