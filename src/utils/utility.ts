@@ -6,6 +6,6 @@ export const isValidEmail = (email: string) => {
 
 export const isValidPassword = (pw: string) => {
     return (
-        pw.match('^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]{8,16}$') !== null
+        pw.match('^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[!@#$%^&].{8,}$') !== null
     );
 }

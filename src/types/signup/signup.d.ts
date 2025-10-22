@@ -4,7 +4,7 @@ export interface SignupApi {
 }
 
 export interface SignupReq {
-    username: string; // 사용자 이름
+    userName: string; // 사용자 이름
     email: string;
     password: string;
     phoneNumber: string;

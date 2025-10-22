@@ -3,7 +3,7 @@ import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
 const auth = (axiosInstance: AxiosInstance) => ({
-    signUp: async (data: SignupReq): Promise<SignupRes> => {
+    signup: async (data: SignupReq): Promise<SignupRes> => {
         const response = await axiosInstance.post<SignupRes>('/auth/signup', data);
         return response.data;
     },

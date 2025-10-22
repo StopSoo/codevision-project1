@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+
 import { useAddressModalStore, useMemberStore, useSignupModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
 import { isValidEmail, isValidPassword } from '@/utils/utility';
 import { MemberProps } from '@/types/member';
 import AddressModal from '@/components/modal/AddressModal';
+import { postSignupInfo } from '@/apis/signup';
 
 export default function SignUp() {
     const router = useRouter();
 
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
-    const { zipCode, roadAddress, detailAddress, setDetailAddress } = useMemberStore();
+    const { name: userName, zipCode, roadAddress, detailAddress, setDetailAddress } = useMemberStore();
 
-    const [memberType, setMemberType] = useState<MemberProps['member']>('pharmacy');
+    const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
     const [workplace, setWorkplace] = useState<string>('');
     const [isSignup, setIsSignUp] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
@@ -44,18 +46,34 @@ export default function SignUp() {
     }
 
     const handleCancel = () => {
-        // 취소 버튼 누를 시 이전 페이지로 이동
         router.back();
     };
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         // 회원가입 API 연동
+        try {
+            const result = await postSignupInfo({
+                userName,
+                email,
+                password: pw,
+                phoneNumber: `${areaCode}-${phone1}-${phone2}`,
+                workplace,
+                role: 'ROLE_' + memberType,
+                address: {
+                    zipCode,
+                    roadAddress,
+                    detailAddress,
+                }
+            });
 
-        // 성공
-        setIsSignUp(true); // 일단 무조건 연결되는 상태
-        setIsModalOpen();
-
-        // 실패
+            if (result) {
+                setIsSignUp(true);
+                setIsModalOpen();
+            }
+        } catch (error) {
+            alert("서버 오류 또는 회원가입 실패");
+            console.log(error)
+        }
     };
 
     useEffect(() => {
@@ -118,9 +136,9 @@ export default function SignUp() {
                                 <input
                                     type="radio"
                                     name="memberType"
-                                    value="pharmacy"
-                                    checked={memberType === 'pharmacy'}
-                                    onChange={(e) => setMemberType(e.target.value as 'pharmacy')}
+                                    value="PHARMACY"
+                                    checked={memberType === 'PHARMACY'}
+                                    onChange={(e) => setMemberType(e.target.value as 'PHARMACY')}
                                     className="w-5 h-5 accent-main-font"
                                 />
                                 <span className="text-main-font font-medium">약국</span>
@@ -129,9 +147,9 @@ export default function SignUp() {
                                 <input
                                     type="radio"
                                     name="memberType"
-                                    value="wholesaler"
-                                    checked={memberType === 'wholesaler'}
-                                    onChange={(e) => setMemberType(e.target.value as 'wholesaler')}
+                                    value="WHOLESALE"
+                                    checked={memberType === 'WHOLESALE'}
+                                    onChange={(e) => setMemberType(e.target.value as 'WHOLESALE')}
                                     className="w-5 h-5 accent-main-font"
                                 />
                                 <span className="text-main-font font-medium">도매상</span>
@@ -142,13 +160,13 @@ export default function SignUp() {
                     <div className="bg-gray-100 p-6 flex flex-row items-center gap-4 border-b-2 border-gray-200">
                         <label className="w-32 text-main-font font-medium space-x-1">
                             <span className="text-point-negative">•</span>
-                            <span>{memberType === 'pharmacy' ? "약국" : "도매상"}명</span>
+                            <span>{memberType === 'PHARMACY' ? "약국" : "도매상"}명</span>
                         </label>
                         <div className="flex-1 flex-row items-center">
                             <input
                                 type="text"
                                 value={workplace}
-                                placeholder={memberType === 'pharmacy' ? "약국명 입력" : "도매상명 입력"}
+                                placeholder={memberType === 'PHARMACY' ? "약국명 입력" : "도매상명 입력"}
                                 onChange={(e) => setWorkplace(e.target.value)}
                                 className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                             />
@@ -195,7 +213,7 @@ export default function SignUp() {
                                 <input
                                     type="password"
                                     value={pw}
-                                    placeholder="비밀번호 입력 (영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)"
+                                    placeholder="영문 대문자/숫자/특수문자 !,@,#,$,%,^,& 중 1가지 이상 조합, 8자 이상"
                                     onChange={(e) => setPw(e.target.value)}
                                     className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
