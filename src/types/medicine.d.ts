@@ -1,5 +1,6 @@
 /* 약국 - AI 분석 결과 */
 export type DataType = {
+    sort?: 'day' | 'week' | 'month';
     name: string;
     company: string;
     code: string;

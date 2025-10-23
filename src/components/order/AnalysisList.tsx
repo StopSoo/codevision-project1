@@ -4,8 +4,9 @@ import { DataType } from "@/types/medicine";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
 
 // 목데이터
-const analysisData: DataType[] = [
+const dayData: DataType[] = [
     {
+        sort: 'day',
         name: "스틸렌투엑스정 90mg",
         company: "동아에스티(주)",
         code: "642507290",
@@ -15,6 +16,7 @@ const analysisData: DataType[] = [
         ],
     },
     {
+        sort: 'day',
         name: "우루사정 100mg",
         company: "대웅제약",
         code: "642502040",
@@ -24,6 +26,7 @@ const analysisData: DataType[] = [
         ],
     },
     {
+        sort: 'day',
         name: "판콜에스내복액 30ml",
         company: "동화약품(주)",
         code: "642506512",
@@ -31,16 +34,11 @@ const analysisData: DataType[] = [
             ['30T', 10]
         ],
     },
+];
+
+const weekData: DataType[] = [
     {
-        name: "스틸렌투엑스정 90mg",
-        company: "동아에스티(주)",
-        code: "642507290",
-        detail: [
-            ['30T', 8],
-            ['400T', 20],
-        ],
-    },
-    {
+        sort: 'week',
         name: "우루사정 100mg",
         company: "대웅제약",
         code: "642502040",
@@ -50,6 +48,7 @@ const analysisData: DataType[] = [
         ],
     },
     {
+        sort: 'week',
         name: "판콜에스내복액 30ml",
         company: "동화약품(주)",
         code: "642506512",
@@ -57,7 +56,11 @@ const analysisData: DataType[] = [
             ['30T', 10]
         ],
     },
+];
+
+const monthData: DataType[] = [
     {
+        sort: 'month',
         name: "스틸렌투엑스정 90mg",
         company: "동아에스티(주)",
         code: "642507290",
@@ -67,15 +70,7 @@ const analysisData: DataType[] = [
         ],
     },
     {
-        name: "우루사정 100mg",
-        company: "대웅제약",
-        code: "642502040",
-        detail: [
-            ['30T (병)', 8],
-            ['100T (PTP)', 3],
-        ],
-    },
-    {
+        sort: 'month',
         name: "판콜에스내복액 30ml",
         company: "동화약품(주)",
         code: "642506512",
@@ -86,14 +81,18 @@ const analysisData: DataType[] = [
 ];
 
 export default function AnalysisList() {
-    const { click: clickAnalysis, result, setResult } = useAnalysisStore();
+    const { click, result, setResult, filterList, setFilterList } = useAnalysisStore();
     const { selectedNumber, setSelectedNumber } = useSelectedMedStore();
 
     useEffect(() => {
-        // API 연결 시 수정
-        // 버튼 클릭 여부가 변경되었을 때 AI 분석 결과 리스트가 업데이트되도록
-        setResult(analysisData);
-    }, [clickAnalysis, setResult]);
+        const newResult = [
+            ...(filterList.includes('day') ? dayData : []),
+            ...(filterList.includes('week') ? weekData : []),
+            ...(filterList.includes('month') ? monthData : []),
+        ];
+
+        setResult(newResult);
+    }, [click, filterList, setResult]);
 
     return (
         <div className="h-full flex flex-col">
@@ -104,6 +103,39 @@ export default function AnalysisList() {
                 <div className="text-xs text-sub-font leading-relaxed whitespace-nowrap">
                     지난 1주일 간 판매된 약품을 분석해<br />오늘 주문해야 할 품목을 선정했습니다.<br />
                 </div>
+            </div>
+
+            <div className="flex flex-row justify-start h-8 gap-3 mb-6">
+                <label className="flex flex-row items-center justify-center gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        name="day"
+                        checked={filterList.includes('day')}
+                        onChange={() => setFilterList('day')}
+                        className="w-6 h-6 accent-main-logo"
+                    />
+                    <span className="text-main-font font-medium">일별</span>
+                </label>
+                <label className="flex flex-row items-center justify-center gap-3 cursor-pointer w-50%">
+                    <input
+                        type="checkbox"
+                        name="week"
+                        checked={filterList.includes('week')}
+                        onChange={() => setFilterList('week')}
+                        className="w-6 h-6 accent-main-logo"
+                    />
+                    <span className="text-main-font font-medium">주별</span>
+                </label>
+                <label className="flex flex-row items-center justify-center gap-3 cursor-pointer w-50%">
+                    <input
+                        type="checkbox"
+                        name="month"
+                        checked={filterList.includes('month')}
+                        onChange={() => setFilterList('month')}
+                        className="w-6 h-6 accent-main-logo"
+                    />
+                    <span className="text-main-font font-medium">월별</span>
+                </label>
             </div>
 
             <Suspense fallback={<DataListSkeleton />}>
@@ -119,8 +151,24 @@ export default function AnalysisList() {
                                     }
                                     onClick={() => setSelectedNumber(index)}
                                 >
-                                    <div className="flex flex-row items-start text-sm font-medium text-main-font text-left">
-                                        {analysis.name}
+                                    <div className="flex flex-row items-center font-medium text-main-font text-left gap-2">
+                                        <p
+                                            className={
+                                                analysis.sort === 'day'
+                                                    ? "text-xs text-sub-color"
+                                                    : analysis.sort === 'week'
+                                                        ? "text-xs text-hover-green"
+                                                        : "text-xs text-main-logo"
+                                            }
+                                        >
+                                            {analysis.sort === 'day'
+                                                ? "today"
+                                                : analysis.sort === 'week'
+                                                    ? "week"
+                                                    : "month"
+                                            }
+                                        </p>
+                                        <p className="text-sm">{analysis.name}</p>
                                     </div>
                                     <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
                                         <span>{analysis.company}</span>

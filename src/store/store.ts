@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import { CartStore } from '@/types/cart';
-import { DataStore } from '@/types/todaysOrder';
+import { PharmacyRankingStore, TodaysOrderStore } from '@/types/order';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';
 import { OrderItemStore, PharmacyMemberStore, PredictItemStore, PredictPharmacyStore } from '@/types/predictItem';
@@ -88,16 +88,25 @@ export const useAddressModalStore = create<ModalStore>((set) => ({
 
 /* 약국 */
 // 오늘의 주문
-export const useAnalysisStore = create<DataStore>((set) => ({
+export const useAnalysisStore = create<TodaysOrderStore>((set) => ({
     click: false,
     setButtonOn: () => set({ click: true }),
     setButtonOff: () => set({ click: false }),
     result: [],
-    setResult: (newResult) => set({ result: newResult })
+    setResult: (newResult) => set({ result: newResult }),
+    filterList: ['day'],
+    setFilterList: (filterName) =>
+        set((state) => {
+            if (state.filterList?.includes(filterName)) {
+                return { filterList: state.filterList.filter((item) => item !== filterName) };
+            } else {
+                return { filterList: [...state.filterList, filterName] };
+            }
+        })
 }))
 
 // 요즘 약국 랭킹
-export const useMedRankingStore = create<DataStore>((set) => ({
+export const useMedRankingStore = create<PharmacyRankingStore>((set) => ({
     click: false,
     setButtonOn: () => set({ click: true }),
     setButtonOff: () => set({ click: false }),
