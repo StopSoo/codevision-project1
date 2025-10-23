@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 import { CartStore } from '@/types/cart/cart';
-import { PharmacyRankingStore, TodaysOrderStore } from '@/types/order';
-import { OrderedListStore } from '@/types/orderedList';
-import { MemberStore, ModalStore } from '@/types/member';
-import { OrderItemStore, PharmacyMemberStore, PredictItemStore, PredictPharmacyStore } from '@/types/predictItem';
-import { SelectedStore } from '@/types/medicine';
+import { PharmacyRankingStore, TodaysOrderStore } from '@/types/pharmacy/order';
+import { OrderedListStore } from '@/types/pharmacy/orderedList';
+import { MemberStore, ModalStore } from '@/types/member/member';
+import { OrderItemStore, PharmacyMemberStore, PredictItemStore, PredictPharmacyStore } from '@/types/wholesaler/predictItem';
+import { SelectedStore } from '@/types/pharmacy/medicine';
 
 /* 회원 */
 export const useMemberStore = create<MemberStore>((set) => ({
@@ -175,6 +175,7 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
     addToOrderedList: (item) => set((state) => {
         const newOrderHistory = {
             date: new Date().toISOString().split('T')[0],
+            orderNumber: 'O-' + new Date().toISOString().split('T')[0] + '-01',
             wholesaler: item.wholesaler,
             price: item.price,
             unit: item.unit,
@@ -187,6 +188,12 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
         const state = get();
         return state.orderedList.reduce((total, item) => total + item.totalPrice, 0);
     }
+}))
+
+// 주문 내역 상세 보기
+export const useSelectedOrderStore = create<SelectedStore>((set) => ({
+    selectedNumber: null,
+    setSelectedNumber: (index) => set({ selectedNumber: index }),
 }))
 
 

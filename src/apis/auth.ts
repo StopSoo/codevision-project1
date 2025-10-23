@@ -1,5 +1,6 @@
 import { AddCartReq, CartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
+import { PharmacyOrderRes, ViewOrderDetailRes, ViewOrderListApi } from "@/types/pharmacy/order";
 import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -42,6 +43,18 @@ const auth = (axiosInstance: AxiosInstance) => ({
 
     viewAllCart: async (): Promise<CartRes> => {
         const response = await axiosInstance.get<CartRes>('/carts');
+        return response.data;
+    },
+
+    viewPharmacyOrderHistory: async (
+        startDate?: string, endDate?: string, page?: number, size?: number
+    ): Promise<PharmacyOrderRes> => {
+        const response = await axiosInstance.get<PharmacyOrderRes>('/pharmacy/orders');
+        return response.data;
+    },
+
+    viewPharmacyOrderDetail: async (orderId: number): Promise<ViewOrderDetailRes> => {
+        const response = await axiosInstance.get<ViewOrderDetailRes>(`/pharmacy/orders/${orderId}`);
         return response.data;
     }
 });

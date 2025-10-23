@@ -1,6 +1,6 @@
 import { useMedRankingStore, useSelectedMedStore } from "@/store/store";
 import { Suspense, useEffect } from "react";
-import { DataType } from "@/types/medicine";
+import { DataType } from "@/types/pharmacy/medicine";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
 
 // 목데이터

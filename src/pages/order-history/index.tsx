@@ -1,16 +1,52 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useDateModalStore, useOrderedListStore } from "@/store/store";
+import { useDateModalStore, useOrderedListStore, useSelectedOrderStore } from "@/store/store";
 import Area from "@/components/common/Area";
+import { AuthAPI } from "@/apis/axiosInstance";
+import { CartDetailItem } from "@/types/cart/cart";
 
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedWholesaler, setSelectedWholesaler] = useState("전체");
+    const [orderHistoryList, setOrderHistoryList] = useState<CartDetailItem[]>([]);
+    const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
 
     const { orderedList, getTotalPrice } = useOrderedListStore();
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
+    const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
+
+    const handleClickOrder = async () => {
+        try {
+            const data = await AuthAPI.viewPharmacyOrderHistory(
+                startDate, endDate
+            );
+
+            if (data && data.result.orderId !== null) {
+                setSelectedNumber(data.result.orderId);
+            }
+        } catch (error) {
+            alert("orderId 불러오기 실패");
+            console.log(error);
+        }
+    };
+
+    const handleOrderDetail = async () => {
+        try {
+            if (selectedNumber !== null) {
+                const data = await AuthAPI.viewPharmacyOrderDetail(selectedNumber);
+
+                if (data) {
+                    setOrderHistoryList(data.result.items);
+                    setIsDetailOpen(true);
+                }
+            }
+        } catch (error) {
+            alert("주문 상세 정보 불러오기 실패");
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         if (startDate > endDate) {
@@ -67,13 +103,10 @@ export default function OrderHistory() {
                             까지의 주문 내역입니다.
                         </div>
 
-                        <div className="bg-gray-200 grid grid-cols-6 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
+                        <div className="bg-gray-200 grid grid-cols-3 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
                             <span>날짜</span>
-                            <span>도매상 명</span>
-                            <span>약품 단가</span>
-                            <span>단위</span>
-                            <span>수량</span>
-                            <span>가격</span>
+                            <span>주문 번호</span>
+                            <span>주문 금액</span>
                         </div>
 
                         <div className="flex-1 bg-gray-50 rounded-b-lg h-screen">
@@ -95,27 +128,53 @@ export default function OrderHistory() {
                                             </div>
                                         </div>
                                     )
-                                    : (<div className="justify-start w-full space-y-2">
-                                        {
-                                            orderedList.map((order, index) => {
-                                                if (
-                                                    startDate <= order.date &&
-                                                    order.date <= endDate
-                                                    && (selectedWholesaler === "전체" || selectedWholesaler === order.wholesaler)
-                                                )
-                                                    return (
-                                                        <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
-                                                            <span>{order.date}</span>
-                                                            <span>{order.wholesaler}</span>
-                                                            <span>{order.price.toLocaleString()}</span>
-                                                            <span>{order.unit}</span>
-                                                            <span>{order.quantity}</span>
-                                                            <span>{order.totalPrice.toLocaleString()}원</span>
-                                                        </div>
+                                    : (
+                                        <div className="justify-start w-full space-y-2">
+                                            {
+                                                orderedList.map((order, index) => {
+                                                    if (
+                                                        startDate <= order.date &&
+                                                        order.date <= endDate
+                                                        && (selectedWholesaler === "전체" || selectedWholesaler === order.wholesaler)
                                                     )
-                                            })
-                                        }
-                                    </div>
+                                                        return (
+                                                            <>
+                                                                {/* TODO: 클릭된 애 border 변경된 색깔 고정 */}
+                                                                <button
+                                                                    className="flex-1 w-full border-2 border-white hover:bg-selected-bg hover:border-selected-line"
+                                                                    onClick={handleClickOrder}
+                                                                >
+                                                                    <div key={index} className="grid grid-cols-3 gap-4 p-4 bg-white text-center">
+                                                                        <span>{order.date}</span>
+                                                                        <span>{order.orderNumber}</span>
+                                                                        <span>{order.totalPrice.toLocaleString()}원</span>
+                                                                    </div>
+                                                                </button>
+                                                                {
+                                                                    // TODO: 상세정보 창 하나만 열릴 수 있게 적용해야 함
+                                                                    isDetailOpen
+                                                                        ? <div className="flex-1 w-full border-2 border-white hover:bg-selected-bg hover:border-selected-line"
+                                                                        >
+                                                                            {
+                                                                                orderHistoryList.map((order) => (
+                                                                                    <div key={index} className="grid grid-cols-6 gap-4 p-4 bg-white text-center">
+                                                                                        <span>{order.medicineName}</span>
+                                                                                        <span>{order.detailName}</span>
+                                                                                        <span>{order.unitPrice}</span>
+                                                                                        <span>{order.quantity}</span>
+                                                                                        <span>{order.wholesaleName}</span>
+                                                                                        <span>{order.itemTotalPrice.toLocaleString()}원</span>
+                                                                                    </div>
+                                                                                ))
+                                                                            }
+                                                                        </div>
+                                                                        : null
+                                                                }
+                                                            </>
+                                                        )
+                                                })
+                                            }
+                                        </div>
                                     )
                             }
                         </div>

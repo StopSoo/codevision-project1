@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
-// import { useCartStore, useCartModalStore, useCautionModalStore } from "@/store/store";
-import { MedicineVariant, MedicineDetailData } from "@/types/medicine";
+import { useCartStore, useCartModalStore, useCautionModalStore } from "@/store/store";
+import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
 // import { postAddCart } from "@/apis/cart";
 
 interface MedicineDetailProps {
@@ -11,9 +11,9 @@ interface MedicineDetailProps {
 export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
-    // const { setIsModalOpen } = useCartModalStore();
-    // const { addToCart, isAbleToAdd } = useCartStore();
-    // const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
+    const { setIsModalOpen } = useCartModalStore();
+    const { addToCart, isAbleToAdd } = useCartStore();
+    const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -24,50 +24,82 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
     };
 
     const handleAddToCart = async (variant: MedicineVariant) => {
-        try {
-            // const quantity = quantities[variant.name] || 0;
-            // // TODO: API 연결 시 수정 필요
-            // const result = await postAddCart({
-            //     medicineId,
-            //     wholesaleId,
-            //     quantity,
-            // });
+        const quantity = quantities[variant.name] || 0;
 
-            // if (result) {
-            //     const cartItem = {
-            //         id: `${medicine.code}-${variant.name}-${medicine.unit}`,
-            //         name: medicine.name,
-            //         dosage: medicine.dosage,
-            //         unit: medicine.unit,
-            //         price: variant.price,
-            //         quantity: quantity,
-            //         wholesaler: variant.name,
-            //         manufacturer: medicine.manufacturer,
-            //         code: medicine.code,
-            //         available: variant.available,
-            //     };
+        const cartItem = {
+            id: `${medicine.code}-${variant.name}-${medicine.unit}`,
+            name: medicine.name,
+            dosage: medicine.dosage,
+            unit: medicine.unit,
+            price: variant.price,
+            quantity: quantity,
+            wholesaler: variant.name,
+            manufacturer: medicine.manufacturer,
+            code: medicine.code,
+            available: variant.available,
+        };
 
-            //     if (quantity > 0) {
-            //         // 모달창 열기 
-            //         if (isAbleToAdd(cartItem)) {
-            //             setIsModalOpen();
-            //             addToCart(cartItem); // 장바구니에 담기
-            //             setQuantities(prev => ({ // 선택 수량 초기화
-            //                 ...prev,
-            //                 [variant.name]: 0
-            //             }));
-            //         } else {
-            //             setIsCautionModalOpen();
-            //             setQuantities(prev => ({ // 선택 수량 초기화
-            //                 ...prev,
-            //                 [variant.name]: 0
-            //             }));
-            //         }
-            //     }
-            // }
-        } catch (error) {
-            alert("장바구니에 담기 실패");
+        if (quantity > 0) {
+            // 모달창 열기 
+            if (isAbleToAdd(cartItem)) {
+                setIsModalOpen();
+                addToCart(cartItem); // 장바구니에 담기
+                setQuantities(prev => ({ // 선택 수량 초기화
+                    ...prev,
+                    [variant.name]: 0
+                }));
+            } else {
+                setIsCautionModalOpen();
+                setQuantities(prev => ({ // 선택 수량 초기화
+                    ...prev,
+                    [variant.name]: 0
+                }));
+            }
         }
+        // try {
+        //     const quantity = quantities[variant.name] || 0;
+        //     // TODO: API 연결 시 수정 필요
+        //     const result = await postAddCart({
+        //         medicineId,
+        //         wholesaleId,
+        //         quantity,
+        //     });
+
+        //     if (result) {
+        //         const cartItem = {
+        //             id: `${medicine.code}-${variant.name}-${medicine.unit}`,
+        //             name: medicine.name,
+        //             dosage: medicine.dosage,
+        //             unit: medicine.unit,
+        //             price: variant.price,
+        //             quantity: quantity,
+        //             wholesaler: variant.name,
+        //             manufacturer: medicine.manufacturer,
+        //             code: medicine.code,
+        //             available: variant.available,
+        //         };
+
+        //         if (quantity > 0) {
+        //             // 모달창 열기 
+        //             if (isAbleToAdd(cartItem)) {
+        //                 setIsModalOpen();
+        //                 addToCart(cartItem); // 장바구니에 담기
+        //                 setQuantities(prev => ({ // 선택 수량 초기화
+        //                     ...prev,
+        //                     [variant.name]: 0
+        //                 }));
+        //             } else {
+        //                 setIsCautionModalOpen();
+        //                 setQuantities(prev => ({ // 선택 수량 초기화
+        //                     ...prev,
+        //                     [variant.name]: 0
+        //                 }));
+        //             }
+        //         }
+        //     }
+        // } catch (error) {
+        //     alert("장바구니에 담기 실패");
+        // }
     };
 
     return (

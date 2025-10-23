@@ -1,5 +1,5 @@
 import { usePharmacyMemberStore, useSelectedMemberStore } from "@/store/store";
-import { PharmacyMemberType } from "@/types/predictItem";
+import { PharmacyMemberType } from "@/types/wholesaler/predictItem";
 import { useEffect } from "react";
 
 // 목데이터

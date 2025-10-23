@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useAddressModalStore, useMemberStore, useSignupModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
 import { isValidEmail, isValidPassword } from '@/utils/utility';
-import { MemberProps } from '@/types/member';
+import { MemberProps } from '@/types/member/member';
 import AddressModal from '@/components/modal/AddressModal';
 import { postSignupInfo } from '@/apis/signup';
 

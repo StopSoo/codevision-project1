@@ -1,5 +1,5 @@
 import { usePredictItemStore, usePredictPharmacyStore, useSelectedItemStore } from "@/store/store";
-import { PredictPharmacyType } from "@/types/predictItem";
+import { PredictPharmacyType } from "@/types/wholesaler/predictItem";
 import Image from "next/image";
 import { useEffect } from "react";
 

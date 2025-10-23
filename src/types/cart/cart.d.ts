@@ -30,7 +30,6 @@ export interface CartItemApi {
     quantity: number;
     unitPrice: number;
     itemTotalPrice: number;
-    wholesaleName?: string;
 }
 // 장바구니 담기
 export interface AddCartReq {
@@ -52,12 +51,22 @@ export interface EditCartReq {
 }
 
 // 장바구니 전체 조회
+export interface CartDetailItem {
+    medicineName: string;
+    detailName: string;
+    unit: string;
+    unitPrice: number;
+    quantity: number;
+    itemTotalPrice: number;
+    wholesaleName: string;
+}
+
 export interface TotalCartRes {
     isSuccess: boolean;
     code: number;
     message: string;
     result: {
-        items: CartItemApi[];
+        items: CartDetailItem[];
         totalQuantity: number;
         totalPrice: number;
     }

@@ -1,5 +1,5 @@
 import { useOrderItemStore, useOrderModalStore, usePredictItemStore, useSelectedItemStore } from "@/store/store";
-import { PredictMedicineType } from "@/types/predictItem";
+import { PredictMedicineType } from "@/types/wholesaler/predictItem";
 import { useEffect, useState } from "react";
 import Button from "../common/Button";
 

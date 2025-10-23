@@ -4,7 +4,7 @@ import Image from 'next/image';
 import NotiModal from '@/components/modal/NotiModal';
 import Button from '@/components/common/Button';
 
-import { MemberProps } from '@/types/member';
+import { MemberProps } from '@/types/member/member';
 import { useMemberStore, useLoginModalStore, useLoginFailModalStore } from '@/store/store';
 import { postLoginInfo } from '@/apis/login';
 

@@ -1,6 +1,7 @@
 /* 약국 - 주문 내역 */
 export type OrderedItem = {
     date: string;
+    orderNumber: string;
     wholesaler: string;
     price: number;
     unit: string;
