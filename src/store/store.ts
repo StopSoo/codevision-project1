@@ -9,7 +9,7 @@ import { SelectedStore } from '@/types/medicine';
 
 /* 회원 */
 export const useMemberStore = create<MemberStore>((set) => ({
-    member: 'WHOLESALE',
+    member: 'PHARMACY',
     setMember: (newState) => set({ member: newState }),
     isLogin: false,
     setLogin: () => set({ isLogin: true }),

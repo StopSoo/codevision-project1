@@ -140,7 +140,10 @@ export default function AnalysisList() {
 
             <Suspense fallback={<DataListSkeleton />}>
                 {
-                    <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                    <div
+                        className="flex-1 overflow-y-auto space-y-4 pr-2"
+                        style={{ scrollbarGutter: "stable" }}
+                    >
                         {
                             result.map((analysis, index) =>
                                 <button
