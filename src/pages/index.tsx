@@ -42,7 +42,7 @@ export default function Home() {
       }
     } catch (error) {
       alert("서버 오류 또는 로그인 실패");
-      console.log(error)
+      console.log(error);
     }
   };
 

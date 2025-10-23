@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { CartStore } from '@/types/cart';
+import { CartStore } from '@/types/cart/cart';
 import { PharmacyRankingStore, TodaysOrderStore } from '@/types/order';
 import { OrderedListStore } from '@/types/orderedList';
 import { MemberStore, ModalStore } from '@/types/member';

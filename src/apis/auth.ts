@@ -1,3 +1,4 @@
+import { AddCartReq, CartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
 import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
@@ -15,11 +16,34 @@ const auth = (axiosInstance: AxiosInstance) => ({
         }
         return response.data;
     },
-    // 추후 로그아웃 API가 구현되면 적용 예정
+
     // logout: async (): Promise<void> => {
     //     localStorage.removeItem('accessToken');
     //     await axiosInstance.post('/auth/logout');
     // }
+
+    addCart: async (item: AddCartReq): Promise<CartRes> => {
+        const response = await axiosInstance.post<CartRes>('/carts/items', item);
+        return response.data;
+    },
+
+    cancelCart: async (cartItemId: number): Promise<CartRes> => {
+        const response = await axiosInstance.delete<CartRes>(`/carts/items/${cartItemId}`);
+        return response.data;
+    },
+
+    editQuantity: async (cartItemId: number, quantity: number): Promise<CartRes> => {
+        const response = await axiosInstance.patch<CartRes>(
+            `/carts/items/${cartItemId}`,
+            { quantity }
+        );
+        return response.data;
+    },
+
+    viewAllCart: async (): Promise<CartRes> => {
+        const response = await axiosInstance.get<CartRes>('/carts');
+        return response.data;
+    }
 });
 
 export default auth;

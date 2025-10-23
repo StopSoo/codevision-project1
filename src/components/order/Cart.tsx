@@ -3,21 +3,40 @@ import Button from "@/components/common/Button";
 import { VscChromeClose } from "react-icons/vsc";
 
 import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
+import { AuthAPI } from "@/apis/axiosInstance";
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCartStore();
     const { addToOrderedList } = useOrderedListStore();
     const { setIsModalOpen } = useOrderModalStore();
 
-    const handleQuantityChange = (id: string, value: string) => {
+    const handleQuantityChange = async (id: string, value: string) => {
         const numValue = parseInt(value) || 0;
-        if (numValue > 0) {
-            updateQuantity(id, numValue);
+        try {
+            if (numValue > 0) {
+                const result = await AuthAPI.editQuantity(Number(id), Number(value));
+                if (result) {
+                    updateQuantity(id, numValue);
+                    console.log("수량 변경 성공");
+                }
+            }
+        } catch (error) {
+            alert("수량 변경 실패");
+            console.log(error);
         }
     };
 
-    const handleRemoveItem = (id: string) => {
-        removeFromCart(id);
+    const handleRemoveItem = async (id: string) => {
+        try {
+            const result = await AuthAPI.cancelCart(Number(id));
+            if (result) {
+                removeFromCart(id);
+                console.log("장바구니에서 약품 삭제 성공");
+            }
+        } catch (error) {
+            alert("장바구니에서 약품 삭제 실패");
+            console.log(error);
+        }
     };
 
     const handleOrder = () => {
