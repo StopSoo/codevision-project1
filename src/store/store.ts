@@ -94,7 +94,7 @@ export const useAnalysisStore = create<TodaysOrderStore>((set) => ({
     setButtonOff: () => set({ click: false }),
     result: [],
     setResult: (newResult) => set({ result: newResult }),
-    filterList: ['day'],
+    filterList: ['DAY'],
     setFilterList: (filterName) =>
         set((state) => {
             if (state.filterList?.includes(filterName)) {

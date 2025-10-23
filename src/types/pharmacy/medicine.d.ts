@@ -1,11 +1,17 @@
 /* 약국 - AI 분석 결과 */
 export type DataType = {
-    sort?: 'day' | 'week' | 'month';
-    name: string;
-    company: string;
-    code: string;
-    detail?: [string, number][];
-    percentage?: string;
+    sort?: 'day' | 'dow' | 'week' | 'month';
+    medicineId: number;
+    productName: string;
+    standard: string;   // 단위 (ex> 50)
+    unitQty: number;  // 단위 수량
+    innerUnit: string; // 내부 단위
+    containerUnit: string; // 외부 포장 단위
+    insuranceCode: string;
+    productCompany: string; // 제조사
+    expectedQty: number; // 예상 주문 수량
+    probOrder: number; // 주문 확률
+    score?: number; // 추천 확률
 }
 // 약품 or 약국 회원 선택
 export type SelectedStore = {

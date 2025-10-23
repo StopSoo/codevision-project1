@@ -1,6 +1,6 @@
 import { AddCartReq, CartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { PharmacyOrderRes, ViewOrderDetailRes, ViewOrderListApi } from "@/types/pharmacy/order";
+import { PharmacyOrderRes, TodaysOrderRes, ViewOrderDetailRes, ViewOrderListApi } from "@/types/pharmacy/order";
 import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -55,6 +55,13 @@ const auth = (axiosInstance: AxiosInstance) => ({
 
     viewPharmacyOrderDetail: async (orderId: number): Promise<ViewOrderDetailRes> => {
         const response = await axiosInstance.get<ViewOrderDetailRes>(`/pharmacy/orders/${orderId}`);
+        return response.data;
+    },
+
+    viewTodaysOrder: async (
+        date: string, scope: 'DAY' | 'WEEK' | 'MONTH' | 'DOW'
+    ): Promise<TodaysOrderRes> => {
+        const response = await axiosInstance.get<TodaysOrderRes>(`/pharmacy/today-order?${date}&${scope}`);
         return response.data;
     }
 });

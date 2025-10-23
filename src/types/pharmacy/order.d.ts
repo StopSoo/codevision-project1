@@ -21,6 +21,36 @@ export type PharmacyRankingStore = {
 }
 
 /* 약국 주문 API */
+// 오늘의 주문 분석
+interface AnalysisItem {
+    medicineId: number;
+    productName: string;
+    standard: string;
+    unitQty: number;
+    innerUnit: string;
+    containerUnit: string;
+    insuranceCode: string;
+    productCompany: string;
+    expectedQty: number;
+    probOrder: number;
+    score: number;
+}
+
+interface TodaysOrderApi {
+    data: AnalysisItem[];
+    pageNumber: number;
+    pageSize: number;
+    totalPages: number;
+    totalElements: number;
+}
+
+export interface TodaysOrderRes {
+    isSuccess: boolean;
+    code: number;
+    message: string;
+    result: TodaysOrderApi;
+}
+
 // 주문 목록 조회
 interface ViewOrderListApi {
     orderId: number;
