@@ -1,6 +1,11 @@
 import axios from "axios";
 import auth from "./auth";
-import { useLogoutModalStore } from "@/store/store";
+
+let onUnauthorized: (() => void) | null = null;
+
+export const setUnauthorizedHandler = (handler: () => void) => {
+    onUnauthorized = handler;
+};
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_NEXT_APP_API,
@@ -27,11 +32,10 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
-            const { setIsModalOpen } = useLogoutModalStore();
-
             localStorage.removeItem('accessToken');
-            setIsModalOpen();
-            window.location.href = '/';
+            if (onUnauthorized) {
+                onUnauthorized();
+            }
         }
         return Promise.reject(error);
     }

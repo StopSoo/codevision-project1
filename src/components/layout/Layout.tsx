@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../common/Header";
 import { useCartModalStore, useCautionModalStore, useDateModalStore, useLogoutModalStore, useMemberModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
 import CartModal from "../modal/CartModal";
 import MemberModal from "../modal/MemberModal";
 import NotiModal from "../modal/NotiModal";
+import { setUnauthorizedHandler } from "@/apis/axiosInstance";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen, setIsModalClose } = useCartModalStore();
@@ -11,8 +12,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen: isCautionModalOpen, setIsModalClose: setIsCautionModalClose } = useCautionModalStore();
     const { isModalOpen: isDateModalOpen, setIsModalClose: setIsDateModalClose } = useDateModalStore();
     const { isModalOpen: isMemberModalOpen, setIsModalClose: setIsMemberModalClose } = useMemberModalStore();
-    const { isModalOpen: isLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
+    const { isModalOpen: isLogoutModalOpen, setIsModalOpen: setIsLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
     const { member } = useMemberStore();
+
+    useEffect(() => {
+        setUnauthorizedHandler(() => {
+            setIsLogoutModalOpen();
+        });
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLogoutModalClose();
+            window.location.href = '/';
+        }, 3000);
+    }, [isLogoutModalOpen]);
 
     return (
         <div className="flex flex-col w-full h-screen">
