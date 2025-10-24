@@ -46,7 +46,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
                         />
                     </div>
                 )}
-                <div className="w-full h-1 bg-gray-300 rounded-xl my-[18px]" />
+                <div className="h-1 bg-gray-300 rounded-xl my-[18px]" />
                 <div className="flex-1 overflow-hidden">
                     {children}
                 </div>

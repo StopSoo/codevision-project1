@@ -54,7 +54,7 @@ export default function Order() {
                             : (
                                 clickMedRanking
                                     ? <MedRanking />
-                                    : <div className="flex flex-col h-full items-center justify-center mx-[20.5px]">
+                                    : <div className="flex flex-col h-full items-center justify-center mx-[24px]">
                                         <Image
                                             src="/assets/analysis_icon.png"
                                             width={138}

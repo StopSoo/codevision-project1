@@ -36,19 +36,10 @@ interface AnalysisItem {
     score: number;
 }
 
-interface TodaysOrderApi {
-    data: AnalysisItem[];
-    pageNumber: number;
-    pageSize: number;
-    totalPages: number;
-    totalElements: number;
-}
-
 export interface TodaysOrderRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: TodaysOrderApi;
+    data: {
+        items: AnalysisItem[];
+    }
 }
 
 // 주문 목록 조회

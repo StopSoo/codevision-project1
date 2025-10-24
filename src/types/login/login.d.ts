@@ -1,5 +1,6 @@
 export interface LoginSuccessRes {
     data: {
+        username: string;
         accessToken: string;
     }
 }

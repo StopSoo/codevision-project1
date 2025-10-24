@@ -14,8 +14,7 @@ export const useMemberStore = create<MemberStore>((set) => ({
     isLogin: false,
     setLogin: () => set({ isLogin: true }),
     setLogout: () => set({ isLogin: false }),
-    // API 연결 시 변경
-    name: '정지수',
+    name: '',
     setName: (memberName) => set({ name: memberName }),
     zipCode: '',
     setZipCode: (data) => set({ zipCode: data }),

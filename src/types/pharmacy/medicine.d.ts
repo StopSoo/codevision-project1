@@ -1,6 +1,6 @@
 /* 약국 - AI 분석 결과 */
 export type DataType = {
-    sort?: 'day' | 'dow' | 'week' | 'month';
+    sort?: string;
     medicineId: number;
     productName: string;
     standard: string;   // 단위 (ex> 50)

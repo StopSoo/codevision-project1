@@ -10,7 +10,7 @@ import { postLoginInfo } from '@/apis/login';
 
 export default function Home() {
   const router = useRouter();
-  const { member, setMember, isLogin, setLogin } = useMemberStore();
+  const { member, setMember, setName, isLogin, setLogin } = useMemberStore();
   const { isModalOpen, setIsModalOpen, setIsModalClose } = useLoginModalStore();
   const { isModalOpen: isFailModalOpen, setIsModalOpen: setIsFailModalOpen, setIsModalClose: setIsFailModalClose } = useLoginFailModalStore();
 
@@ -39,6 +39,7 @@ export default function Home() {
         setLogin(); // 로그인 상태로 변경
         setMember(memberType);
         setIsModalOpen();
+        setName(result.data.username);
       } else {
         setIsFailModalOpen();
       }

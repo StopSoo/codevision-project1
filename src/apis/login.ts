@@ -9,7 +9,7 @@ export const postLoginInfo = async ({ email, password, role }: LoginReq) => {
             password,
             role,
         });
-        console.log(response);
+
         if ("data" in response) {
             console.log('login 성공');
             return response;

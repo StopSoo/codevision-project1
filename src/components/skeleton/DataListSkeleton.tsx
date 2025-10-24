@@ -1,7 +1,7 @@
 export default function DataListSkeleton() {
     return (
-        <div className="animate-pulse flex flex-col gap-5">
-            {[...Array(6)].map((_, i) => (
+        <div className="min-w-[232px] animate-pulse flex flex-col gap-6">
+            {[...Array(5)].map((_, i) => (
                 <div
                     key={i}
                     className="border-2 flex flex-col gap-4 p-2 rounded-xl"

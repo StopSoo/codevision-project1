@@ -29,8 +29,8 @@ const auth = (axiosInstance: AxiosInstance) => ({
 
     // logout: async (): Promise<void> => {
     //     localStorage.removeItem('accessToken');
-    //     await axiosInstance.post('/auth/logout');
-    // }
+    //     // await axiosInstance.post('/auth/logout');
+    // },
 
     addCart: async (item: AddCartReq): Promise<CartRes> => {
         const response = await axiosInstance.post<CartRes>('/carts/items', item);
@@ -68,11 +68,14 @@ const auth = (axiosInstance: AxiosInstance) => ({
     },
 
     viewTodaysOrder: async (
-        date: string, scope: 'DAY' | 'WEEK' | 'MONTH' | 'DOW'
+        date: string,
+        config?: any
     ): Promise<TodaysOrderRes> => {
-        const response = await axiosInstance.get<TodaysOrderRes>(`/pharmacy/today-order?${date}&${scope}`);
+        const response = await axiosInstance.get<TodaysOrderRes>(
+            `/pharmacy/today-order/${date}`, config
+        );
         return response.data;
-    }
+    },
 });
 
 export default auth;

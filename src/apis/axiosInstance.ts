@@ -1,5 +1,6 @@
 import axios from "axios";
 import auth from "./auth";
+import { useLogoutModalStore } from "@/store/store";
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_NEXT_APP_API,
@@ -13,7 +14,7 @@ axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
         if (token) {
-            config.headers.Authorization = `${token}`;
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
@@ -26,9 +27,11 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
+            const { setIsModalOpen } = useLogoutModalStore();
+
             localStorage.removeItem('accessToken');
-            // TODO: 모달창 띄워도 좋을 듯
-            window.localStorage.href = '/';
+            setIsModalOpen();
+            window.location.href = '/';
         }
         return Promise.reject(error);
     }
