@@ -6,15 +6,21 @@ import { AxiosInstance } from "axios";
 
 const auth = (axiosInstance: AxiosInstance) => ({
     signup: async (data: SignupReq): Promise<SignupRes> => {
-        const response = await axiosInstance.post<SignupRes>('/auth/signup', data);
+        const response = await axiosInstance.post<SignupRes>(
+            '/auth/signup',
+            data
+        );
         return response.data;
     },
 
     login: async (data: LoginReq): Promise<LoginRes> => {
-        const response = await axiosInstance.post<LoginRes>('/auth/login', data);
-        if (response.data.result.accessToken) {
+        const response = await axiosInstance.post<LoginRes>(
+            '/auth/login',
+            data
+        );
+        if (response.data) {
             console.log("accesstoken 저장 성공");
-            localStorage.setItem('accessToken', response.data.result.accessToken);
+            localStorage.setItem('accessToken', response.data.data.accessToken);
         } else {
             console.log("accesstoken 저장 실패");
         }

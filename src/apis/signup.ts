@@ -2,16 +2,20 @@ import { SignupReq } from "@/types/signup/signup";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
 
-export const postSignupInfo = async ({ username, email, password, phoneNumber, workplace, role, address }: SignupReq) => {
+export const postSignupInfo = async ({
+    username, email, password, phoneNumber, workplace, role, address
+}: SignupReq) => {
     try {
         const response = await AuthAPI.signup({
             username, email, password, phoneNumber, workplace, role, address
         });
 
-        if (response) {
+        if ("data" in response) {
             console.log('signup 성공');
-            console.log(response.data.username, response.data.role);
-            return response.data;
+            return response;
+        } else {
+            console.log(response);
+            return response;
         }
     } catch (error) {
         const err = error as AxiosError;

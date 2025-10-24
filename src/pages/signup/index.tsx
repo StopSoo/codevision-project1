@@ -67,12 +67,17 @@ export default function SignUp() {
             });
 
             if (result) {
-                setIsSignUp(true);
-                setIsModalOpen();
+                if ("data" in result) {
+                    setIsSignUp(true);
+                    setIsModalOpen();
+                }
+            } else {
+                // TODO: 회원가입 실패 모달 구현
             }
         } catch (error) {
             alert("서버 오류 또는 회원가입 실패");
             console.log(error);
+            // TODO: 회원가입 실패 모달 띄우기
         }
     };
 

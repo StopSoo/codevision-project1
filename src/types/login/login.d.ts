@@ -1,6 +1,13 @@
-export interface LoginApi {
-    accessToken: string;
+export interface LoginSuccessRes {
+    data: {
+        accessToken: string;
+    }
 }
+
+// interface LoginFailRes {
+//     code: string;
+//     message: string;
+// }
 
 export interface LoginReq {
     email: string;
@@ -8,9 +15,4 @@ export interface LoginReq {
     role: string;
 }
 
-export interface LoginRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: LoginApi;
-}
+export type LoginRes = LoginSuccessRes;

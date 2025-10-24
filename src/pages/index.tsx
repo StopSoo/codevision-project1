@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
   const { member, setMember, isLogin, setLogin } = useMemberStore();
   const { isModalOpen, setIsModalOpen, setIsModalClose } = useLoginModalStore();
-  const { isModalOpen: isFailModalOpen, setIsModalClose: setIsFailModalClose } = useLoginFailModalStore();
+  const { isModalOpen: isFailModalOpen, setIsModalOpen: setIsFailModalOpen, setIsModalClose: setIsFailModalClose } = useLoginFailModalStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,18 +31,20 @@ export default function Home() {
   const handleLogin = async () => {
     // 서버에서 아이디, 비밀번호 검증
     try {
-      const result = await postLoginInfo({ email, password, role: 'ROLE_' + memberType });
+      const result = await postLoginInfo({
+        email, password, role: 'ROLE_' + memberType
+      });
 
-      if (result) {
+      if (result && "data" in result) {
         setLogin(); // 로그인 상태로 변경
         setMember(memberType);
         setIsModalOpen();
       } else {
-        setIsFailModalClose();
+        setIsFailModalOpen();
       }
     } catch (error) {
-      alert("서버 오류 또는 로그인 실패");
       console.log(error);
+      setIsFailModalOpen();
     }
   };
 
@@ -63,8 +65,12 @@ export default function Home() {
         // 도매상 회원일 경우 주문 예상 품목 페이지로 이동
         router.push('/predict-item');
       }
+    } else if (isFailModalOpen) {
+      setTimeout(() => {
+        setIsFailModalClose();
+      })
     }
-  }, [isLogin, member, isModalOpen, setIsModalClose, router]);
+  }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsModalClose, router]);
 
   useEffect(() => {
     // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능

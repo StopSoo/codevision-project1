@@ -1,6 +1,13 @@
-export interface SignupApi {
-    username: string;
-    role: string;
+interface SignupSuccessRes {
+    data: {
+        username: string;
+        role: string;
+    };
+}
+
+interface SignupFailRes {
+    code: string;
+    message: string;
 }
 
 export interface SignupReq {
@@ -17,9 +24,4 @@ export interface SignupReq {
     }
 }
 
-export interface SignupRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    data: SignupApi;
-}
+export type SignupRes = SignupSuccessRes | SignupFailRes;
