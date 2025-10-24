@@ -25,6 +25,7 @@ export default function OrderHistory() {
 
             if (data && data.result.orderId !== null) {
                 setSelectedNumber(data.result.orderId);
+                handleOrderDetail(data.result.orderId);
             }
         } catch (error) {
             alert("orderId 불러오기 실패");
@@ -32,10 +33,10 @@ export default function OrderHistory() {
         }
     };
 
-    const handleOrderDetail = async () => {
+    const handleOrderDetail = async (id: number) => {
         try {
             if (selectedNumber !== null) {
-                const data = await AuthAPI.viewPharmacyOrderDetail(selectedNumber);
+                const data = await AuthAPI.viewPharmacyOrderDetail(id);
 
                 if (data) {
                     setOrderHistoryList(data.result.items);

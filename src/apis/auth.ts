@@ -59,7 +59,7 @@ const auth = (axiosInstance: AxiosInstance) => ({
         startDate?: string, endDate?: string
     ): Promise<PharmacyOrderRes> => {
         const response = await axiosInstance.get<PharmacyOrderRes>(
-            '/pharmacy/orders'
+            `/pharmacy/orders?startDate=${startDate}&endDate=${endDate}`
         );
         return response.data;
     },
@@ -71,7 +71,11 @@ const auth = (axiosInstance: AxiosInstance) => ({
 
     viewTodaysOrder: async (
         date: string,
-        config?: any
+        config?: {
+            params: {
+                scope: string
+            }
+        }
     ): Promise<TodaysRes> => {
         const response = await axiosInstance.get<TodaysRes>(
             `/pharmacy/today-order/${date}`, config

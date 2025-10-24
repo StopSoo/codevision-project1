@@ -67,11 +67,11 @@ export default function AnalysisList() {
         ];
 
         setResult(newResult);
-    }, [click, filterList, setResult]);
+    }, [click, filterList, setResult, dayData, dowData, weekData, monthData]);
 
     useEffect(() => {
         handleTodaysOrderList();
-    }, []);
+    });
 
     return (
         <div className="h-full flex flex-col">

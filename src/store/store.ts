@@ -11,7 +11,7 @@ import { SelectedStore } from '@/types/pharmacy/medicine';
 /* 회원 */
 export const useMemberStore = create<MemberStore>()(
     persist(
-        (set, get) => ({
+        (set) => ({
             member: 'PHARMACY',
             setMember: (newState) => set({ member: newState }),
             isLogin: false,

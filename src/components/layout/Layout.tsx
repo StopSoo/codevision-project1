@@ -19,14 +19,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         setUnauthorizedHandler(() => {
             setIsLogoutModalOpen();
         });
-    }, []);
+    }, [setIsLogoutModalOpen]);
 
     useEffect(() => {
-        setTimeout(() => {
-            setIsLogoutModalClose();
-            window.location.href = '/';
-        }, 3000);
-    }, [isLogoutModalOpen]);
+        if (isLogoutModalOpen) {
+            setTimeout(() => {
+                setIsLogoutModalClose();
+                window.location.href = '/';
+            }, 3000);
+        }
+    }, [isLogoutModalOpen, setIsLogoutModalClose]);
 
     return (
         <div className="flex flex-col w-full h-screen">

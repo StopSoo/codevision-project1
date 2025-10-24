@@ -7,6 +7,7 @@ import Button from '@/components/common/Button';
 import { MemberProps } from '@/types/member/member';
 import { useMemberStore, useLoginModalStore, useLoginFailModalStore } from '@/store/store';
 import { postLoginInfo } from '@/apis/login';
+import { setUnauthorizedHandler } from '@/apis/axiosInstance';
 
 export default function Home() {
   const router = useRouter();
@@ -57,27 +58,32 @@ export default function Home() {
     if (isModalOpen) {
       setTimeout(() => {
         setIsModalClose();
+        if (member === 'PHARMACY') {
+          // 약국 회원일 경우 AI 오늘의 주문 페이지로 이동
+          router.push('/order');
+        } else {
+          // 도매상 회원일 경우 주문 예상 품목 페이지로 이동
+          router.push('/predict-item');
+        }
       }, 2000);
-    } else if (isLogin && !isModalOpen) {
-      if (member === 'PHARMACY') {
-        // 약국 회원일 경우 AI 오늘의 주문 페이지로 이동
-        router.push('/order');
-      } else {
-        // 도매상 회원일 경우 주문 예상 품목 페이지로 이동
-        router.push('/predict-item');
-      }
     } else if (isFailModalOpen) {
       setTimeout(() => {
         setIsFailModalClose();
-      })
+      }, 3000);
     }
-  }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsModalClose, setIsFailModalClose, router]);
+  }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsFailModalClose, router]);
 
   useEffect(() => {
     // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능
     setIsEmailFilled(email.trim() !== "");
     setIsPwFilled(password.trim() !== "");
   }, [email, password]);
+
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      setIsFailModalOpen();
+    });
+  }, [setIsFailModalOpen]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
