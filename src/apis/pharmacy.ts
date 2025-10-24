@@ -19,3 +19,14 @@ export const getTodaysOrderList = async ({ date, scope = 'DAY' }: {
         return { items: [] };
     }
 };
+
+export const getTodaysRanking = async () => {
+    try {
+        const response = await AuthAPI.viewMedRanking();
+        return response.data;
+    } catch (error) {
+        const err = error as AxiosError;
+        console.log('getTodaysRanking error', err);
+        return null;
+    }
+}

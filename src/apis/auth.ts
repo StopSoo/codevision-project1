@@ -1,6 +1,6 @@
 import { AddCartReq, CartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { PharmacyOrderRes, TodaysOrderRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
+import { PharmacyOrderRes, TodaysRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
 import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -72,12 +72,19 @@ const auth = (axiosInstance: AxiosInstance) => ({
     viewTodaysOrder: async (
         date: string,
         config?: any
-    ): Promise<TodaysOrderRes> => {
-        const response = await axiosInstance.get<TodaysOrderRes>(
+    ): Promise<TodaysRes> => {
+        const response = await axiosInstance.get<TodaysRes>(
             `/pharmacy/today-order/${date}`, config
         );
         return response.data;
     },
+
+    viewMedRanking: async (): Promise<TodaysRes> => {
+        const response = await axiosInstance.get<TodaysRes>(
+            '/pharmacy/today-ranking'
+        );
+        return response.data;
+    }
 });
 
 export default auth;

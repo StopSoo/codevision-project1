@@ -29,7 +29,8 @@ export const useMemberStore = create<MemberStore>()(
         {
             name: 'memberNameStorage',
         }
-    ))
+    )
+)
 
 /* 로그인 성공/로그인 실패/회원가입/장바구니/주문하기/재고수량초과/날짜 변경/회원명 버튼/로그아웃/주소 검색 모달 */
 export const useLoginModalStore = create<ModalStore>((set) => ({

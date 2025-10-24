@@ -2,6 +2,7 @@ import { useMedRankingStore, useSelectedMedStore } from "@/store/store";
 import { Suspense, useEffect } from "react";
 import { DataType } from "@/types/pharmacy/medicine";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
+import { getTodaysRanking } from "@/apis/pharmacy";
 
 // 목데이터
 const analysisData: DataType[] = [
@@ -102,11 +103,21 @@ export default function MedRanking() {
     const { click: clickMedRanking, result, setResult } = useMedRankingStore();
     const { selectedNumber: selectedMedNumber, setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
 
+    const handleMedRanking = async () => {
+        try {
+            const ranking = await getTodaysRanking();
+
+            if (ranking?.items) {
+                setResult(ranking.items);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
-        // API 연결 시 수정
-        // 버튼 클릭 여부가 변경되었을 때 AI 분석 결과 리스트가 업데이트되도록
-        setResult(analysisData);
-    }, [clickMedRanking, setResult]);
+        handleMedRanking();
+    }, [clickMedRanking]);
 
     return (
         <div className="h-full flex flex-col">
@@ -120,9 +131,12 @@ export default function MedRanking() {
             </div>
 
             <Suspense fallback={<DataListSkeleton />}>
-                <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                <div
+                    className="flex-1 overflow-y-auto space-y-4 pr-2"
+                    style={{ scrollbarGutter: "stable" }}
+                >
                     {
-                        result.map((analysis, index) =>
+                        result.map((data, index) =>
                             <button
                                 key={index}
                                 className={(index !== selectedMedNumber)
@@ -133,19 +147,25 @@ export default function MedRanking() {
                             >
                                 <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
                                     <span className="text-sub-color text-lg">{index + 1}</span>
-                                    {analysis.name}
+                                    {data.productName}
                                 </div>
                                 <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
-                                    <span>{analysis.company}</span>
-                                    <span>보험코드 {analysis.code}</span>
+                                    <span>{data.productCompany}</span>
+                                    <span>보험코드 {data.insuranceCode}</span>
                                 </div>
                                 <div className="w-full h-[1px] bg-gray-300" />
                                 <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
                                     <span className="w-[40%]">주문율</span>
                                     <span
-                                        className={index < result.length / 3 ? "w-[60%] text-point-positive" : index < result.length * 2 / 3 ? "w-[60%] text-main-color" : "w-[60%] text-point-negative"}
+                                        className={
+                                            data.orderRate > 90
+                                                ? "w-[60%] text-point-positive"
+                                                : data.orderRate > 80
+                                                    ? "w-[60%] text-main-color"
+                                                    : "w-[60%] text-point-negative"
+                                        }
                                     >
-                                        {analysis.percentage}
+                                        {data.orderRate}
                                     </span>
                                 </div>
                             </button>

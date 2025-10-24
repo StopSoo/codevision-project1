@@ -21,7 +21,7 @@ export type PharmacyRankingStore = {
 }
 
 /* 약국 주문 API */
-// 오늘의 주문 분석
+// 오늘의 주문, 요즘 약국 랭킹 분석
 interface AnalysisItem {
     medicineId: number;
     productName: string;
@@ -34,9 +34,10 @@ interface AnalysisItem {
     expectedQty: number;
     probOrder: number;
     score: number;
+    orderRate: number;
 }
 
-export interface TodaysOrderRes {
+export interface TodaysRes {
     data: {
         items: AnalysisItem[];
     }

@@ -11,7 +11,7 @@ export type DataType = {
     productCompany: string; // 제조사
     expectedQty: number; // 예상 주문 수량
     probOrder: number; // 주문 확률
-    score?: number; // 추천 확률
+    score: number; // 추천 확률
 }
 // 약품 or 약국 회원 선택
 export type SelectedStore = {

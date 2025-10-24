@@ -1,17 +1,17 @@
 import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
 import { Suspense, useEffect, useState } from "react";
-import { DataType } from "@/types/pharmacy/medicine";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
 import { getTodaysOrderList } from "@/apis/pharmacy";
+import { AnalysisItem } from "@/types/pharmacy/order";
 
 export default function AnalysisList() {
     const { click, result, setResult, filterList, setFilterList } = useAnalysisStore();
     const { selectedNumber, setSelectedNumber } = useSelectedMedStore();
 
-    const [dayData, setDayData] = useState<DataType[]>([]);
-    const [dowData, setDowData] = useState<DataType[]>([]);
-    const [weekData, setWeekData] = useState<DataType[]>([]);
-    const [monthData, setMonthData] = useState<DataType[]>([]);
+    const [dayData, setDayData] = useState<AnalysisItem[]>([]);
+    const [dowData, setDowData] = useState<AnalysisItem[]>([]);
+    const [weekData, setWeekData] = useState<AnalysisItem[]>([]);
+    const [monthData, setMonthData] = useState<AnalysisItem[]>([]);
 
     const handleTodaysOrderList = async () => {
         try {
