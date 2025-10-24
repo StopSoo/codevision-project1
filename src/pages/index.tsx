@@ -71,7 +71,7 @@ export default function Home() {
         setIsFailModalClose();
       })
     }
-  }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsModalClose, router]);
+  }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsModalClose, setIsFailModalClose, router]);
 
   useEffect(() => {
     // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능

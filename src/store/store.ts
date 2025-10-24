@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 import { CartStore } from '@/types/cart/cart';
 import { PharmacyRankingStore, TodaysOrderStore } from '@/types/pharmacy/order';
@@ -8,21 +9,27 @@ import { OrderItemStore, PharmacyMemberStore, PredictItemStore, PredictPharmacyS
 import { SelectedStore } from '@/types/pharmacy/medicine';
 
 /* 회원 */
-export const useMemberStore = create<MemberStore>((set) => ({
-    member: 'PHARMACY',
-    setMember: (newState) => set({ member: newState }),
-    isLogin: false,
-    setLogin: () => set({ isLogin: true }),
-    setLogout: () => set({ isLogin: false }),
-    name: '',
-    setName: (memberName) => set({ name: memberName }),
-    zipCode: '',
-    setZipCode: (data) => set({ zipCode: data }),
-    roadAddress: '',
-    setRoadAddress: (data) => set({ roadAddress: data }),
-    detailAddress: '',
-    setDetailAddress: (data) => set({ detailAddress: data }),
-}))
+export const useMemberStore = create<MemberStore>()(
+    persist(
+        (set, get) => ({
+            member: 'PHARMACY',
+            setMember: (newState) => set({ member: newState }),
+            isLogin: false,
+            setLogin: () => set({ isLogin: true }),
+            setLogout: () => set({ isLogin: false }),
+            name: '',
+            setName: (memberName) => set({ name: memberName }),
+            zipCode: '',
+            setZipCode: (data) => set({ zipCode: data }),
+            roadAddress: '',
+            setRoadAddress: (data) => set({ roadAddress: data }),
+            detailAddress: '',
+            setDetailAddress: (data) => set({ detailAddress: data }),
+        }),
+        {
+            name: 'memberNameStorage',
+        }
+    ))
 
 /* 로그인 성공/로그인 실패/회원가입/장바구니/주문하기/재고수량초과/날짜 변경/회원명 버튼/로그아웃/주소 검색 모달 */
 export const useLoginModalStore = create<ModalStore>((set) => ({
