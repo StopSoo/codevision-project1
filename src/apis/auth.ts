@@ -13,7 +13,10 @@ const auth = (axiosInstance: AxiosInstance) => ({
     login: async (data: LoginReq): Promise<LoginRes> => {
         const response = await axiosInstance.post<LoginRes>('/auth/login', data);
         if (response.data.result.accessToken) {
+            console.log("accesstoken 저장 성공");
             localStorage.setItem('accessToken', response.data.result.accessToken);
+        } else {
+            console.log("accesstoken 저장 실패");
         }
         return response.data;
     },

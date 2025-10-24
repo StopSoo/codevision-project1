@@ -5,186 +5,186 @@ import DataListSkeleton from "../skeleton/DataListSkeleton";
 import { getTodaysOrderList } from "@/apis/order";
 
 // 목데이터
-// const dayData: DataType[] = [
-//     {
-//         sort: 'day',
-//         medicineId: 2,
-//         productName: "판콜에스내복액 30ml",
-//         standard: '30',
-//         unitQty: 30,
-//         innerUnit: 'T',
-//         containerUnit: '병',
-//         insuranceCode: "642506512",
-//         productCompany: "동화약품(주)",
-//         expectedQty: 10,
-//         probOrder: 0.87,
-//         score: 0.932
-//     },
-//     {
-//         sort: 'day',
-//         medicineId: 2,
-//         productName: "판콜에스내복액 30ml",
-//         standard: '30',
-//         unitQty: 30,
-//         innerUnit: 'T',
-//         containerUnit: '병',
-//         insuranceCode: "642506512",
-//         productCompany: "동화약품(주)",
-//         expectedQty: 10,
-//         probOrder: 0.87,
-//         score: 0.932
-//     },
-// ];
+const dayData: DataType[] = [
+    {
+        sort: 'day',
+        medicineId: 2,
+        productName: "판콜에스내복액 30ml",
+        standard: '30',
+        unitQty: 30,
+        innerUnit: 'T',
+        containerUnit: '병',
+        insuranceCode: "642506512",
+        productCompany: "동화약품(주)",
+        expectedQty: 10,
+        probOrder: 0.87,
+        score: 0.932
+    },
+    {
+        sort: 'day',
+        medicineId: 2,
+        productName: "판콜에스내복액 30ml",
+        standard: '30',
+        unitQty: 30,
+        innerUnit: 'T',
+        containerUnit: '병',
+        insuranceCode: "642506512",
+        productCompany: "동화약품(주)",
+        expectedQty: 10,
+        probOrder: 0.87,
+        score: 0.932
+    },
+];
 
-// const dowData: DataType[] = [
-//     {
-//         sort: 'dow',
-//         medicineId: 1,
-//         productName: "스틸렌투엑스정 90mg",
-//         standard: '90mg',
-//         unitQty: 90,
-//         innerUnit: 'mg',
-//         containerUnit: '병',
-//         insuranceCode: "642507290",
-//         productCompany: "동아에스티(주)",
-//         expectedQty: 24,
-//         probOrder: 0.75,
-//         score: 0.81
-//     },
-//     {
-//         sort: 'dow',
-//         medicineId: 1,
-//         productName: "스틸렌투엑스정 90mg",
-//         standard: '90mg',
-//         unitQty: 90,
-//         innerUnit: 'mg',
-//         containerUnit: '병',
-//         insuranceCode: "642507290",
-//         productCompany: "동아에스티(주)",
-//         expectedQty: 24,
-//         probOrder: 0.75,
-//         score: 0.81
-//     },
-//     {
-//         sort: 'dow',
-//         medicineId: 1,
-//         productName: "스틸렌투엑스정 90mg",
-//         standard: '90mg',
-//         unitQty: 90,
-//         innerUnit: 'mg',
-//         containerUnit: '병',
-//         insuranceCode: "642507290",
-//         productCompany: "동아에스티(주)",
-//         expectedQty: 24,
-//         probOrder: 0.75,
-//         score: 0.81
-//     },
-// ];
+const dowData: DataType[] = [
+    {
+        sort: 'dow',
+        medicineId: 1,
+        productName: "스틸렌투엑스정 90mg",
+        standard: '90mg',
+        unitQty: 90,
+        innerUnit: 'mg',
+        containerUnit: '병',
+        insuranceCode: "642507290",
+        productCompany: "동아에스티(주)",
+        expectedQty: 24,
+        probOrder: 0.75,
+        score: 0.81
+    },
+    {
+        sort: 'dow',
+        medicineId: 1,
+        productName: "스틸렌투엑스정 90mg",
+        standard: '90mg',
+        unitQty: 90,
+        innerUnit: 'mg',
+        containerUnit: '병',
+        insuranceCode: "642507290",
+        productCompany: "동아에스티(주)",
+        expectedQty: 24,
+        probOrder: 0.75,
+        score: 0.81
+    },
+    {
+        sort: 'dow',
+        medicineId: 1,
+        productName: "스틸렌투엑스정 90mg",
+        standard: '90mg',
+        unitQty: 90,
+        innerUnit: 'mg',
+        containerUnit: '병',
+        insuranceCode: "642507290",
+        productCompany: "동아에스티(주)",
+        expectedQty: 24,
+        probOrder: 0.75,
+        score: 0.81
+    },
+];
 
-// const weekData: DataType[] = [
-//     {
-//         sort: 'dow',
-//         medicineId: 1,
-//         productName: "스틸렌투엑스정 90mg",
-//         standard: '90mg',
-//         unitQty: 90,
-//         innerUnit: 'mg',
-//         containerUnit: '병',
-//         insuranceCode: "642507290",
-//         productCompany: "동아에스티(주)",
-//         expectedQty: 24,
-//         probOrder: 0.75,
-//         score: 0.81
-//     },
-//     {
-//         sort: 'week',
-//         medicineId: 2,
-//         productName: "판콜에스내복액 30ml",
-//         standard: '30',
-//         unitQty: 30,
-//         innerUnit: 'T',
-//         containerUnit: '병',
-//         insuranceCode: "642506512",
-//         productCompany: "동화약품(주)",
-//         expectedQty: 10,
-//         probOrder: 0.87,
-//         score: 0.932
-//     },
-//     {
-//         sort: 'week',
-//         medicineId: 1,
-//         productName: "스틸렌투엑스정 90mg",
-//         standard: '90mg',
-//         unitQty: 90,
-//         innerUnit: 'mg',
-//         containerUnit: '병',
-//         insuranceCode: "642507290",
-//         productCompany: "동아에스티(주)",
-//         expectedQty: 24,
-//         probOrder: 0.75,
-//         score: 0.81
-//     },
-// ];
+const weekData: DataType[] = [
+    {
+        sort: 'dow',
+        medicineId: 1,
+        productName: "스틸렌투엑스정 90mg",
+        standard: '90mg',
+        unitQty: 90,
+        innerUnit: 'mg',
+        containerUnit: '병',
+        insuranceCode: "642507290",
+        productCompany: "동아에스티(주)",
+        expectedQty: 24,
+        probOrder: 0.75,
+        score: 0.81
+    },
+    {
+        sort: 'week',
+        medicineId: 2,
+        productName: "판콜에스내복액 30ml",
+        standard: '30',
+        unitQty: 30,
+        innerUnit: 'T',
+        containerUnit: '병',
+        insuranceCode: "642506512",
+        productCompany: "동화약품(주)",
+        expectedQty: 10,
+        probOrder: 0.87,
+        score: 0.932
+    },
+    {
+        sort: 'week',
+        medicineId: 1,
+        productName: "스틸렌투엑스정 90mg",
+        standard: '90mg',
+        unitQty: 90,
+        innerUnit: 'mg',
+        containerUnit: '병',
+        insuranceCode: "642507290",
+        productCompany: "동아에스티(주)",
+        expectedQty: 24,
+        probOrder: 0.75,
+        score: 0.81
+    },
+];
 
-// const monthData: DataType[] = [
-//     {
-//         sort: 'month',
-//         medicineId: 1,
-//         productName: "스틸렌투엑스정 90mg",
-//         standard: '90mg',
-//         unitQty: 90,
-//         innerUnit: 'mg',
-//         containerUnit: '병',
-//         insuranceCode: "642507290",
-//         productCompany: "동아에스티(주)",
-//         expectedQty: 24,
-//         probOrder: 0.75,
-//         score: 0.81
-//     },
-//     {
-//         sort: 'month',
-//         medicineId: 2,
-//         productName: "판콜에스내복액 30ml",
-//         standard: '30',
-//         unitQty: 30,
-//         innerUnit: 'T',
-//         containerUnit: '병',
-//         insuranceCode: "642506512",
-//         productCompany: "동화약품(주)",
-//         expectedQty: 10,
-//         probOrder: 0.87,
-//         score: 0.932
-//     },
-// ];
+const monthData: DataType[] = [
+    {
+        sort: 'month',
+        medicineId: 1,
+        productName: "스틸렌투엑스정 90mg",
+        standard: '90mg',
+        unitQty: 90,
+        innerUnit: 'mg',
+        containerUnit: '병',
+        insuranceCode: "642507290",
+        productCompany: "동아에스티(주)",
+        expectedQty: 24,
+        probOrder: 0.75,
+        score: 0.81
+    },
+    {
+        sort: 'month',
+        medicineId: 2,
+        productName: "판콜에스내복액 30ml",
+        standard: '30',
+        unitQty: 30,
+        innerUnit: 'T',
+        containerUnit: '병',
+        insuranceCode: "642506512",
+        productCompany: "동화약품(주)",
+        expectedQty: 10,
+        probOrder: 0.87,
+        score: 0.932
+    },
+];
 
 export default function AnalysisList() {
     const { click, result, setResult, filterList, setFilterList } = useAnalysisStore();
     const { selectedNumber, setSelectedNumber } = useSelectedMedStore();
 
-    const [dayData, setDayData] = useState<DataType[]>([]);
-    const [dowData, setDowData] = useState<DataType[]>([]);
-    const [weekData, setWeekData] = useState<DataType[]>([]);
-    const [monthData, setMonthData] = useState<DataType[]>([]);
+    // const [dayData, setDayData] = useState<DataType[]>([]);
+    // const [dowData, setDowData] = useState<DataType[]>([]);
+    // const [weekData, setWeekData] = useState<DataType[]>([]);
+    // const [monthData, setMonthData] = useState<DataType[]>([]);
 
-    const handleTodaysOrderList = async () => {
-        try {
-            const todayDate = new Date().toLocaleDateString();
+    // const handleTodaysOrderList = async () => {
+    //     try {
+    //         const todayDate = new Date().toLocaleDateString();
 
-            const [dayRes, dowRes, weekRes, monthRes] = await Promise.all([
-                getTodaysOrderList({ date: todayDate, scope: 'DAY' }),
-                getTodaysOrderList({ date: todayDate, scope: 'DOW' }),
-                getTodaysOrderList({ date: todayDate, scope: 'WEEK' }),
-                getTodaysOrderList({ date: todayDate, scope: 'MONTH' }),
-            ]);
+    //         const [dayRes, dowRes, weekRes, monthRes] = await Promise.all([
+    //             getTodaysOrderList({ date: todayDate, scope: 'DAY' }),
+    //             getTodaysOrderList({ date: todayDate, scope: 'DOW' }),
+    //             getTodaysOrderList({ date: todayDate, scope: 'WEEK' }),
+    //             getTodaysOrderList({ date: todayDate, scope: 'MONTH' }),
+    //         ]);
 
-            if (dayRes) setDayData(dayRes.data);
-            if (dowRes) setDowData(dowRes.data);
-            if (weekRes) setWeekData(weekRes.data);
-            if (monthRes) setMonthData(monthRes.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    //         if (dayRes) setDayData(dayRes.data);
+    //         if (dowRes) setDowData(dowRes.data);
+    //         if (weekRes) setWeekData(weekRes.data);
+    //         if (monthRes) setMonthData(monthRes.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     useEffect(() => {
         const newResult = [
@@ -262,8 +262,8 @@ export default function AnalysisList() {
                                 <button
                                     key={index}
                                     className={(index !== selectedNumber)
-                                        ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                        : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                        ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                        : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                     }
                                     onClick={() => setSelectedNumber(index)}
                                 >
@@ -288,25 +288,22 @@ export default function AnalysisList() {
                                                         : "month"
                                             }
                                         </p>
-                                        <p className="text-sm">{analysis.name}</p>
+                                        <p className="text-sm">{analysis.productName}</p>
                                     </div>
                                     <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
-                                        <span>{analysis.company}</span>
-                                        <span>보험코드 {analysis.code}</span>
+                                        <span>{analysis.productCompany}</span>
+                                        <span>보험코드 {analysis.insuranceCode}</span>
                                     </div>
                                     <div className="w-full h-[1px] bg-gray-300" />
                                     <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">
                                         <span className="w-[50%]">단위</span>
                                         <span className="w-[50%]">수량</span>
                                     </div>
-                                    {
-                                        analysis.detail.map((d: [string, number], index: number) => (
-                                            <div key={index} className="flex flex-row flex-1 text-main-font text-center text-[11px]">
-                                                <span className="w-[50%]">{d[0]}</span>
-                                                <span className="w-[50%]">{d[1]}</span>
-                                            </div>
-                                        ))
-                                    }
+
+                                    <div className="flex flex-row flex-1 text-main-font text-center text-[11px]">
+                                        <span className="w-[50%]">{String(analysis.unitQty) + analysis.innerUnit}</span>
+                                        <span className="w-[50%]">{analysis.expectedQty}</span>
+                                    </div>
                                 </button>
                             )
                         }

@@ -14,7 +14,7 @@ export default function SignUp() {
 
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
-    const { name: userName, zipCode, roadAddress, detailAddress, setDetailAddress } = useMemberStore();
+    const { name: username, zipCode, roadAddress, detailAddress, setDetailAddress } = useMemberStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
     const [workplace, setWorkplace] = useState<string>('');
@@ -53,7 +53,7 @@ export default function SignUp() {
         // 회원가입 API 연동
         try {
             const result = await postSignupInfo({
-                userName,
+                username,
                 email,
                 password: pw,
                 phoneNumber: `${areaCode}-${phone1}-${phone2}`,
@@ -72,7 +72,7 @@ export default function SignUp() {
             }
         } catch (error) {
             alert("서버 오류 또는 회원가입 실패");
-            console.log(error)
+            console.log(error);
         }
     };
 
@@ -194,14 +194,14 @@ export default function SignUp() {
                                         className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
                                 </div>
-                                <p className="text-xs text-point-positive mt-2">
+                                <div className="text-xs text-point-positive mt-2">
                                     {!isEmailFilled
                                         ? ""
                                         : isValidEmail(email)
                                             ? <p className="text-xs text-point-positive mt-2">사용 가능한 이메일입니다.</p>
                                             : <p className="text-xs text-point-negative mt-2">입력한 이메일을 확인해주세요.</p>
                                     }
-                                </p>
+                                </div>
                             </div>
                         </div>
 
@@ -232,13 +232,13 @@ export default function SignUp() {
                                     onChange={(e) => setPwConfirm(e.target.value)}
                                     className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
-                                <p className="text-xs text-point-negative mt-2">
+                                <div className="text-xs text-point-negative mt-2">
                                     {pwConfirm !== "" &&
                                         (!isPwConfirmFilled
                                             ? <p className="text-xs text-point-negative mt-2">비밀번호가 일치하지 않습니다.</p>
                                             : <p className="text-xs text-point-positive mt-2">비밀번호가 일치합니다.</p>
                                         )}
-                                </p>
+                                </div>
                             </div>
                         </div>
 

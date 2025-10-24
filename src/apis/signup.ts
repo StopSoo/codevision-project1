@@ -2,25 +2,27 @@ import { SignupReq } from "@/types/signup/signup";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
 
-export const postSignupInfo = async ({ userName, email, password, phoneNumber, workplace, role, address }: SignupReq) => {
+export const postSignupInfo = async ({ username, email, password, phoneNumber, workplace, role, address }: SignupReq) => {
     try {
         const response = await AuthAPI.signup({
-            userName, email, password, phoneNumber, workplace, role, address
+            username, email, password, phoneNumber, workplace, role, address
         });
 
-        const { isSuccess, result } = response;
-
-        if (isSuccess) {
-            return result;
+        if (response) {
+            console.log('signup 성공');
+            console.log(response.data.username, response.data.role);
+            return response.data;
         }
     } catch (error) {
         const err = error as AxiosError;
         if (err.response?.status === 401) {
-            // console.error("아이디 또는 비밀번호가 일치하지 않습니다.");
+            console.error("401 Error");
         } else if (err.response?.status === 404) {
-            // console.error("존재하지 않는 계정입니다.");
+            console.error("404 Error");
+        } else if (err.response?.status === 409) {
+            console.log(err.response.data);
         } else {
-            // console.error("로그인 실패:", err.message);
+            console.error("회원가입 실패:", err.message);
         }
     }
 }

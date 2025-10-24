@@ -2,7 +2,7 @@ import axios from "axios";
 import auth from "./auth";
 
 const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_APP_API,
+    baseURL: process.env.NEXT_PUBLIC_NEXT_APP_API,
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('accessTplem');
+            localStorage.removeItem('accessToken');
             // TODO: 모달창 띄워도 좋을 듯
             window.localStorage.href = '/';
         }
