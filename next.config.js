@@ -11,6 +11,14 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_NEXT_APP_API: process.env.NEXT_PUBLIC_NEXT_APP_API,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://3.37.132.47:8080/:path*',
+      }
+    ];
+  }
 };
 
 module.exports = nextConfig;
