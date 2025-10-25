@@ -8,6 +8,9 @@ const nextConfig = {
   webpack(config) {
     return config;
   },
+  env: {
+    NEXT_PUBLIC_NEXT_APP_API: process.env.NEXT_PUBLIC_NEXT_APP_API,
+  },
 };
 
 module.exports = nextConfig;
