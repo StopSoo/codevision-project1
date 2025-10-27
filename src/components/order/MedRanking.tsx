@@ -13,7 +13,6 @@ export default function MedRanking() {
 
             if (ranking?.items) {
                 setResult(ranking.items);
-                console.log(ranking.items);
             }
         } catch (error) {
             console.error(error);

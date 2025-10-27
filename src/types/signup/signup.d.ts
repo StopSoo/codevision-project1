@@ -1,3 +1,4 @@
+// 회원가입
 interface SignupSuccessRes {
     data: {
         username: string;
@@ -25,3 +26,15 @@ export interface SignupReq {
 }
 
 export type SignupRes = SignupSuccessRes | SignupFailRes;
+
+// 이메일 중복 검사
+export interface CheckEmailReq {
+    email: string;
+    role: string;
+}
+
+export interface CheckEmailRes {
+    data: {
+        result: boolean;
+    }
+}

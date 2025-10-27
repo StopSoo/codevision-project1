@@ -62,11 +62,24 @@ export interface RankingRes {
     }
 }
 
-// 약품 담기
+// 약품 담기 - 약품 정보
 export interface MedicineDetailRes {
     data: MedicineDetailData;
 }
 
+// 약품 담기 - 도매상 정보
+interface WholesaleItem {
+    medicineId: number;
+    wholesaleId: number;
+    wholesaleName: string;
+    unitPrice: number;
+    point: number;
+    stockQty: number;
+}
+
+export interface WholesaleDetailRes {
+    data: WholesaleItem[];
+}
 
 // 주문 목록 조회
 interface ViewOrderListApi {

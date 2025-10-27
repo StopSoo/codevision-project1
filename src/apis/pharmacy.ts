@@ -27,7 +27,7 @@ export const getTodaysRanking = async () => {
         return null;
     }
 };
-// 약품 담기
+// 약품 담기 - 약품 정보
 export const getMedicineDetail = async (id: number) => {
     try {
         const response = await AuthAPI.viewMedicineDetail(id);
@@ -35,6 +35,17 @@ export const getMedicineDetail = async (id: number) => {
     } catch (error) {
         const err = error as AxiosError;
         console.log('getMedicineDetail error', err);
+        return null;
+    }
+};
+// 약품 담기 - 도매상 정보
+export const getWholesaleDetail = async (id: number) => {
+    try {
+        const response = await AuthAPI.viewWholesaleDetail(id);
+        return response.data;
+    } catch (error) {
+        const err = error as AxiosError;
+        console.log('getWholesaleDetail error', err);
         return null;
     }
 };

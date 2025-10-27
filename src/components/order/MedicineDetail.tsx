@@ -1,19 +1,19 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-// import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
-// import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
-import { useSelectedMedStore } from "@/store/store";
-import { MedicineDetailData } from "@/types/pharmacy/medicine";
-// import { postAddCart } from "@/apis/cart";
-import { getMedicineDetail } from "@/apis/pharmacy";
+import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
+import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
+import { postAddCart } from "@/apis/cart";
+import { getMedicineDetail, getWholesaleDetail } from "@/apis/pharmacy";
+import { WholesaleItem } from "@/types/pharmacy/order";
 
 export default function MedicineDetail() {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
     const [medicine, setMedicine] = useState<MedicineDetailData>(); // 선택한 약품 정보
+    const [wholesales, setWholesales] = useState<WholesaleItem[]>([]); // 선택한 약품의 도매상 정보
 
-    // const { setIsModalOpen } = useCartModalStore();
-    // const { addToCart, isAbleToAdd } = useCartStore();
-    // const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
+    const { setIsModalOpen } = useCartModalStore();
+    const { addToCart, isAbleToAdd } = useCartStore();
+    const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
     const { selectedNumber: selectedMedNumber } = useSelectedMedStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
@@ -27,10 +27,12 @@ export default function MedicineDetail() {
     const handleMedDetail = async () => {
         try {
             if (selectedMedNumber) {
-                const response = await getMedicineDetail(selectedMedNumber);
-
-                if (response) {
-                    setMedicine(response);
+                const medResponse = await getMedicineDetail(selectedMedNumber);
+                const wholesaleResponse = await getWholesaleDetail(selectedMedNumber);
+                console.log(wholesaleResponse);
+                if (medResponse && wholesaleResponse) {
+                    setMedicine(medResponse);
+                    setWholesales(wholesaleResponse);
                 } else {
                     console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`);
                 }
@@ -47,52 +49,52 @@ export default function MedicineDetail() {
         }
     }, [selectedMedNumber]);
 
-    // const handleAddToCart = async (variant: MedicineVariant) => {
-    //     try {
-    //         const quantity = quantities[variant.name] || 0;
-    //         // TODO: API 연결 시 수정 필요
-    //         const result = await postAddCart({
-    //             medicineId: medicine!.medicineId,
-    //             wholesaleId,
-    //             quantity,
-    //         });
+    const handleAddToCart = async (wholesaleItem: WholesaleItem) => {
+        try {
+            const quantity = quantities[wholesaleItem.wholesaleName] || 0;
 
-    //         if (result) {
-    //             const cartItem = {
-    //                 medicineId: medicine!.medicineId,
-    //                 name: medicine!.productName,
-    //                 dosage: medicine!.standard,
-    //                 unit: String(medicine!.unitQty),
-    //                 price: variant.price,
-    //                 quantity: quantity,
-    //                 wholesaler: variant.name,
-    //                 manufacturer: medicine!.productCompany,
-    //                 code: medicine!.insuranceCode,
-    //                 available: variant.available,
-    //             };
+            const result = await postAddCart({
+                medicineId: medicine!.medicineId,
+                wholesaleId: wholesaleItem.wholesaleId,
+                quantity,
+            });
 
-    //             if (quantity > 0) {
-    //                 // 모달창 열기 
-    //                 if (isAbleToAdd(cartItem)) {
-    //                     setIsModalOpen();
-    //                     addToCart(cartItem); // 장바구니에 담기
-    //                     setQuantities(prev => ({ // 선택 수량 초기화
-    //                         ...prev,
-    //                         [variant.name]: 0
-    //                     }));
-    //                 } else {
-    //                     setIsCautionModalOpen();
-    //                     setQuantities(prev => ({ // 선택 수량 초기화
-    //                         ...prev,
-    //                         [variant.name]: 0
-    //                     }));
-    //                 }
-    //             }
-    //         }
-    //     } catch (error) {
-    //         alert("장바구니에 담기 실패");
-    //     }
-    // };
+            if (result) {
+                const cartItem = {
+                    medicineId: medicine!.medicineId,
+                    name: medicine!.productName,
+                    dosage: medicine!.standard,
+                    unit: String(medicine!.unitQty),
+                    price: wholesaleItem.unitPrice,
+                    quantity: quantity,
+                    wholesaler: wholesaleItem.wholesaleName,
+                    manufacturer: medicine!.productCompany,
+                    code: medicine!.insuranceCode,
+                    available: wholesaleItem.stockQty,
+                };
+
+                if (quantity > 0) {
+                    // 모달창 열기 
+                    if (isAbleToAdd(cartItem)) {
+                        setIsModalOpen();
+                        addToCart(cartItem); // 장바구니에 담기
+                        setQuantities(prev => ({ // 선택 수량 초기화
+                            ...prev,
+                            [wholesaleItem.wholesaleName]: 0
+                        }));
+                    } else {
+                        setIsCautionModalOpen();
+                        setQuantities(prev => ({ // 선택 수량 초기화
+                            ...prev,
+                            [wholesaleItem.wholesaleName]: 0
+                        }));
+                    }
+                }
+            }
+        } catch (error) {
+            alert("장바구니에 담기 실패");
+        }
+    };
 
     return (
         <div className="flex flex-col space-y-6 h-full overflow-y-auto pr-2">
@@ -140,42 +142,44 @@ export default function MedicineDetail() {
                         <span>재고 수량</span>
                         <span>선택 수량</span>
                     </div>
-                    {/* TODO: 도매상 정보가 API에 업데이트되면 수정 */}
-                    {/* {medicine?.variants.map((variant, index) => (
+                    {wholesales.map((data, index) => (
                         <div
                             key={index}
                             className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"
                         >
-                            <span className="text-main-font">{variant.name}</span>
-                            <span className="text-main-font">{variant.price.toLocaleString()}</span>
+                            <span className="text-main-font">{data.wholesaleName}</span>
+                            <span className="text-main-font">{data.unitPrice.toLocaleString()}</span>
                             <div className="p-2 mx-4 bg-mileage-bg rounded-xl">
-                                <span className="text-mileage-font font-medium">{variant.margin}</span>
+                                <span className="text-mileage-font font-medium">
+                                    {data.point > 0 ? "+" : data.point == 0 ? "" : "-"} {data.point} %
+                                </span>
                             </div>
-                            <span className="text-main-font">{variant.available}</span>
+                            <span className="text-main-font">{data.stockQty ?? 0}</span>
                             <div className="flex flex-row items-center justify-center gap-2">
                                 <input
                                     type="number"
                                     min="0"
-                                    max={variant.available}
+                                    max={data.stockQty}
                                     placeholder="0"
-                                    value={quantities[variant.name] || ""}
-                                    onChange={(e) => handleQuantityChange(variant.name, e.target.value)}
+                                    value={quantities[data.wholesaleName] || ""}
+                                    onChange={(e) => handleQuantityChange(data.wholesaleName, e.target.value)}
                                     className="w-15 md:w-20 px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                 />
                                 <button
-                                    onClick={() => handleAddToCart(variant)}
+                                    onClick={() => handleAddToCart(data)}
                                     className="px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
                                 >
                                     <Image
                                         src="/assets/cart_icon.png"
                                         width={25}
                                         height={25}
-                                        alt={variant.name}
+                                        alt={data.wholesaleName}
+                                        priority
                                     />
                                 </button>
                             </div>
                         </div>
-                    ))} */}
+                    ))}
                 </div>
             </div>
         </div>

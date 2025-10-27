@@ -1,4 +1,4 @@
-import { SignupReq } from "@/types/signup/signup";
+import { CheckEmailReq, SignupReq } from "@/types/signup/signup";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
 
@@ -14,7 +14,6 @@ export const postSignupInfo = async ({
             console.log('signup 성공');
             return response;
         } else {
-            console.log(response);
             return response;
         }
     } catch (error) {
@@ -28,5 +27,23 @@ export const postSignupInfo = async ({
         } else {
             console.error("회원가입 실패:", err.message);
         }
+    }
+}
+
+export const getCheckEmail = async ({
+    email, role
+}: CheckEmailReq) => {
+    try {
+        const response = await AuthAPI.checkEmailExist({
+            email, role
+        });
+
+        if ("data" in response) {
+            console.log("email 중복 검사 조회 성공");
+            return response.data;
+        }
+    } catch (error) {
+        const err = error as AxiosError;
+        console.error("getCheckEmail error", err);
     }
 }

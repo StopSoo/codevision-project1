@@ -7,7 +7,7 @@ import NotiModal from '@/components/modal/NotiModal';
 import { isValidEmail, isValidPassword } from '@/utils/utility';
 import { MemberProps } from '@/types/member/member';
 import AddressModal from '@/components/modal/AddressModal';
-import { postSignupInfo } from '@/apis/signup';
+import { getCheckEmail, postSignupInfo } from '@/apis/signup';
 
 export default function SignUp() {
     const router = useRouter();
@@ -28,6 +28,8 @@ export default function SignUp() {
     const [phone2, setPhone2] = useState<string>('');
     // 조건 검사
     const [isEmailFilled, setIsEmailFilled] = useState<boolean>(email.trim() !== "");
+    const [isEmailCheckButtonClick, setIsEmailCheckButtonClick] = useState<boolean>(false);
+    const [isEmailCheckOK, setIsEmailCheckOK] = useState<boolean>(false);
     const [isPwFilled, setIsPwFilled] = useState<boolean>(pw.trim() !== "");
     const [isPwConfirmFilled, setIsPwConfirmFilled] = useState<boolean>(true);
     const [isNameFilled, setIsNameFilled] = useState<boolean>(name.trim() !== "");
@@ -38,7 +40,7 @@ export default function SignUp() {
     const [isDetailAddressFilled, setIsDetailAddressFilled] = useState<boolean>(detailAddress.trim() !== "");
     const isButtonActive = () => {
         // 회원가입 버튼 활성화 여부
-        if (isEmailFilled && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4 && isZipCodeFilled && isRoadAddressFilled && isDetailAddressFilled && isValidEmail(email) && isValidPassword(pw)) {
+        if (isEmailCheckOK && isPwFilled && isPwConfirmFilled && isNameFilled && isP1L4 && isP2L4 && isZipCodeFilled && isRoadAddressFilled && isDetailAddressFilled && isValidPassword(pw)) {
             return true;
         } else {
             return false;
@@ -71,13 +73,29 @@ export default function SignUp() {
                     setIsSignUp(true);
                     setIsModalOpen();
                 }
-            } else {
-                // TODO: 회원가입 실패 모달 구현
             }
         } catch (error) {
             alert("서버 오류 또는 회원가입 실패");
             console.log(error);
-            // TODO: 회원가입 실패 모달 띄우기
+        }
+    };
+
+    const handleEmailExist = async () => {
+        // 이메일 중복 검사
+        try {
+            const result = await getCheckEmail({
+                email,
+                role: 'ROLE_' + memberType,
+            });
+
+            if (isEmailFilled && isValidEmail(email) && result?.result) {
+                setIsEmailCheckOK(true);
+            } else {
+                setIsEmailCheckOK(false);
+            }
+        } catch (error) {
+            alert("이메일 중복 검사 실패");
+            console.log(error);
         }
     };
 
@@ -195,16 +213,36 @@ export default function SignUp() {
                                         type="text"
                                         value={email}
                                         placeholder="이메일 입력"
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                            handleEmailExist();
+                                        }}
                                         className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
+                                    <button
+                                        onClick={() => {
+                                            setIsEmailCheckButtonClick(true);
+                                            handleEmailExist();
+                                        }}
+                                        className="w-32 h-15 p-3 bg-white text-sm border-2 border-main-font"
+                                    >
+                                        중복 검사
+                                    </button>
                                 </div>
                                 <div className="text-xs text-point-positive mt-2">
-                                    {!isEmailFilled
-                                        ? ""
-                                        : isValidEmail(email)
-                                            ? <p className="text-xs text-point-positive mt-2">사용 가능한 이메일입니다.</p>
-                                            : <p className="text-xs text-point-negative mt-2">입력한 이메일을 확인해주세요.</p>
+                                    {/* TODO: 이메일 중복 검사 API 구현되면 진행 */}
+                                    {
+                                        isEmailCheckButtonClick
+                                            ? (
+                                                isEmailCheckOK
+                                                    ? <p className="text-xs text-point-positive mt-2">사용 가능한 이메일입니다.</p>
+                                                    : (
+                                                        !isEmailFilled || !isValidEmail(email)
+                                                            ? <p className="text-xs text-point-negative mt-2">입력한 이메일을 확인해주세요.</p>
+                                                            : <p className="text-xs text-point-negative mt-2">이미 존재하는 이메일입니다.</p>
+                                                    )
+                                            )
+                                            : ""
                                     }
                                 </div>
                             </div>

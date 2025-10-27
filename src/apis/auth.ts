@@ -1,7 +1,7 @@
 import { AddCartReq, AddCartRes, EditCartReq, EmptyCartRes, TotalCartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { MedicineDetailRes, PharmacyOrderRes, RankingRes, TodaysRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
-import { SignupReq, SignupRes } from "@/types/signup/signup";
+import { MedicineDetailRes, PharmacyOrderRes, RankingRes, TodaysRes, ViewOrderDetailRes, WholesaleDetailRes } from "@/types/pharmacy/order";
+import { CheckEmailReq, CheckEmailRes, SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
 const auth = (axiosInstance: AxiosInstance) => ({
@@ -24,6 +24,16 @@ const auth = (axiosInstance: AxiosInstance) => ({
         } else {
             console.log("accesstoken 저장 실패");
         }
+        return response.data;
+    },
+
+    checkEmailExist: async (data: CheckEmailReq): Promise<CheckEmailRes> => {
+        const response = await axiosInstance.get<CheckEmailRes>(
+            '/auth/check-email',
+            {
+                params: data
+            }
+        );
         return response.data;
     },
 
@@ -105,7 +115,17 @@ const auth = (axiosInstance: AxiosInstance) => ({
         return response.data;
     },
 
-
+    viewWholesaleDetail: async (
+        id: number
+    ): Promise<WholesaleDetailRes> => {
+        const response = await axiosInstance.get<WholesaleDetailRes>(
+            `/medicine/${id}/wholesale-list`,
+            {
+                params: { id }
+            }
+        );
+        return response.data;
+    }
 });
 
 export default auth;
