@@ -90,12 +90,19 @@ const auth = (axiosInstance: AxiosInstance) => ({
         return response.data;
     },
 
-    viewMedicineDetail: async (id: number): Promise<MedicineDetailRes> => {
+    viewMedicineDetail: async (
+        id: number,
+    ): Promise<MedicineDetailRes> => {
         const response = await axiosInstance.get<MedicineDetailRes>(
-            `/medicine/${id}`
+            `/medicine/${id}`,
+            {
+                params: { id }
+            }
         );
         return response.data;
     },
+
+
 });
 
 export default auth;

@@ -26,7 +26,7 @@ export default function MedicineDetail() {
         try {
             if (selectedMedNumber) {
                 const response = await getMedicineDetail(selectedMedNumber);
-
+                console.log(response);
                 if (response) {
                     setMedicine(response);
                 } else {
@@ -142,7 +142,7 @@ export default function MedicineDetail() {
                 <div className="flex flex-col justify-center w-[400px] border border-gray-200 rounded-lg p-4 space-y-2">
                     <div className="flex flex-row items-center justify-around font-medium text-lg">
                         <span className="text-main-font w-[40%]">단위</span>
-                        <span className="w-[60%]">{medicine?.unitQty}</span>
+                        <span className="w-[60%]">{`${medicine?.unitQty}${medicine?.innerUnit}`}</span>
                     </div>
                     <div className="w-full h-[1px] bg-gray-300 my-5 justify-center" />
                     <div className="flex flex-row items-center justify-around gap-4 text-sm font-medium text-sub-font">
@@ -156,10 +156,6 @@ export default function MedicineDetail() {
                     <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
                         <span className="w-[40%]">보험코드</span>
                         <span className="w-[60%]">{medicine?.insuranceCode}</span>
-                    </div>
-                    <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
-                        <span className="w-[40%]">보험코드</span>
-                        <span className="w-[60%]">{medicine?.containerUnit}</span>
                     </div>
                 </div>
             </div>

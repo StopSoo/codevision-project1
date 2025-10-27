@@ -1,4 +1,4 @@
-import { DataType } from '@/components/order/AnalysisList';
+import { DataType } from './medicine';
 import { CartDetailItem } from '../cart/cart';
 import { MedicineDetailData } from './medicine';
 /* 약국 - 오늘의 주문 */

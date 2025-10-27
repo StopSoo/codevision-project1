@@ -180,7 +180,7 @@ export default function AnalysisList() {
                                         </div>
 
                                         <div className="flex flex-row flex-1 text-main-font text-center text-[11px]">
-                                            <span className="w-[50%]">{String(analysis.unitQty) + analysis.innerUnit}</span>
+                                            <span className="w-[50%]">{String(analysis.unitQty) + analysis.innerUnit} {analysis.containerUnit ? `(${analysis.containerUnit})` : null}</span>
                                             <span className="w-[50%]">{analysis.expectedQty}</span>
                                         </div>
                                     </button>
