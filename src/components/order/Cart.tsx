@@ -14,7 +14,7 @@ export default function Cart() {
         const numValue = parseInt(value) || 0;
         try {
             if (numValue > 0) {
-                const result = await AuthAPI.editQuantity(Number(id), Number(value));
+                const result = await AuthAPI.editQuantity(Number(id), { quantity: Number(value) });
                 if (result) {
                     updateQuantity(id, numValue);
                     console.log("수량 변경 성공");
@@ -71,7 +71,7 @@ export default function Cart() {
                 <div className="flex flex-col gap-3">
                     {cart.map((item) => (
                         <div
-                            key={item.id}
+                            key={item.medicineId}
                             className="border border-gray-200 rounded-lg p-4 flex flex-col gap-3"
                         >
                             <div className="flex flex-row items-start justify-between">
@@ -100,14 +100,14 @@ export default function Cart() {
                                                 max={item.available}
                                                 placeholder="0"
                                                 value={item.quantity || ""}
-                                                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                                onChange={(e) => handleQuantityChange(String(item.medicineId), e.target.value)}
                                                 className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
                                             />
                                         </div>
                                     </div>
                                 </div>
                                 <button
-                                    onClick={() => handleRemoveItem(item.id)}
+                                    onClick={() => handleRemoveItem(String(item.medicineId))}
                                     className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-colors transition-transform"
                                 >
                                     <VscChromeClose size={28} />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../common/Header";
-import { useCartModalStore, useCautionModalStore, useDateModalStore, useLogoutModalStore, useMemberModalStore, useMemberStore, useOrderModalStore } from "@/store/store";
+import { useAnalysisStore, useCartModalStore, useCautionModalStore, useDateModalStore, useLogoutModalStore, useMedRankingStore, useMemberModalStore, useMemberStore, useOrderModalStore, useSelectedMedStore } from "@/store/store";
 import CartModal from "../modal/CartModal";
 import MemberModal from "../modal/MemberModal";
 import NotiModal from "../modal/NotiModal";
@@ -13,22 +13,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen: isDateModalOpen, setIsModalClose: setIsDateModalClose } = useDateModalStore();
     const { isModalOpen: isMemberModalOpen, setIsModalClose: setIsMemberModalClose } = useMemberModalStore();
     const { isModalOpen: isLogoutModalOpen, setIsModalOpen: setIsLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
-    const { member } = useMemberStore();
+    const { setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
+    const { setButtonOff: setMedRankingButtonOff } = useMedRankingStore();
+    const { setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
+    const { member, setLogout } = useMemberStore();
+
+    const handleClickLogoutYes = () => {
+        setLogout();
+        setIsLogoutModalClose();
+        setAnalysisButtonOff();
+        setMedRankingButtonOff();
+        setSelectedMedNumber(null);
+        window.location.href = '/';
+    }
 
     useEffect(() => {
         setUnauthorizedHandler(() => {
             setIsLogoutModalOpen();
         });
     }, [setIsLogoutModalOpen]);
-
-    useEffect(() => {
-        if (isLogoutModalOpen) {
-            setTimeout(() => {
-                setIsLogoutModalClose();
-                window.location.href = '/';
-            }, 3000);
-        }
-    }, [isLogoutModalOpen, setIsLogoutModalClose]);
 
     return (
         <div className="flex flex-col w-full h-screen">
@@ -37,7 +40,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 isLogoutModalOpen
                     ? <NotiModal
                         type='alert'
-                        message={`3초 후 로그아웃되고\n로그인 페이지로 이동합니다.`}
+                        message={`로그아웃하시겠습니까?`}
+                        hasFooter={true}
+                        onClickYes={handleClickLogoutYes}
+                        onClickNo={setIsLogoutModalClose}
                         onClose={setIsLogoutModalClose}
                     />
                     : null

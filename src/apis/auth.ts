@@ -1,6 +1,6 @@
-import { AddCartReq, CartRes } from "@/types/cart/cart";
+import { AddCartReq, AddCartRes, EditCartReq, EmptyCartRes, TotalCartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { MedicineDetailRes, PharmacyOrderRes, TodaysRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
+import { MedicineDetailRes, PharmacyOrderRes, RankingRes, TodaysRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
 import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -32,26 +32,33 @@ const auth = (axiosInstance: AxiosInstance) => ({
     //     // await axiosInstance.post('/auth/logout');
     // },
 
-    addCart: async (item: AddCartReq): Promise<CartRes> => {
-        const response = await axiosInstance.post<CartRes>('/carts/items', item);
-        return response.data;
-    },
-
-    cancelCart: async (cartItemId: number): Promise<CartRes> => {
-        const response = await axiosInstance.delete<CartRes>(`/carts/items/${cartItemId}`);
-        return response.data;
-    },
-
-    editQuantity: async (cartItemId: number, quantity: number): Promise<CartRes> => {
-        const response = await axiosInstance.patch<CartRes>(
-            `/carts/items/${cartItemId}`,
-            { quantity }
+    addCart: async (item: AddCartReq): Promise<AddCartRes> => {
+        const response = await axiosInstance.post<AddCartRes>(
+            '/carts/items',
+            item
         );
         return response.data;
     },
 
-    viewAllCart: async (): Promise<CartRes> => {
-        const response = await axiosInstance.get<CartRes>('/carts');
+    cancelCart: async (cartItemId: number): Promise<EmptyCartRes> => {
+        const response = await axiosInstance.delete<EmptyCartRes>(
+            `/carts/items/${cartItemId}`
+        );
+        return response.data;
+    },
+
+    editQuantity: async (cartItemId: number, quantity: EditCartReq): Promise<EmptyCartRes> => {
+        const response = await axiosInstance.patch<EmptyCartRes>(
+            `/carts/items/${cartItemId}`,
+            quantity
+        );
+        return response.data;
+    },
+
+    viewAllCart: async (): Promise<TotalCartRes> => {
+        const response = await axiosInstance.get<TotalCartRes>(
+            '/carts'
+        );
         return response.data;
     },
 
@@ -71,20 +78,16 @@ const auth = (axiosInstance: AxiosInstance) => ({
 
     viewTodaysOrder: async (
         date: string,
-        config?: {
-            params: {
-                scope: string
-            }
-        }
+        scope?: string
     ): Promise<TodaysRes> => {
         const response = await axiosInstance.get<TodaysRes>(
-            `/pharmacy/today-order/${date}`, config
+            `/pharmacy/today-order/${date}?scope=${scope}`,
         );
         return response.data;
     },
 
-    viewMedRanking: async (): Promise<TodaysRes> => {
-        const response = await axiosInstance.get<TodaysRes>(
+    viewMedRanking: async (): Promise<RankingRes> => {
+        const response = await axiosInstance.get<RankingRes>(
             '/pharmacy/today-ranking'
         );
         return response.data;

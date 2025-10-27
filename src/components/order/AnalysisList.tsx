@@ -13,51 +13,6 @@ export default function AnalysisList() {
     const [weekData, setWeekData] = useState<AnalysisItem[]>([]);
     const [monthData, setMonthData] = useState<AnalysisItem[]>([]);
 
-    const handleTodaysOrderList = async () => {
-        try {
-            const todayDate = new Date().toISOString().split('T')[0];
-
-            const [dayRes, dowRes, weekRes, monthRes] = await Promise.all([
-                getTodaysOrderList({ date: todayDate, scope: 'DAY' }),
-                getTodaysOrderList({ date: todayDate, scope: 'DOW' }),
-                getTodaysOrderList({ date: todayDate, scope: 'WEEK' }),
-                getTodaysOrderList({ date: todayDate, scope: 'MONTH' }),
-            ]);
-
-            if (dayRes?.items) {
-                const newDayData = dayRes.items.map((item) => ({
-                    ...item,
-                    sort: 'DAY'
-                }));
-                setDayData(newDayData);
-                setResult(newDayData); // 일별 필터링이 기본값
-            }
-            if (dowRes?.items) {
-                const newDowData = dowRes.items.map((item) => ({
-                    ...item,
-                    sort: 'DOW'
-                }));
-                setDowData(newDowData);
-            }
-            if (weekRes?.items) {
-                const newWeekData = weekRes.items.map((item) => ({
-                    ...item,
-                    sort: 'WEEK'
-                }));
-                setWeekData(newWeekData);
-            }
-            if (monthRes?.items) {
-                const newMonthData = monthRes.items.map((item) => ({
-                    ...item,
-                    sort: 'MONTH'
-                }));
-                setMonthData(newMonthData);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     useEffect(() => {
         const newResult = [
             ...(filterList.includes('DAY') ? dayData : []),
@@ -65,12 +20,58 @@ export default function AnalysisList() {
             ...(filterList.includes('WEEK') ? weekData : []),
             ...(filterList.includes('MONTH') ? monthData : []),
         ];
-
         setResult(newResult);
-    }, [click, filterList, setResult, dayData, dowData, weekData, monthData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [click, filterList, dayData, dowData, weekData, monthData]);
 
     useEffect(() => {
+        const handleTodaysOrderList = async () => {
+            try {
+                const todayDate = new Date().toISOString().split('T')[0];
+
+                const [dayRes, dowRes, weekRes, monthRes] = await Promise.all([
+                    getTodaysOrderList({ date: todayDate, scope: 'DAY' }),
+                    getTodaysOrderList({ date: todayDate, scope: 'DOW' }),
+                    getTodaysOrderList({ date: todayDate, scope: 'WEEK' }),
+                    getTodaysOrderList({ date: todayDate, scope: 'MONTH' }),
+                ]);
+
+                if (dayRes?.items) {
+                    const newDayData = dayRes.items.map((item) => ({
+                        ...item,
+                        sort: 'DAY'
+                    }));
+                    setDayData(newDayData);
+                    setResult(newDayData); // 일별 필터링이 기본값
+                }
+                if (dowRes?.items) {
+                    const newDowData = dowRes.items.map((item) => ({
+                        ...item,
+                        sort: 'DOW'
+                    }));
+                    setDowData(newDowData);
+                }
+                if (weekRes?.items) {
+                    const newWeekData = weekRes.items.map((item) => ({
+                        ...item,
+                        sort: 'WEEK'
+                    }));
+                    setWeekData(newWeekData);
+                }
+                if (monthRes?.items) {
+                    const newMonthData = monthRes.items.map((item) => ({
+                        ...item,
+                        sort: 'MONTH'
+                    }));
+                    setMonthData(newMonthData);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        // TODO: 성능을 위한 데이터 캐싱 적용 
         handleTodaysOrderList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -139,7 +140,7 @@ export default function AnalysisList() {
                                 : result.map((analysis, index) =>
                                     <button
                                         key={index}
-                                        className={(index !== selectedNumber)
+                                        className={(analysis.medicineId !== selectedNumber)
                                             ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
                                             : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                         }

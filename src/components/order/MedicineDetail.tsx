@@ -1,18 +1,20 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
-import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
-import { postAddCart } from "@/apis/cart";
+// import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
+// import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
+import { useSelectedMedStore } from "@/store/store";
+import { MedicineDetailData } from "@/types/pharmacy/medicine";
+// import { postAddCart } from "@/apis/cart";
 import { getMedicineDetail } from "@/apis/pharmacy";
 
 export default function MedicineDetail() {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
     const [medicine, setMedicine] = useState<MedicineDetailData>(); // 선택한 약품 정보
 
-    const { setIsModalOpen } = useCartModalStore();
-    const { addToCart, isAbleToAdd } = useCartStore();
-    const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
-    const { selectedNumber: selectedMedNumber, setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
+    // const { setIsModalOpen } = useCartModalStore();
+    // const { addToCart, isAbleToAdd } = useCartStore();
+    // const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
+    const { selectedNumber: selectedMedNumber } = useSelectedMedStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -26,7 +28,7 @@ export default function MedicineDetail() {
         try {
             if (selectedMedNumber) {
                 const response = await getMedicineDetail(selectedMedNumber);
-                console.log(response);
+
                 if (response) {
                     setMedicine(response);
                 } else {
@@ -40,63 +42,32 @@ export default function MedicineDetail() {
 
     useEffect(() => {
         // 약품 정보 불러오기
-        handleMedDetail();
+        if (selectedMedNumber) {
+            handleMedDetail();
+        }
     }, [selectedMedNumber]);
 
     // const handleAddToCart = async (variant: MedicineVariant) => {
-    //     const quantity = quantities[variant.name] || 0;
-
-    //     const cartItem = {
-    //         id: medicine.medicineId,
-    //         name: medicine.productName,
-    //         dosage: medicine.standard,
-    //         unit: medicine.unitQty,
-    //         price: variant.price,
-    //         quantity: quantity,
-    //         wholesaler: variant.name,
-    //         manufacturer: medicine.productCompany,
-    //         code: medicine.insuranceCode,
-    //         available: variant.available,
-    //     };
-
-    //     if (quantity > 0) {
-    //         // 모달창 열기 
-    //         if (isAbleToAdd(cartItem)) {
-    //             setIsModalOpen();
-    //             addToCart(cartItem); // 장바구니에 담기
-    //             setQuantities(prev => ({ // 선택 수량 초기화
-    //                 ...prev,
-    //                 [variant.name]: 0
-    //             }));
-    //         } else {
-    //             setIsCautionModalOpen();
-    //             setQuantities(prev => ({ // 선택 수량 초기화
-    //                 ...prev,
-    //                 [variant.name]: 0
-    //             }));
-    //         }
-    //     }
-
     //     try {
     //         const quantity = quantities[variant.name] || 0;
     //         // TODO: API 연결 시 수정 필요
     //         const result = await postAddCart({
-    //             medicineId: medicine.medicineId,
+    //             medicineId: medicine!.medicineId,
     //             wholesaleId,
     //             quantity,
     //         });
 
     //         if (result) {
     //             const cartItem = {
-    //                 id: `${medicine.code}-${variant.name}-${medicine.unit}`,
-    //                 name: medicine.name,
-    //                 dosage: medicine.dosage,
-    //                 unit: medicine.unit,
+    //                 medicineId: medicine!.medicineId,
+    //                 name: medicine!.productName,
+    //                 dosage: medicine!.standard,
+    //                 unit: String(medicine!.unitQty),
     //                 price: variant.price,
     //                 quantity: quantity,
     //                 wholesaler: variant.name,
-    //                 manufacturer: medicine.manufacturer,
-    //                 code: medicine.code,
+    //                 manufacturer: medicine!.productCompany,
+    //                 code: medicine!.insuranceCode,
     //                 available: variant.available,
     //             };
 
@@ -170,7 +141,7 @@ export default function MedicineDetail() {
                         <span>선택 수량</span>
                     </div>
                     {/* TODO: 도매상 정보가 API에 업데이트되면 수정 */}
-                    {/* {selectedMedicine.variants.map((variant, index) => (
+                    {/* {medicine?.variants.map((variant, index) => (
                         <div
                             key={index}
                             className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"

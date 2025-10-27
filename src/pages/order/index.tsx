@@ -7,37 +7,6 @@ import Image from "next/image";
 
 import { useAnalysisStore, useMedRankingStore, useSelectedMedStore } from "@/store/store";
 import MedRanking from "@/components/order/MedRanking";
-// API 구조 보고 수정할 것
-const medicineDetailData = {
-    name: "스틸렌투엑스정 90mg",
-    unit: "30T",
-    dosage: "90mg",
-    manufacturer: "대웅제약",
-    code: "642507290",
-    variants: [
-        {
-            name: "도매상 A",
-            price: 6150,
-            margin: "+ 10.3%",
-            available: 40,
-            unit: "30T"
-        },
-        {
-            name: "도매상 B",
-            price: 6150,
-            margin: "+ 7.1%",
-            available: 35,
-            unit: "30T"
-        },
-        {
-            name: "도매상 C",
-            price: 6150,
-            margin: "+ 5.7%",
-            available: 80,
-            unit: "30T"
-        }
-    ]
-};
 
 export default function Order() {
     const { click: clickAnalysis } = useAnalysisStore();

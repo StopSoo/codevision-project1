@@ -13,15 +13,18 @@ export default function MedRanking() {
 
             if (ranking?.items) {
                 setResult(ranking.items);
+                console.log(ranking.items);
             }
         } catch (error) {
             console.error(error);
         }
     };
-
     useEffect(() => {
-        handleMedRanking();
-    });
+        if (result.length === 0) {
+            handleMedRanking();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="h-full flex flex-col">
@@ -45,11 +48,11 @@ export default function MedRanking() {
                             : result.map((data, index) =>
                                 <button
                                     key={index}
-                                    className={(index !== selectedMedNumber)
+                                    className={(data.medicineId !== selectedMedNumber)
                                         ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
                                         : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                     }
-                                    onClick={() => setSelectedMedNumber(index)}
+                                    onClick={() => setSelectedMedNumber(data.medicineId)}
                                 >
                                     <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
                                         <span className="text-sub-color text-lg">{index + 1}</span>

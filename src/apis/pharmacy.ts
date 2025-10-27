@@ -7,10 +7,7 @@ export const getTodaysOrderList = async ({ date, scope = 'DAY' }: {
 }) => {
     try {
         const response = await AuthAPI.viewTodaysOrder(
-            date,
-            {
-                params: scope ? { scope } : { scope: 'DAY' }
-            }
+            date, scope
         );
         return response.data ?? { items: [] };
     } catch (error) {

@@ -17,12 +17,12 @@ export type PharmacyRankingStore = {
     click: boolean; // 버튼 클릭 여부
     setButtonOn: () => void;
     setButtonOff: () => void;
-    result: DataType[]; // 분석 결과 리스트
-    setResult: (newResult: DataType[]) => void;
+    result: RankingItem[]; // 분석 결과 리스트
+    setResult: (newResult: RankingItem[]) => void;
 }
 
 /* 약국 주문 API */
-// 오늘의 주문, 요즘 약국 랭킹 분석
+// 오늘의 주문
 interface AnalysisItem {
     medicineId: number;
     productName: string;
@@ -35,12 +35,30 @@ interface AnalysisItem {
     expectedQty: number;
     probOrder: number;
     score: number;
-    orderRate: number;
 }
 
 export interface TodaysRes {
     data: {
         items: AnalysisItem[];
+    }
+}
+
+// 요즘 약국 랭킹 분석
+interface RankingItem {
+    medicineId: number;
+    productName: string;
+    standard: string;
+    unitQty: number;
+    innerUnit: string;
+    containerUnit: string;
+    insuranceCode: string;
+    productCompany: string;
+    orderRate: number;
+}
+
+export interface RankingRes {
+    data: {
+        items: RankingItem[];
     }
 }
 

@@ -1,4 +1,4 @@
-import { useMemberStore, useMemberModalStore, useLogoutModalStore, useAnalysisStore, useMedRankingStore, useSelectedMedStore } from "@/store/store";
+import { useMemberModalStore, useLogoutModalStore } from "@/store/store";
 import { useRouter } from "next/router";
 
 interface MemberModalProps {
@@ -6,12 +6,9 @@ interface MemberModalProps {
 }
 
 export default function MemberModal({ onClose }: MemberModalProps) {
-    const { setLogout } = useMemberStore();
+
     const { setIsModalClose } = useMemberModalStore();
-    const { setIsModalOpen: setIsLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
-    const { setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
-    const { setButtonOff: setMedRankingButtonOff } = useMedRankingStore();
-    const { setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
+    const { setIsModalOpen: setIsLogoutModalOpen } = useLogoutModalStore();
     const router = useRouter();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -22,16 +19,8 @@ export default function MemberModal({ onClose }: MemberModalProps) {
     };
 
     const handleLogout = () => {
-        setLogout();
         setIsModalClose();
         setIsLogoutModalOpen(); // 로그아웃 알림창
-        setTimeout(() => {
-            setIsLogoutModalClose();
-            setAnalysisButtonOff();
-            setMedRankingButtonOff();
-            setSelectedMedNumber(null);
-            router.push('/'); // 로그인 페이지로 이동
-        }, 3000);
     };
 
     return (

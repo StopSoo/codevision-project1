@@ -1,5 +1,5 @@
 import Button from "./Button";
-import { useAnalysisStore, useMedRankingStore } from "@/store/store";
+import { useAnalysisStore, useMedRankingStore, useSelectedMedStore } from "@/store/store";
 
 interface AreaProps {
     size: 's' | 'm' | 'l' | 'xl' | 'default';
@@ -13,6 +13,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
 
     const { setButtonOn: setAnalysisButtonOn, setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
     const { setButtonOn: setMedButtonOn, setButtonOff: setMedButtonOff } = useMedRankingStore();
+    const { setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
 
     if (sizeMap[size] !== 'full') {
         return (
@@ -31,8 +32,9 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
                             height={70}
                             bgColor="main-color"
                             onClick={() => {
-                                setMedButtonOff();
+                                setSelectedMedNumber(null);
                                 setAnalysisButtonOn();
+                                setMedButtonOff();
                             }}
                         />
                         <Button
@@ -40,6 +42,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
                             height={70}
                             bgColor="main-logo"
                             onClick={() => {
+                                setSelectedMedNumber(null);
                                 setAnalysisButtonOff();
                                 setMedButtonOn();
                             }}

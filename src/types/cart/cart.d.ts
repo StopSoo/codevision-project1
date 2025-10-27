@@ -1,6 +1,6 @@
 /* 약국 - 장바구니 */
 export type CartItem = {
-    id: string;
+    medicineId: number;
     name: string;
     dosage: string;
     unit: string;
@@ -31,6 +31,7 @@ export interface CartItemApi {
     unitPrice: number;
     itemTotalPrice: number;
 }
+
 // 장바구니 담기
 export interface AddCartReq {
     medicineId: number;
@@ -38,11 +39,13 @@ export interface AddCartReq {
     quantity: number;
 }
 
-export interface CartRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: CartItemApi;
+export interface AddCartRes {
+    data: CartItemApi;
+}
+
+// 장바구니 부분 취소 & 수량 변경
+export interface EmptyCartRes {
+    data: Record<string, never>;
 }
 
 // 장바구니 수량 변경
@@ -62,10 +65,7 @@ export interface CartDetailItem {
 }
 
 export interface TotalCartRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: {
+    data: {
         items: CartDetailItem[];
         totalQuantity: number;
         totalPrice: number;

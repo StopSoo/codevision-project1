@@ -181,6 +181,7 @@ export default function Home() {
           ? <NotiModal
             type='check'
             message='로그인되었습니다.'
+            hasFooter={false}
             onClose={setIsModalClose}
           />
           : null
@@ -192,6 +193,7 @@ export default function Home() {
           ? <NotiModal
             type='alert'
             message='로그인에 실패했습니다.'
+            hasFooter={false}
             onClose={setIsFailModalClose}
           />
           : null

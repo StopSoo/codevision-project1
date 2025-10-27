@@ -3,10 +3,15 @@ import Image from "next/image";
 interface NotiModalProps {
     type: 'check' | 'alert';
     message: string; // 모달창 안내 멘트
+    hasFooter: boolean; // 예/아니오 버튼 유무
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
+    onClickYes?: () => void;
+    onClickNo?: () => void;
 }
 
-export default function NotiModal({ type, message, onClose }: NotiModalProps) {
+export default function NotiModal({
+    type, message, hasFooter, onClickYes, onClickNo, onClose
+}: NotiModalProps) {
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
             onClose();
@@ -18,7 +23,7 @@ export default function NotiModal({ type, message, onClose }: NotiModalProps) {
             className="fixed inset-0 z-50 flex items-center justify-center pt-20 bg-main-font bg-opacity-30"
             onClick={handleBackdropClick}
         >
-            <div className="bg-white rounded-xl shadow-lg px-6 py-4 flex flex-col items-center justify-center gap-8 min-w-[400px] min-h-[300px] animate-slideDown">
+            <div className="bg-white rounded-xl shadow-lg px-6 py-6 flex flex-col items-center justify-center gap-8 min-w-[400px] min-h-[300px] animate-slideDown">
                 <div className="flex-shrink-0">
                     {
                         type === 'check'
@@ -38,7 +43,29 @@ export default function NotiModal({ type, message, onClose }: NotiModalProps) {
                             />
                     }
                 </div>
-                <p className="text-base text-main-font text-lg flex-0 whitespace-pre-line text-center">{message}</p>
+
+                <p className="text-base text-main-font text-lg flex-0 whitespace-pre-line text-center">
+                    {message}
+                </p>
+
+                {
+                    hasFooter
+                        ? <div className="flex flex-row w-full items-center justify-center gap-3">
+                            <button
+                                className="w-full px-6 py-3 border-2 rounded-xl hover:bg-selected-bg hover:border-selected-line"
+                                onClick={onClickYes}
+                            >
+                                예
+                            </button>
+                            <button
+                                className="w-full px-6 py-3 border-2 rounded-xl hover:bg-selected-bg hover:border-selected-line"
+                                onClick={onClickNo}
+                            >
+                                아니오
+                            </button>
+                        </div>
+                        : null
+                }
             </div>
         </div>
     );

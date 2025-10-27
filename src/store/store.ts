@@ -132,11 +132,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
     cart: [],
     addToCart: (item) => set((state) => {
         // 동일한 상품이 존재할 경우 수량만 추가
-        const existingItem = state.cart.find(cartItem => cartItem.id === item.id);
+        const existingItem = state.cart.find(cartItem => cartItem.medicineId === item.medicineId);
         if (existingItem) {
             return {
                 cart: state.cart.map(cartItem =>
-                    cartItem.id === item.id
+                    cartItem.medicineId === item.medicineId
                         ? (cartItem.quantity + item.quantity <= item.available
                             ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
                             : cartItem
@@ -149,11 +149,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
         return { cart: [...state.cart, item] };
     }),
     removeFromCart: (id) => set((state) => ({
-        cart: state.cart.filter(item => item.id !== id)
+        cart: state.cart.filter(item => String(item.medicineId) !== id)
     })),
     updateQuantity: (id, quantity) => set((state) => ({
         cart: state.cart.map(item =>
-            item.id === id ? { ...item, quantity } : item
+            String(item.medicineId) === id ? { ...item, quantity } : item
         )
     })),
     clearCart: () => set({ cart: [] }),
@@ -163,11 +163,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
     },
     isAbleToAdd: (item) => {
         const state = get();
-        const isExist = state.cart.some(cartItem => cartItem.id === item.id);
+        const isExist = state.cart.some(cartItem => cartItem.medicineId === item.medicineId);
         // 해당 물품이 존재할 경우에만 수량 체크
         if (isExist) {
             return state.cart.some(cartItem =>
-                cartItem.id === item.id &&
+                cartItem.medicineId === item.medicineId &&
                 cartItem.quantity + item.quantity <= item.available
             )
         } else {

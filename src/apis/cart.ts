@@ -8,19 +8,11 @@ export const postAddCart = async ({ medicineId, wholesaleId, quantity }: AddCart
             medicineId, wholesaleId, quantity
         });
 
-        const { isSuccess, result } = response;
-
-        if (isSuccess) {
-            return result;
+        if ("data" in response) {
+            return response.data;
         }
     } catch (error) {
         const err = error as AxiosError;
-        if (err.response?.status === 401) {
-            // console.error("아이디 또는 비밀번호가 일치하지 않습니다.");
-        } else if (err.response?.status === 404) {
-            // console.error("존재하지 않는 계정입니다.");
-        } else {
-            // console.error("로그인 실패:", err.message);
-        }
+        console.error("postAddCart error", err);
     }
 }
