@@ -71,7 +71,7 @@ export default function AnalysisList() {
 
     useEffect(() => {
         handleTodaysOrderList();
-    });
+    }, []);
 
     return (
         <div className="h-full flex flex-col">
