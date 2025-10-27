@@ -71,7 +71,7 @@ export default function Order() {
                 <Area size='default' hasHeader={true} title={"약품 담기"}>
                     {
                         selectedMedNumber !== null
-                            ? <MedicineDetail medicine={medicineDetailData} />
+                            ? <MedicineDetail />
                             : <div className="flex flex-col h-full items-center justify-center">
                                 <Image
                                     src="/assets/med_icon.png"

@@ -143,7 +143,7 @@ export default function AnalysisList() {
                                             ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
                                             : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                         }
-                                        onClick={() => setSelectedNumber(index)}
+                                        onClick={() => setSelectedNumber(analysis.medicineId)}
                                     >
                                         <div className="flex flex-row items-center font-medium text-main-font text-left gap-2">
                                             <p

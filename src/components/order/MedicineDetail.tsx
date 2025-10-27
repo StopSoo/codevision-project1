@@ -1,19 +1,18 @@
 import Image from "next/image";
-import { useState } from "react";
-import { useCartStore, useCartModalStore, useCautionModalStore } from "@/store/store";
+import { useEffect, useState } from "react";
+import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
 import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
-// import { postAddCart } from "@/apis/cart";
+import { postAddCart } from "@/apis/cart";
+import { getMedicineDetail } from "@/apis/pharmacy";
 
-interface MedicineDetailProps {
-    medicine: MedicineDetailData;
-}
-
-export default function MedicineDetail({ medicine }: MedicineDetailProps) {
+export default function MedicineDetail() {
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const [medicine, setMedicine] = useState<MedicineDetailData>(); // 선택한 약품 정보
 
     const { setIsModalOpen } = useCartModalStore();
     const { addToCart, isAbleToAdd } = useCartStore();
     const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
+    const { selectedNumber: selectedMedNumber, setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
 
     const handleQuantityChange = (variantName: string, value: string) => {
         const numValue = parseInt(value) || 0;
@@ -23,96 +22,119 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
         }));
     };
 
-    const handleAddToCart = async (variant: MedicineVariant) => {
-        const quantity = quantities[variant.name] || 0;
+    const handleMedDetail = async () => {
+        try {
+            if (selectedMedNumber) {
+                const response = await getMedicineDetail(selectedMedNumber);
 
-        const cartItem = {
-            id: `${medicine.code}-${variant.name}-${medicine.unit}`,
-            name: medicine.name,
-            dosage: medicine.dosage,
-            unit: medicine.unit,
-            price: variant.price,
-            quantity: quantity,
-            wholesaler: variant.name,
-            manufacturer: medicine.manufacturer,
-            code: medicine.code,
-            available: variant.available,
-        };
-
-        if (quantity > 0) {
-            // 모달창 열기 
-            if (isAbleToAdd(cartItem)) {
-                setIsModalOpen();
-                addToCart(cartItem); // 장바구니에 담기
-                setQuantities(prev => ({ // 선택 수량 초기화
-                    ...prev,
-                    [variant.name]: 0
-                }));
-            } else {
-                setIsCautionModalOpen();
-                setQuantities(prev => ({ // 선택 수량 초기화
-                    ...prev,
-                    [variant.name]: 0
-                }));
+                if (response) {
+                    setMedicine(response);
+                } else {
+                    console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`);
+                }
             }
+        } catch (error) {
+            console.error(error);
         }
-        // try {
-        //     const quantity = quantities[variant.name] || 0;
-        //     // TODO: API 연결 시 수정 필요
-        //     const result = await postAddCart({
-        //         medicineId,
-        //         wholesaleId,
-        //         quantity,
-        //     });
-
-        //     if (result) {
-        //         const cartItem = {
-        //             id: `${medicine.code}-${variant.name}-${medicine.unit}`,
-        //             name: medicine.name,
-        //             dosage: medicine.dosage,
-        //             unit: medicine.unit,
-        //             price: variant.price,
-        //             quantity: quantity,
-        //             wholesaler: variant.name,
-        //             manufacturer: medicine.manufacturer,
-        //             code: medicine.code,
-        //             available: variant.available,
-        //         };
-
-        //         if (quantity > 0) {
-        //             // 모달창 열기 
-        //             if (isAbleToAdd(cartItem)) {
-        //                 setIsModalOpen();
-        //                 addToCart(cartItem); // 장바구니에 담기
-        //                 setQuantities(prev => ({ // 선택 수량 초기화
-        //                     ...prev,
-        //                     [variant.name]: 0
-        //                 }));
-        //             } else {
-        //                 setIsCautionModalOpen();
-        //                 setQuantities(prev => ({ // 선택 수량 초기화
-        //                     ...prev,
-        //                     [variant.name]: 0
-        //                 }));
-        //             }
-        //         }
-        //     }
-        // } catch (error) {
-        //     alert("장바구니에 담기 실패");
-        // }
     };
+
+    useEffect(() => {
+        // 약품 정보 불러오기
+        handleMedDetail();
+    }, [selectedMedNumber]);
+
+    // const handleAddToCart = async (variant: MedicineVariant) => {
+    //     const quantity = quantities[variant.name] || 0;
+
+    //     const cartItem = {
+    //         id: medicine.medicineId,
+    //         name: medicine.productName,
+    //         dosage: medicine.standard,
+    //         unit: medicine.unitQty,
+    //         price: variant.price,
+    //         quantity: quantity,
+    //         wholesaler: variant.name,
+    //         manufacturer: medicine.productCompany,
+    //         code: medicine.insuranceCode,
+    //         available: variant.available,
+    //     };
+
+    //     if (quantity > 0) {
+    //         // 모달창 열기 
+    //         if (isAbleToAdd(cartItem)) {
+    //             setIsModalOpen();
+    //             addToCart(cartItem); // 장바구니에 담기
+    //             setQuantities(prev => ({ // 선택 수량 초기화
+    //                 ...prev,
+    //                 [variant.name]: 0
+    //             }));
+    //         } else {
+    //             setIsCautionModalOpen();
+    //             setQuantities(prev => ({ // 선택 수량 초기화
+    //                 ...prev,
+    //                 [variant.name]: 0
+    //             }));
+    //         }
+    //     }
+
+    //     try {
+    //         const quantity = quantities[variant.name] || 0;
+    //         // TODO: API 연결 시 수정 필요
+    //         const result = await postAddCart({
+    //             medicineId: medicine.medicineId,
+    //             wholesaleId,
+    //             quantity,
+    //         });
+
+    //         if (result) {
+    //             const cartItem = {
+    //                 id: `${medicine.code}-${variant.name}-${medicine.unit}`,
+    //                 name: medicine.name,
+    //                 dosage: medicine.dosage,
+    //                 unit: medicine.unit,
+    //                 price: variant.price,
+    //                 quantity: quantity,
+    //                 wholesaler: variant.name,
+    //                 manufacturer: medicine.manufacturer,
+    //                 code: medicine.code,
+    //                 available: variant.available,
+    //             };
+
+    //             if (quantity > 0) {
+    //                 // 모달창 열기 
+    //                 if (isAbleToAdd(cartItem)) {
+    //                     setIsModalOpen();
+    //                     addToCart(cartItem); // 장바구니에 담기
+    //                     setQuantities(prev => ({ // 선택 수량 초기화
+    //                         ...prev,
+    //                         [variant.name]: 0
+    //                     }));
+    //                 } else {
+    //                     setIsCautionModalOpen();
+    //                     setQuantities(prev => ({ // 선택 수량 초기화
+    //                         ...prev,
+    //                         [variant.name]: 0
+    //                     }));
+    //                 }
+    //             }
+    //         }
+    //     } catch (error) {
+    //         alert("장바구니에 담기 실패");
+    //     }
+    // };
 
     return (
         <div className="flex flex-col space-y-6 h-full overflow-y-auto pr-2">
-            <h2 className="text-2xl font-medium text-main-font">{medicine.name}</h2>
+            <h2 className="text-2xl font-medium text-main-font">{medicine?.productName}</h2>
             <div className="flex flex-row gap-10">
 
                 <div className="w-40 border border-gray-200 rounded-lg flex items-center justify-center bg-white p-5">
+                    {/* TODO: API에 이미지 연동되면 수정 */}
                     <Image
                         src="/assets/med_icon.png"
                         width={150}
                         height={150}
-                        alt={medicine.name}
+                        alt="med default icon"
                         priority
                     />
                 </div>
@@ -120,28 +142,24 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                 <div className="flex flex-col justify-center w-[400px] border border-gray-200 rounded-lg p-4 space-y-2">
                     <div className="flex flex-row items-center justify-around font-medium text-lg">
                         <span className="text-main-font w-[40%]">단위</span>
-                        <span className="w-[60%]">{medicine.unit}</span>
+                        <span className="w-[60%]">{medicine?.unitQty}</span>
                     </div>
                     <div className="w-full h-[1px] bg-gray-300 my-5 justify-center" />
                     <div className="flex flex-row items-center justify-around gap-4 text-sm font-medium text-sub-font">
                         <span className="w-[40%]">규격</span>
-                        <span className="w-[60%]">{medicine.dosage}</span>
+                        <span className="w-[60%]">{medicine?.standard}</span>
                     </div>
                     <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
                         <span className="w-[40%]">제조사</span>
-                        <span className="w-[60%]">{medicine.manufacturer}</span>
+                        <span className="w-[60%]">{medicine?.productCompany}</span>
                     </div>
                     <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
                         <span className="w-[40%]">보험코드</span>
-                        <span className="w-[60%]">{medicine.code}</span>
+                        <span className="w-[60%]">{medicine?.insuranceCode}</span>
                     </div>
                     <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
                         <span className="w-[40%]">보험코드</span>
-                        <span className="w-[60%]">{medicine.code}</span>
-                    </div>
-                    <div className="flex flex-row items-center justify-around gap-4 text-sm text-sub-font">
-                        <span className="w-[40%]">보험코드</span>
-                        <span className="w-[60%]">{medicine.code}</span>
+                        <span className="w-[60%]">{medicine?.containerUnit}</span>
                     </div>
                 </div>
             </div>
@@ -155,7 +173,8 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                         <span>재고 수량</span>
                         <span>선택 수량</span>
                     </div>
-                    {medicine.variants.map((variant, index) => (
+                    {/* TODO: 도매상 정보가 API에 업데이트되면 수정 */}
+                    {/* {selectedMedicine.variants.map((variant, index) => (
                         <div
                             key={index}
                             className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"
@@ -184,12 +203,12 @@ export default function MedicineDetail({ medicine }: MedicineDetailProps) {
                                         src="/assets/cart_icon.png"
                                         width={25}
                                         height={25}
-                                        alt={medicine.name}
+                                        alt={variant.name}
                                     />
                                 </button>
                             </div>
                         </div>
-                    ))}
+                    ))} */}
                 </div>
             </div>
         </div>

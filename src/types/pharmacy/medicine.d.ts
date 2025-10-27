@@ -16,7 +16,7 @@ export type DataType = {
 // 약품 or 약국 회원 선택
 export type SelectedStore = {
     selectedNumber: number | null; // 선택한 약품/회원의 인덱스 번호 or 약품 번호
-    setSelectedNumber: (index: number | null) => void;
+    setSelectedNumber: (id: number | null) => void;
 }
 
 /* 약국 - 약품 담기 */
@@ -28,10 +28,12 @@ export type MedicineVariant = {
 };
 
 export type MedicineDetailData = {
-    name: string;
-    unit: string;
-    dosage: string;
-    manufacturer: string;
-    code: string;
-    variants: MedicineVariant[];
+    medicineId: number;
+    productName: string;
+    standard: string;
+    unitQty: number;
+    innerUnit: string;
+    containerUnit: string;
+    productCompany: string;
+    insuranceCode: string;
 };

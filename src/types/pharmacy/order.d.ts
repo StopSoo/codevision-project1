@@ -1,5 +1,6 @@
 import { DataType } from '@/components/order/AnalysisList';
 import { CartDetailItem } from '../cart/cart';
+import { MedicineDetailData } from './medicine';
 /* 약국 - 오늘의 주문 */
 export type TodaysOrderStore = {
     click: boolean; // 버튼 클릭 여부
@@ -42,6 +43,12 @@ export interface TodaysRes {
         items: AnalysisItem[];
     }
 }
+
+// 약품 담기
+export interface MedicineDetailRes {
+    data: MedicineDetailData;
+}
+
 
 // 주문 목록 조회
 interface ViewOrderListApi {

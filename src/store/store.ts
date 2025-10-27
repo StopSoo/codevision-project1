@@ -124,7 +124,7 @@ export const useMedRankingStore = create<PharmacyRankingStore>((set) => ({
 // 약품 선택
 export const useSelectedMedStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
-    setSelectedNumber: (index) => set({ selectedNumber: index }),
+    setSelectedNumber: (id) => set({ selectedNumber: id }),
 }))
 
 // 장바구니

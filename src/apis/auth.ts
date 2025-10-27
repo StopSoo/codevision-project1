@@ -1,6 +1,6 @@
 import { AddCartReq, CartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { PharmacyOrderRes, TodaysRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
+import { MedicineDetailRes, PharmacyOrderRes, TodaysRes, ViewOrderDetailRes } from "@/types/pharmacy/order";
 import { SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -88,7 +88,14 @@ const auth = (axiosInstance: AxiosInstance) => ({
             '/pharmacy/today-ranking'
         );
         return response.data;
-    }
+    },
+
+    viewMedicineDetail: async (id: number): Promise<MedicineDetailRes> => {
+        const response = await axiosInstance.get<MedicineDetailRes>(
+            `/medicine/${id}`
+        );
+        return response.data;
+    },
 });
 
 export default auth;
