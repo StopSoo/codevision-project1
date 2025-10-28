@@ -61,7 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 isCautionModalOpen
                     ? <CartModal
                         type='caution'
-                        message="재고 수량 초과입니다."
+                        message="예상 수량 초과입니다."
                         onClose={setIsCautionModalClose}
                     />
                     : null

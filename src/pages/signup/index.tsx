@@ -215,7 +215,7 @@ export default function SignUp() {
                                         placeholder="이메일 입력"
                                         onChange={(e) => {
                                             setEmail(e.target.value);
-                                            handleEmailExist();
+                                            setIsEmailCheckButtonClick(false);
                                         }}
                                         className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
@@ -230,7 +230,6 @@ export default function SignUp() {
                                     </button>
                                 </div>
                                 <div className="text-xs text-point-positive mt-2">
-                                    {/* TODO: 이메일 중복 검사 API 구현되면 진행 */}
                                     {
                                         isEmailCheckButtonClick
                                             ? (

@@ -1,22 +1,21 @@
 /* 약국 - 장바구니 */
 export type CartItem = {
     medicineId: number;
-    name: string;
-    dosage: string;
+    medicineName: string;
+    detailName: string;
     unit: string;
-    price: number;
+    unitPrice: number;
     quantity: number;
-    wholesaler: string;
-    manufacturer: string;
-    code: string;
+    itemTotalPrice: number;
+    wholesaleName: string;
     available: number;
 }
 
 export type CartStore = {
     cart: CartItem[];
     addToCart: (item: CartItem) => void;
-    removeFromCart: (id: string) => void;
-    updateQuantity: (id: string, quantity: number) => void;
+    removeFromCart: (cartItemId: number) => void;
+    updateQuantity: (cartItemId: number, quantity: number) => void;
     clearCart: () => void;
     getTotalPrice: () => number;
     isAbleToAdd: (item: CartItem) => boolean;
@@ -54,19 +53,19 @@ export interface EditCartReq {
 }
 
 // 장바구니 전체 조회
-export interface CartDetailItem {
-    medicineName: string;
-    detailName: string;
-    unit: string;
-    unitPrice: number;
-    quantity: number;
-    itemTotalPrice: number;
-    wholesaleName: string;
-}
+// export interface CartDetailItem {
+//     medicineName: string;
+//     detailName: string;
+//     unit: string;
+//     unitPrice: number;
+//     quantity: number;
+//     itemTotalPrice: number;
+//     wholesaleName: string;
+// }
 
 export interface TotalCartRes {
     data: {
-        items: CartDetailItem[];
+        items: CartItem[];
         totalQuantity: number;
         totalPrice: number;
     }

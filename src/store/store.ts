@@ -131,8 +131,12 @@ export const useSelectedMedStore = create<SelectedStore>((set) => ({
 export const useCartStore = create<CartStore>((set, get) => ({
     cart: [],
     addToCart: (item) => set((state) => {
-        // 동일한 상품이 존재할 경우 수량만 추가
-        const existingItem = state.cart.find(cartItem => cartItem.medicineId === item.medicineId);
+        // 약품 id, 단위, 도매상이 모두 동일한 상품이 존재할 경우 수량만 추가
+        const existingItem = state.cart.find(cartItem =>
+            cartItem.medicineId === item.medicineId
+            && cartItem.unit === item.unit
+            && cartItem.wholesaleName === item.wholesaleName
+        );
         if (existingItem) {
             return {
                 cart: state.cart.map(cartItem =>
@@ -148,18 +152,18 @@ export const useCartStore = create<CartStore>((set, get) => ({
         // 상품이 존재하지 않을 경우 새로운 항목으로 추가
         return { cart: [...state.cart, item] };
     }),
-    removeFromCart: (id) => set((state) => ({
-        cart: state.cart.filter(item => String(item.medicineId) !== id)
+    removeFromCart: (cartItemId) => set((state) => ({
+        cart: state.cart.filter(item => item.medicineId !== cartItemId)
     })),
-    updateQuantity: (id, quantity) => set((state) => ({
+    updateQuantity: (cartItemId, quantity) => set((state) => ({
         cart: state.cart.map(item =>
-            String(item.medicineId) === id ? { ...item, quantity } : item
+            item.medicineId === cartItemId ? { ...item, quantity } : item
         )
     })),
     clearCart: () => set({ cart: [] }),
     getTotalPrice: () => {
         const state = get();
-        return state.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        return state.cart.reduce((total, item) => total + (item.unitPrice * item.quantity), 0);
     },
     isAbleToAdd: (item) => {
         const state = get();

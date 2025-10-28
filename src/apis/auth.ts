@@ -72,6 +72,16 @@ const auth = (axiosInstance: AxiosInstance) => ({
         return response.data;
     },
 
+    cancelAllCart: async (wholesaleId?: number): Promise<EmptyCartRes> => {
+        const response = await axiosInstance.delete<EmptyCartRes>(
+            '/carts',
+            {
+                params: wholesaleId
+            }
+        );
+        return response.data;
+    },
+
     viewPharmacyOrderHistory: async (
         startDate?: string, endDate?: string
     ): Promise<PharmacyOrderRes> => {

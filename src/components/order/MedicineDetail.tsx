@@ -29,7 +29,7 @@ export default function MedicineDetail() {
             if (selectedMedNumber) {
                 const medResponse = await getMedicineDetail(selectedMedNumber);
                 const wholesaleResponse = await getWholesaleDetail(selectedMedNumber);
-                console.log(wholesaleResponse);
+
                 if (medResponse && wholesaleResponse) {
                     setMedicine(medResponse);
                     setWholesales(wholesaleResponse);
@@ -53,42 +53,40 @@ export default function MedicineDetail() {
         try {
             const quantity = quantities[wholesaleItem.wholesaleName] || 0;
 
-            const result = await postAddCart({
+            const cartItem = {
                 medicineId: medicine!.medicineId,
-                wholesaleId: wholesaleItem.wholesaleId,
-                quantity,
-            });
+                medicineName: medicine!.productName,
+                detailName: medicine!.standard,
+                unit: String(medicine!.unitQty),
+                unitPrice: wholesaleItem.unitPrice,
+                quantity: quantity,
+                itemTotalPrice: wholesaleItem.unitPrice * quantity,
+                wholesaleName: wholesaleItem.wholesaleName,
+                available: wholesaleItem.stockQty,
+            };
 
-            if (result) {
-                const cartItem = {
-                    medicineId: medicine!.medicineId,
-                    name: medicine!.productName,
-                    dosage: medicine!.standard,
-                    unit: String(medicine!.unitQty),
-                    price: wholesaleItem.unitPrice,
-                    quantity: quantity,
-                    wholesaler: wholesaleItem.wholesaleName,
-                    manufacturer: medicine!.productCompany,
-                    code: medicine!.insuranceCode,
-                    available: wholesaleItem.stockQty,
-                };
+            if (quantity > 0) {
+                if (isAbleToAdd(cartItem)) {
+                    const result = await postAddCart({
+                        medicineId: medicine!.medicineId,
+                        wholesaleId: wholesaleItem.wholesaleId,
+                        quantity,
+                    });
 
-                if (quantity > 0) {
-                    // 모달창 열기 
-                    if (isAbleToAdd(cartItem)) {
+                    if (result) {
                         setIsModalOpen();
                         addToCart(cartItem); // 장바구니에 담기
                         setQuantities(prev => ({ // 선택 수량 초기화
                             ...prev,
                             [wholesaleItem.wholesaleName]: 0
                         }));
-                    } else {
-                        setIsCautionModalOpen();
-                        setQuantities(prev => ({ // 선택 수량 초기화
-                            ...prev,
-                            [wholesaleItem.wholesaleName]: 0
-                        }));
                     }
+                } else {
+                    setIsCautionModalOpen();
+                    setQuantities(prev => ({ // 선택 수량 초기화
+                        ...prev,
+                        [wholesaleItem.wholesaleName]: 0
+                    }));
                 }
             }
         } catch (error) {
@@ -139,7 +137,7 @@ export default function MedicineDetail() {
                         <span>도매상 명</span>
                         <span>약품 단가</span>
                         <span>마일리지</span>
-                        <span>재고 수량</span>
+                        <span>예상 수량</span>
                         <span>선택 수량</span>
                     </div>
                     {wholesales.map((data, index) => (
