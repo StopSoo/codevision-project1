@@ -20,19 +20,18 @@ export const postAddCart = async ({
 }
 
 export const patchEditCart = async (
-    cartItemId: number, { quantity }: EditCartReq
+    cartItemId: number, data: EditCartReq
 ) => {
-    const numValue = quantity || 0;
+    const numValue = data.quantity || 0;
     try {
         if (numValue > 0) {
             const response = await AuthAPI.editQuantity(
                 cartItemId,
-                { quantity }
+                {
+                    quantity: numValue
+                }
             );
-            // 빈 객체일 경우
-            if (Object.keys(response).length === 0) {
-                return response;
-            }
+            return response;
         }
     } catch (error) {
         const err = error as AxiosError;
@@ -71,14 +70,23 @@ export const deleteAllCart = async (
 };
 
 export const getAllCarts = async () => {
+    // TODO: cart error 해결할 것
     try {
         const response = await AuthAPI.viewAllCart();
         if ("data" in response) {
             return response.data;
+        } else {
+            return {
+                items: [],
+                totalQuantity: 0,
+                totalPrice: 0,
+            };
         }
-        return response;
     } catch (error) {
         const err = error as AxiosError;
         console.error("getAllCarts error", err);
+        if (err.response?.status === 404) {
+            console.log("404 error in getAllCarts");
+        }
     }
 }

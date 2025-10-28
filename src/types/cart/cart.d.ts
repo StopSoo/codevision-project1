@@ -54,15 +54,15 @@ export interface EditCartReq {
 }
 
 // 장바구니 전체 조회
-// export interface CartDetailItem {
-//     medicineName: string;
-//     detailName: string;
-//     unit: string;
-//     unitPrice: number;
-//     quantity: number;
-//     itemTotalPrice: number;
-//     wholesaleName: string;
-// }
+export interface CartDetailItem {
+    medicineName: string;
+    detailName: string;
+    unit: string;
+    unitPrice: number;
+    quantity: number;
+    itemTotalPrice: number;
+    wholesaleName: string;
+}
 
 export interface TotalCartRes {
     data: {

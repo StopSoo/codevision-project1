@@ -43,5 +43,6 @@
   "bugs": {
     "url": "https://github.com/StopSoo/codevision-project1/issues"
   },
-  "homepage": "https://github.com/StopSoo/codevision-project1#readme"
+  "homepage": "https://github.com/StopSoo/codevision-project1#readme",
+  "proxy": "http://localhost:3000"
 }

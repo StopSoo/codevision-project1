@@ -37,16 +37,22 @@ export interface ViewPharmacyOrderRes {
 }
 
 // 주문 내역 조회
-interface ViewOrderDetailApi {
-    orderNumber: string;
-    items: CartDetailItem[];
-    totalQuantity: number;
-    totalPrice: number;
+interface CartDetailItem {
+    medicineName: string;
+    detailName: string;
+    unit: string;
+    unitPrice: number;
+    quantity: number;
+    itemTotalPrice: number;
+    wholesaleName: string;
 }
 
-export interface ViewOrderDetailRes {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: ViewOrderDetailApi;
+interface ViewOrderDetailRes {
+    data: {
+        orderNumber: string;
+        items: CartDetailItem[];
+        totalQuantity: number;
+        totalPrice: number;
+        orderDateTime: string;
+    }
 }

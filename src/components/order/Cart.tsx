@@ -5,7 +5,7 @@ import { VscChromeClose } from "react-icons/vsc";
 import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
 import { deleteAllCart, deleteCartItem, getAllCarts, patchEditCart } from "@/apis/cart";
 import { useEffect } from "react";
-import { pharmacyOrder } from "@/apis/order";
+import { postPharmacyOrder } from "@/apis/order";
 
 export default function Cart() {
     const { cart, addToCart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCartStore();
@@ -76,7 +76,7 @@ export default function Cart() {
 
     const handleOrder = async () => {
         try {
-            const result = await pharmacyOrder();
+            const result = await postPharmacyOrder();
 
             if (result && "orderId" in result) {
                 const newOrderHistory = {
@@ -163,7 +163,7 @@ export default function Cart() {
                                                 value={item.quantity || ""}
                                                 onChange={(e) => {
                                                     updateQuantity(item.cartItemId, Number(e.target.value));
-                                                    handleQuantityChange(item.cartItemId, Number(e.target.value));
+                                                    handleQuantityChange(item.cartItemId, item.quantity);
                                                 }}
                                                 className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
                                             />

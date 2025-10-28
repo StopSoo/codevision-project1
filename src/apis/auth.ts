@@ -1,7 +1,7 @@
 import { AddCartReq, AddCartRes, EditCartReq, EmptyCartRes, TotalCartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
 import { MedicineDetailRes, RankingRes, TodaysRes, WholesaleDetailRes } from "@/types/pharmacy/order";
-import { PharmacyOrderRes, ViewOrderDetailRes } from "@/types/pharmacy/orderedList";
+import { PharmacyOrderRes, ViewOrderDetailRes, ViewPharmacyOrderRes } from "@/types/pharmacy/orderedList";
 import { CheckEmailReq, CheckEmailRes, SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -59,13 +59,12 @@ const auth = (axiosInstance: AxiosInstance) => ({
     },
 
     editQuantity: async (
-        cartItemId: number, quantity: EditCartReq
+        cartItemId: number, data: EditCartReq
     ): Promise<EmptyCartRes> => {
         const response = await axiosInstance.patch<EmptyCartRes>(
             `/carts/items/${cartItemId}`,
-            { params: quantity }
+            data
         );
-        console.log(response);
         return response.data;
     },
 
@@ -94,16 +93,23 @@ const auth = (axiosInstance: AxiosInstance) => ({
     },
 
     viewPharmacyOrderHistory: async (
-        startDate?: string, endDate?: string
-    ): Promise<PharmacyOrderRes> => {
-        const response = await axiosInstance.get<PharmacyOrderRes>(
-            `/pharmacy/orders?startDate=${startDate}&endDate=${endDate}`
+        startDate?: string, endDate?: string, page?: number, size?: number, search?: string
+    ): Promise<ViewPharmacyOrderRes> => {
+        const response = await axiosInstance.get<ViewPharmacyOrderRes>(
+            `/pharmacy/orders`,
+            {
+                params: {
+                    startDate, endDate, page, size, search
+                }
+            }
         );
         return response.data;
     },
 
     viewPharmacyOrderDetail: async (orderId: number): Promise<ViewOrderDetailRes> => {
-        const response = await axiosInstance.get<ViewOrderDetailRes>(`/pharmacy/orders/${orderId}`);
+        const response = await axiosInstance.get<ViewOrderDetailRes>(
+            `/pharmacy/orders/${orderId}`
+        );
         return response.data;
     },
 
