@@ -74,7 +74,7 @@ interface WholesaleItem {
     wholesaleName: string;
     unitPrice: number;
     point: number;
-    stockQty: number;
+    expectedStockQty: number;
 }
 
 export interface WholesaleDetailRes {

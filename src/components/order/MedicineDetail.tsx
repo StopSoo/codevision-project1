@@ -62,7 +62,7 @@ export default function MedicineDetail() {
                 quantity: quantity,
                 itemTotalPrice: wholesaleItem.unitPrice * quantity,
                 wholesaleName: wholesaleItem.wholesaleName,
-                available: wholesaleItem.stockQty,
+                available: wholesaleItem.expectedStockQty,
             };
 
             if (quantity > 0) {
@@ -152,12 +152,12 @@ export default function MedicineDetail() {
                                     {data.point > 0 ? "+" : data.point == 0 ? "" : "-"} {data.point} %
                                 </span>
                             </div>
-                            <span className="text-main-font">{data.stockQty ?? 0}</span>
+                            <span className="text-main-font">{data.expectedStockQty ?? 0}</span>
                             <div className="flex flex-row items-center justify-center gap-2">
                                 <input
                                     type="number"
                                     min="0"
-                                    max={data.stockQty}
+                                    max={data.expectedStockQty}
                                     placeholder="0"
                                     value={quantities[data.wholesaleName] || ""}
                                     onChange={(e) => handleQuantityChange(data.wholesaleName, e.target.value)}
