@@ -1,6 +1,7 @@
 import { AddCartReq, AddCartRes, EditCartReq, EmptyCartRes, TotalCartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { MedicineDetailRes, PharmacyOrderRes, RankingRes, TodaysRes, ViewOrderDetailRes, WholesaleDetailRes } from "@/types/pharmacy/order";
+import { MedicineDetailRes, RankingRes, TodaysRes, WholesaleDetailRes } from "@/types/pharmacy/order";
+import { PharmacyOrderRes, ViewOrderDetailRes } from "@/types/pharmacy/orderedList";
 import { CheckEmailReq, CheckEmailRes, SignupReq, SignupRes } from "@/types/signup/signup";
 import { AxiosInstance } from "axios";
 
@@ -57,11 +58,14 @@ const auth = (axiosInstance: AxiosInstance) => ({
         return response.data;
     },
 
-    editQuantity: async (cartItemId: number, quantity: EditCartReq): Promise<EmptyCartRes> => {
+    editQuantity: async (
+        cartItemId: number, quantity: EditCartReq
+    ): Promise<EmptyCartRes> => {
         const response = await axiosInstance.patch<EmptyCartRes>(
             `/carts/items/${cartItemId}`,
-            quantity
+            { params: quantity }
         );
+        console.log(response);
         return response.data;
     },
 
@@ -78,6 +82,13 @@ const auth = (axiosInstance: AxiosInstance) => ({
             {
                 params: wholesaleId
             }
+        );
+        return response.data;
+    },
+
+    orderPharmacy: async (): Promise<PharmacyOrderRes> => {
+        const response = await axiosInstance.post<PharmacyOrderRes>(
+            '/pharmacy/orders'
         );
         return response.data;
     },

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
-import { MedicineVariant, MedicineDetailData } from "@/types/pharmacy/medicine";
+import { MedicineDetailData } from "@/types/pharmacy/medicine";
 import { postAddCart } from "@/apis/cart";
 import { getMedicineDetail, getWholesaleDetail } from "@/apis/pharmacy";
 import { WholesaleItem } from "@/types/pharmacy/order";
@@ -29,7 +29,7 @@ export default function MedicineDetail() {
             if (selectedMedNumber) {
                 const medResponse = await getMedicineDetail(selectedMedNumber);
                 const wholesaleResponse = await getWholesaleDetail(selectedMedNumber);
-
+                console.log(wholesaleResponse); // debug
                 if (medResponse && wholesaleResponse) {
                     setMedicine(medResponse);
                     setWholesales(wholesaleResponse);
@@ -54,6 +54,7 @@ export default function MedicineDetail() {
             const quantity = quantities[wholesaleItem.wholesaleName] || 0;
 
             const cartItem = {
+                cartItemId: 0,
                 medicineId: medicine!.medicineId,
                 medicineName: medicine!.productName,
                 detailName: medicine!.standard,
@@ -62,7 +63,7 @@ export default function MedicineDetail() {
                 quantity: quantity,
                 itemTotalPrice: wholesaleItem.unitPrice * quantity,
                 wholesaleName: wholesaleItem.wholesaleName,
-                available: wholesaleItem.expectedStockQty,
+                wholesaleId: 0,
             };
 
             if (quantity > 0) {
@@ -74,8 +75,14 @@ export default function MedicineDetail() {
                     });
 
                     if (result) {
+                        const updateCartItem = {
+                            ...cartItem,
+                            cartItemId: result.cartItemId,
+                            wholesaleId: result.wholesaleId,
+                        };
+                        console.log(updateCartItem); // debug
                         setIsModalOpen();
-                        addToCart(cartItem); // 장바구니에 담기
+                        addToCart(updateCartItem); // 장바구니에 담기
                         setQuantities(prev => ({ // 선택 수량 초기화
                             ...prev,
                             [wholesaleItem.wholesaleName]: 0
@@ -140,44 +147,46 @@ export default function MedicineDetail() {
                         <span>예상 수량</span>
                         <span>선택 수량</span>
                     </div>
-                    {wholesales.map((data, index) => (
-                        <div
-                            key={index}
-                            className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"
-                        >
-                            <span className="text-main-font">{data.wholesaleName}</span>
-                            <span className="text-main-font">{data.unitPrice.toLocaleString()}</span>
-                            <div className="p-2 mx-4 bg-mileage-bg rounded-xl">
-                                <span className="text-mileage-font font-medium">
-                                    {data.point > 0 ? "+" : data.point == 0 ? "" : "-"} {data.point} %
-                                </span>
-                            </div>
-                            <span className="text-main-font">{data.expectedStockQty ?? 0}</span>
-                            <div className="flex flex-row items-center justify-center gap-2">
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max={data.expectedStockQty}
-                                    placeholder="0"
-                                    value={quantities[data.wholesaleName] || ""}
-                                    onChange={(e) => handleQuantityChange(data.wholesaleName, e.target.value)}
-                                    className="w-15 md:w-20 px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
-                                />
-                                <button
-                                    onClick={() => handleAddToCart(data)}
-                                    className="px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
-                                >
-                                    <Image
-                                        src="/assets/cart_icon.png"
-                                        width={25}
-                                        height={25}
-                                        alt={data.wholesaleName}
-                                        priority
+
+                    {
+                        wholesales.map((data, index) => (
+                            <div
+                                key={index}
+                                className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"
+                            >
+                                <span className="text-main-font">{data.wholesaleName}</span>
+                                <span className="text-main-font">{data.unitPrice.toLocaleString()}</span>
+                                <div className="p-2 mx-4 bg-mileage-bg rounded-xl">
+                                    <span className="text-mileage-font font-medium">
+                                        {data.point > 0 ? "+" : data.point == 0 ? "" : "-"} {data.point} %
+                                    </span>
+                                </div>
+                                <span className="text-main-font">{data.expectedStockQty ?? 0}</span>
+                                <div className="flex flex-row w-full items-center justify-center gap-2">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max={data.expectedStockQty}
+                                        placeholder="0"
+                                        value={quantities[data.wholesaleName] || ""}
+                                        onChange={(e) => handleQuantityChange(data.wholesaleName, e.target.value)}
+                                        className="w-[60%] px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                     />
-                                </button>
+                                    <button
+                                        onClick={() => handleAddToCart(data)}
+                                        className="w-[40%] px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
+                                    >
+                                        <Image
+                                            src="/assets/cart_icon.png"
+                                            width={25}
+                                            height={25}
+                                            alt={data.wholesaleName}
+                                            priority
+                                        />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@ export default function Order() {
                             : (
                                 clickMedRanking
                                     ? <MedRanking />
-                                    : <div className="flex flex-col h-full items-center justify-center mx-[24px]">
+                                    : <div className="flex flex-col h-full items-center justify-center mx-[20.5px]">
                                         <Image
                                             src="/assets/analysis_icon.png"
                                             width={138}
@@ -32,7 +32,9 @@ export default function Order() {
                                             className="mb-[24px]"
                                             priority
                                         />
-                                        <div className="text-center text-sub-font whitespace-nowrap">[오늘의 주문] 버튼을 눌러<br />AI가 분석한<br />예상 주문 목록을 확인하세요!</div>
+                                        <div className="text-center text-sub-font whitespace-nowrap">
+                                            [오늘의 주문] 버튼을 눌러<br />AI가 분석한<br />예상 주문 목록을 확인하세요!
+                                        </div>
                                     </div>
                             )
                     }

@@ -1,5 +1,6 @@
 /* 약국 - 장바구니 */
 export type CartItem = {
+    cartItemId: number;
     medicineId: number;
     medicineName: string;
     detailName: string;
@@ -8,7 +9,7 @@ export type CartItem = {
     quantity: number;
     itemTotalPrice: number;
     wholesaleName: string;
-    available: number;
+    wholesaleId: number;
 }
 
 export type CartStore = {

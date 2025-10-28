@@ -134,17 +134,14 @@ export const useCartStore = create<CartStore>((set, get) => ({
         // 약품 id, 단위, 도매상이 모두 동일한 상품이 존재할 경우 수량만 추가
         const existingItem = state.cart.find(cartItem =>
             cartItem.medicineId === item.medicineId
-            && cartItem.unit === item.unit
-            && cartItem.wholesaleName === item.wholesaleName
+            && cartItem.wholesaleId === item.wholesaleId
         );
+
         if (existingItem) {
             return {
                 cart: state.cart.map(cartItem =>
-                    cartItem.medicineId === item.medicineId
-                        ? (cartItem.quantity + item.quantity <= item.available
-                            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-                            : cartItem
-                        )
+                    cartItem.medicineId === item.medicineId && cartItem.wholesaleId === item.wholesaleId
+                        ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
                         : cartItem
                 )
             };
@@ -167,12 +164,15 @@ export const useCartStore = create<CartStore>((set, get) => ({
     },
     isAbleToAdd: (item) => {
         const state = get();
-        const isExist = state.cart.some(cartItem => cartItem.medicineId === item.medicineId);
-        // 해당 물품이 존재할 경우에만 수량 체크
+        const isExist = state.cart.some(cartItem =>
+            cartItem.medicineId === item.medicineId
+            && cartItem.wholesaleName === item.wholesaleName
+        );
+
         if (isExist) {
             return state.cart.some(cartItem =>
                 cartItem.medicineId === item.medicineId &&
-                cartItem.quantity + item.quantity <= item.available
+                cartItem.wholesaleName === item.wholesaleName
             )
         } else {
             return true;
@@ -185,19 +185,16 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
     orderedList: [],
     addToOrderedList: (item) => set((state) => {
         const newOrderHistory = {
-            date: new Date().toISOString().split('T')[0],
-            orderNumber: 'O-' + new Date().toISOString().split('T')[0] + '-01',
-            wholesaler: item.wholesaler,
-            price: item.price,
-            unit: item.unit,
-            quantity: item.quantity,
-            totalPrice: item.price * item.quantity,
+            orderId: 0,
+            orderNumber: "",
+            orderTotalPrice: item.price * item.quantity,
+            orderDate: new Date().toISOString().split('T')[0],
         }
         return { orderedList: [...state.orderedList, newOrderHistory] }
     }),
     getTotalPrice: () => {
         const state = get();
-        return state.orderedList.reduce((total, item) => total + item.totalPrice, 0);
+        return state.orderedList.reduce((total, item) => total + item.orderTotalPrice, 0);
     }
 }))
 

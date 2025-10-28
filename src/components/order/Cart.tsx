@@ -5,6 +5,7 @@ import { VscChromeClose } from "react-icons/vsc";
 import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
 import { deleteAllCart, deleteCartItem, getAllCarts, patchEditCart } from "@/apis/cart";
 import { useEffect } from "react";
+import { pharmacyOrder } from "@/apis/order";
 
 export default function Cart() {
     const { cart, addToCart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCartStore();
@@ -35,6 +36,7 @@ export default function Cart() {
             const result = await deleteCartItem(cartItemId);
             if (result) {
                 removeFromCart(cartItemId);
+                handleAllItem(); // 장바구니 전체 다시 조회
                 console.log("장바구니에서 개별 약품 삭제 성공");
             }
         } catch (error) {
@@ -61,12 +63,10 @@ export default function Cart() {
             const result = await getAllCarts();
 
             if (result && "items" in result) {
-                // TODO: getAllCarts() 함수 response에 필드 두 개 추가되면 확인하고 debug code 삭제
-                console.log(result.items); // debug
+                clearCart();
                 result.items.map((item) => {
                     addToCart(item);
                 });
-                console.log(cart); // debug
             }
         } catch (error) {
             alert("장바구니에서 전체 상품 불러오기 실패");
@@ -74,14 +74,25 @@ export default function Cart() {
         }
     }
 
-    const handleOrder = () => {
-        // 주문 내역에 물품들 추가
-        cart.map((item) => {
-            addToOrderedList(item);
-        })
-        clearCart(); // 장바구니 비우기
-        setIsModalOpen();
-        // TODO: API 연동
+    const handleOrder = async () => {
+        try {
+            const result = await pharmacyOrder();
+
+            if (result && "orderId" in result) {
+                const newOrderHistory = {
+                    orderId: result.orderId,
+                    orderNumber: result.orderNumber,
+                    orderTotalPrice: cart.reduce((total, item) => total + item.unitPrice * item.quantity, 0),
+                    orderDate: new Date().toISOString().split('T')[0],
+                }
+                addToOrderedList(newOrderHistory);
+                clearCart(); // 장바구니 비우기
+                setIsModalOpen();
+            }
+        } catch (error) {
+            alert("장바구니에 담긴 상품들 주문하기 실패");
+            console.log(error);
+        }
     };
 
     useEffect(() => {
@@ -117,11 +128,12 @@ export default function Cart() {
                     </button>
                     : null
             }
-            <div className="flex-1 overflow-y-auto pr-2">
+
+            <div className="flex-1 overflow-y-auto">
                 <div className="flex flex-col gap-3">
                     {cart.map((item) => (
                         <div
-                            key={String(item.wholesaleName) + String(item.medicineId)}
+                            key={String(item.wholesaleName) + String(item.medicineId) + String(item.medicineName) + String(item.unit)}
                             className="border border-gray-200 rounded-lg p-4 flex flex-col gap-3"
                         >
                             <div className="flex flex-row items-start justify-between">
@@ -147,19 +159,19 @@ export default function Cart() {
                                             <input
                                                 type="number"
                                                 min="1"
-                                                max={item.available}
                                                 placeholder="0"
                                                 value={item.quantity || ""}
-                                                // TODO: cartItemId로 변경
-                                                onChange={(e) => handleQuantityChange(item.medicineId, Number(e.target.value))}
+                                                onChange={(e) => {
+                                                    updateQuantity(item.cartItemId, Number(e.target.value));
+                                                    handleQuantityChange(item.cartItemId, Number(e.target.value));
+                                                }}
                                                 className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
                                             />
                                         </div>
                                     </div>
                                 </div>
                                 <button
-                                    // TODO: cartItemId로 변경
-                                    onClick={() => handleRemoveItem(item.medicineId)}
+                                    onClick={() => handleRemoveItem(item.cartItemId)}
                                     className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-colors transition-transform"
                                 >
                                     <VscChromeClose size={28} />
