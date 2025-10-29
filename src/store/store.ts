@@ -188,7 +188,7 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
             orderId: 0,
             orderNumber: "",
             orderTotalPrice: item.price * item.quantity,
-            orderDate: new Date().toISOString().split('T')[0],
+            orderDateTime: new Date().toISOString().split('T')[0],
         }
         return { orderedList: [...state.orderedList, newOrderHistory] }
     }),

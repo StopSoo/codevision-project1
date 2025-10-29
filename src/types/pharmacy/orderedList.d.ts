@@ -4,7 +4,7 @@ export type OrderedItem = {
     orderId: number;
     orderNumber: string;
     orderTotalPrice: number;
-    orderDate: string;
+    orderDateTime: string;
 }
 
 export type OrderedListStore = {

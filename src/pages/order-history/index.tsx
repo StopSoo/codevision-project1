@@ -6,6 +6,8 @@ import Area from "@/components/common/Area";
 import { getPharmacyOrderHistory, getPharmacyOrderHistoryDetail } from "@/apis/order";
 import { OrderedItem } from "@/types/pharmacy/orderedList";
 import { CartDetailItem } from "@/types/cart/cart";
+import { formatDate } from "@/utils/formatDate";
+import OrderHistorySkeleton from "@/components/skeleton/OrderHistorySkeleton";
 
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
@@ -14,6 +16,7 @@ export default function OrderHistory() {
     const [orderDetailList, setOrderDetailList] = useState<CartDetailItem[]>([]); // 주문 내역
     const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
     const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
@@ -29,9 +32,13 @@ export default function OrderHistory() {
             const data = await getPharmacyOrderHistory(startDate, endDate, 1, 10, keyword);
 
             if (data) {
-                setOrderHistoryList(data);
+                const newOrderHistoryList = data.map((d) => ({
+                    ...d,
+                    orderDateTime: formatDate(d.orderDateTime)
+                }));
+                console.log(newOrderHistoryList);
+                setOrderHistoryList(newOrderHistoryList);
                 setSelectedNumber(null);
-
             }
         } catch (error) {
             alert("주문 목록 정보 불러오기 실패");
@@ -53,6 +60,7 @@ export default function OrderHistory() {
 
     useEffect(() => {
         const handleOrderDetail = async (id: number) => {
+            setIsLoading(true);
             try {
                 const data = await getPharmacyOrderHistoryDetail(id);
 
@@ -63,6 +71,8 @@ export default function OrderHistory() {
             } catch (error) {
                 alert("주문 상세 정보 불러오기 실패");
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         }
 
@@ -157,12 +167,11 @@ export default function OrderHistory() {
                                             {
                                                 orderHistoryList.map((order, index) => {
                                                     if (
-                                                        startDate <= order.orderDate &&
-                                                        order.orderDate <= endDate
+                                                        startDate <= order.orderDateTime.split(' ')[0] &&
+                                                        order.orderDateTime.split(' ')[0] <= endDate
                                                     )
                                                         return (
                                                             <div key={index}>
-                                                                {/* TODO: 클릭된 애 border 변경된 색깔 고정 */}
                                                                 <button
                                                                     className={selectedNumber === order.orderId
                                                                         ? "flex-1 w-full border-2 bg-white border-selected-line"
@@ -171,7 +180,7 @@ export default function OrderHistory() {
                                                                     onClick={() => setSelectedNumber(order.orderId)}
                                                                 >
                                                                     <div className="grid grid-cols-3 gap-4 p-4 bg-white text-center">
-                                                                        <span>{order.orderDate}</span>
+                                                                        <span>{order.orderDateTime}</span>
                                                                         <span>{order.orderNumber}</span>
                                                                         <span>{order.orderTotalPrice.toLocaleString()}원</span>
                                                                     </div>
@@ -181,7 +190,7 @@ export default function OrderHistory() {
                                                                     isDetailOpen && selectedNumber === order.orderId
                                                                         ? <div className="flex-1 w-full border-2 border-white"
                                                                         >
-                                                                            <div className="grid grid-cols-6 gap-4 p-4 bg-selected-bg text-center">
+                                                                            <div className="grid grid-cols-6 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
                                                                                 <span>약품명</span>
                                                                                 <span>약품 상세 이름</span>
                                                                                 <span>단위 가격</span>
@@ -189,20 +198,25 @@ export default function OrderHistory() {
                                                                                 <span>도매상명</span>
                                                                                 <span>결제 총액</span>
                                                                             </div>
+
                                                                             {
-                                                                                orderDetailList.map((order, idx) => (
-                                                                                    <div
-                                                                                        key={idx}
-                                                                                        className="grid grid-cols-6 gap-4 p-4 bg-white text-center"
-                                                                                    >
-                                                                                        <span>{order.medicineName}</span>
-                                                                                        <span>{order.detailName}</span>
-                                                                                        <span>{order.unitPrice.toLocaleString()}</span>
-                                                                                        <span>{order.quantity}</span>
-                                                                                        <span>{order.wholesaleName}</span>
-                                                                                        <span>{order.itemTotalPrice.toLocaleString()}원</span>
-                                                                                    </div>
-                                                                                ))
+                                                                                isLoading
+                                                                                    ? <OrderHistorySkeleton count={orderDetailList.length} />
+                                                                                    : (
+                                                                                        orderDetailList.map((order, idx) => (
+                                                                                            <div
+                                                                                                key={idx}
+                                                                                                className="grid grid-cols-6 gap-4 p-4 bg-white text-center"
+                                                                                            >
+                                                                                                <span>{order.medicineName}</span>
+                                                                                                <span>{order.detailName}</span>
+                                                                                                <span>{order.unitPrice.toLocaleString()}</span>
+                                                                                                <span>{order.quantity}</span>
+                                                                                                <span>{order.wholesaleName}</span>
+                                                                                                <span>{order.itemTotalPrice.toLocaleString()}원</span>
+                                                                                            </div>
+                                                                                        ))
+                                                                                    )
                                                                             }
                                                                         </div>
                                                                         : null

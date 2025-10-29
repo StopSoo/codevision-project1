@@ -30,7 +30,7 @@ export default function MedicineDetail() {
                 if (selectedMedNumber) {
                     const medResponse = await getMedicineDetail(selectedMedNumber);
                     const wholesaleResponse = await getWholesaleDetail(selectedMedNumber);
-                    console.log(wholesaleResponse); // debug
+
                     if (medResponse && wholesaleResponse) {
                         setMedicine(medResponse);
                         setWholesales(wholesaleResponse);
