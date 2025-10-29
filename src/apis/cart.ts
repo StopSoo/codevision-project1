@@ -1,4 +1,4 @@
-import { AddCartReq, EditCartReq, EmptyCartRes } from "@/types/cart/cart";
+import { AddCartReq, EditCartReq } from "@/types/cart/cart";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
 
@@ -70,7 +70,6 @@ export const deleteAllCart = async (
 };
 
 export const getAllCarts = async () => {
-    // TODO: cart error 해결할 것
     try {
         const response = await AuthAPI.viewAllCart();
         if ("data" in response) {
@@ -87,6 +86,12 @@ export const getAllCarts = async () => {
         console.error("getAllCarts error", err);
         if (err.response?.status === 404) {
             console.log("404 error in getAllCarts");
+            return {
+                items: [],
+                totalQuantity: 0,
+                totalPrice: 0,
+            };
         }
+        throw err;
     }
 }

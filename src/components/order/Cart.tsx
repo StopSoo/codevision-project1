@@ -4,7 +4,7 @@ import { VscChromeClose } from "react-icons/vsc";
 
 import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
 import { deleteAllCart, deleteCartItem, getAllCarts, patchEditCart } from "@/apis/cart";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { postPharmacyOrder } from "@/apis/order";
 
 export default function Cart() {
@@ -57,7 +57,7 @@ export default function Cart() {
         }
     };
 
-    const handleAllItem = async () => {
+    const handleAllItem = useCallback(async () => {
         try {
             // 장바구니 전체 조회
             const result = await getAllCarts();
@@ -72,7 +72,7 @@ export default function Cart() {
             alert("장바구니에서 전체 상품 불러오기 실패");
             console.log(error);
         }
-    }
+    }, [clearCart, addToCart]);
 
     const handleOrder = async () => {
         try {
@@ -97,7 +97,7 @@ export default function Cart() {
 
     useEffect(() => {
         handleAllItem();
-    }, []);
+    }, [handleAllItem]);
 
     if (cart.length === 0) {
         return (

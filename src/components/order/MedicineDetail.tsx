@@ -24,25 +24,24 @@ export default function MedicineDetail() {
         }));
     };
 
-    const handleMedDetail = async () => {
-        try {
-            if (selectedMedNumber) {
-                const medResponse = await getMedicineDetail(selectedMedNumber);
-                const wholesaleResponse = await getWholesaleDetail(selectedMedNumber);
-                console.log(wholesaleResponse); // debug
-                if (medResponse && wholesaleResponse) {
-                    setMedicine(medResponse);
-                    setWholesales(wholesaleResponse);
-                } else {
-                    console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`);
-                }
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     useEffect(() => {
+        const handleMedDetail = async () => {
+            try {
+                if (selectedMedNumber) {
+                    const medResponse = await getMedicineDetail(selectedMedNumber);
+                    const wholesaleResponse = await getWholesaleDetail(selectedMedNumber);
+                    console.log(wholesaleResponse); // debug
+                    if (medResponse && wholesaleResponse) {
+                        setMedicine(medResponse);
+                        setWholesales(wholesaleResponse);
+                    } else {
+                        console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`);
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
         // 약품 정보 불러오기
         if (selectedMedNumber) {
             handleMedDetail();
@@ -98,6 +97,7 @@ export default function MedicineDetail() {
             }
         } catch (error) {
             alert("장바구니에 담기 실패");
+            console.error(error);
         }
     };
 

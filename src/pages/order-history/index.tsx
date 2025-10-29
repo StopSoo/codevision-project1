@@ -1,7 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useDateModalStore, useOrderedListStore, useSelectedOrderStore } from "@/store/store";
+import { useCallback, useEffect, useState } from "react";
+import { useDateModalStore, useSelectedOrderStore } from "@/store/store";
 import Area from "@/components/common/Area";
 import { getPharmacyOrderHistory, getPharmacyOrderHistoryDetail } from "@/apis/order";
 import { OrderedItem } from "@/types/pharmacy/orderedList";
@@ -24,7 +24,7 @@ export default function OrderHistory() {
         return result;
     }
 
-    const handleOrderInfo = async () => {
+    const handleOrderInfo = useCallback(async () => {
         try {
             const data = await getPharmacyOrderHistory(startDate, endDate, 1, 10, keyword);
 
@@ -37,7 +37,7 @@ export default function OrderHistory() {
             alert("주문 목록 정보 불러오기 실패");
             console.error(error);
         }
-    };
+    }, [startDate, endDate, keyword, setSelectedNumber]);
 
     useEffect(() => {
         if (startDate > endDate) {
@@ -49,7 +49,7 @@ export default function OrderHistory() {
 
     useEffect(() => {
         handleOrderInfo();
-    }, []);
+    }, [handleOrderInfo]);
 
     useEffect(() => {
         const handleOrderDetail = async (id: number) => {
