@@ -41,6 +41,7 @@ export const useLoginModalStore = create<ModalStore>((set) => ({
 
 export const useLoginFailModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
+    type: '',
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
