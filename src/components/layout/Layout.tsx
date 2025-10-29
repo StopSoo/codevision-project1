@@ -21,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const handleClickLogoutYes = () => {
         setLogout();
+        localStorage.removeItem('accessToken');
         setIsLogoutModalClose();
         setAnalysisButtonOff();
         setMedRankingButtonOff();

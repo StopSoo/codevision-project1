@@ -220,6 +220,15 @@ export default function OrderHistory() {
                                                                         </div>
                                                                         : null
                                                                 }
+
+                                                                {
+                                                                    orderHistoryList[index + 1]
+                                                                        && order.orderDateTime.split(' ')[0] !== orderHistoryList[index + 1].orderDateTime.split(' ')[0]
+                                                                        ? <div
+                                                                            className="w-full h-2 my-2 bg-selected-line"
+                                                                        />
+                                                                        : null
+                                                                }
                                                             </div>
                                                         )
                                                 })

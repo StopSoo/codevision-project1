@@ -32,6 +32,7 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
+            // access token 만료 
             localStorage.removeItem('accessToken');
             if (onUnauthorized) {
                 onUnauthorized();

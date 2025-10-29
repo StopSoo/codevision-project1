@@ -163,7 +163,7 @@ export default function Cart() {
                                                 value={item.quantity || ""}
                                                 onChange={(e) => {
                                                     updateQuantity(item.cartItemId, Number(e.target.value));
-                                                    handleQuantityChange(item.cartItemId, item.quantity);
+                                                    handleQuantityChange(item.cartItemId, Number(e.target.value));
                                                 }}
                                                 className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
                                             />

@@ -103,7 +103,7 @@ export default function Header({ pharmacy }: HeaderProps) {
                     </nav>
                 }
             </div>
-            {/* API 연결 시 수정 */}
+
             <div className="flex flex-row gap-2 font-medium text-lg md:text-2xl items-center text-main-font whitespace-nowrap">
                 <button
                     className="flex flex-row justify-center ml-2 gap-2"

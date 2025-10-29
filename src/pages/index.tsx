@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NotiModal from '@/components/modal/NotiModal';
@@ -28,6 +28,12 @@ export default function Home() {
       return false;
     }
   }
+
+  const enterkey = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13) {
+      handleLogin();
+    }
+  };
 
   const handleLogin = async () => {
     // 서버에서 아이디, 비밀번호 검증
@@ -122,6 +128,7 @@ export default function Home() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyUp={(e) => enterkey(e)}
             className="w-full px-6 py-4 rounded-xl shadow-md border border-gray-300 focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors text-main-font placeholder-sub-font"
           />
 
