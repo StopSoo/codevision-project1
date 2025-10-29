@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../common/Header";
-import { useAnalysisStore, useCartModalStore, useCautionModalStore, useDateModalStore, useLogoutModalStore, useMedRankingStore, useMemberModalStore, useMemberStore, useOrderModalStore, useSelectedMedStore } from "@/store/store";
+import { useAnalysisStore, useCartModalStore, useCautionModalStore, useDateModalStore, useLogoutModalStore, useMedRankingStore, useMemberModalStore, useMemberStore, useOrderModalStore, useSelectedMedStore, useTokenExpirationModalStore } from "@/store/store";
 import CartModal from "../modal/CartModal";
 import MemberModal from "../modal/MemberModal";
 import NotiModal from "../modal/NotiModal";
@@ -12,7 +12,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const { isModalOpen: isCautionModalOpen, setIsModalClose: setIsCautionModalClose } = useCautionModalStore();
     const { isModalOpen: isDateModalOpen, setIsModalClose: setIsDateModalClose } = useDateModalStore();
     const { isModalOpen: isMemberModalOpen, setIsModalClose: setIsMemberModalClose } = useMemberModalStore();
-    const { isModalOpen: isLogoutModalOpen, setIsModalOpen: setIsLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
+    const { isModalOpen: isLogoutModalOpen, setIsModalClose: setIsLogoutModalClose } = useLogoutModalStore();
+    const { isModalOpen: isTokenExModalOpen, setIsModalOpen: setIsTokenExModalOpen, setIsModalClose: setIsTokenExModalClose } = useTokenExpirationModalStore();
     const { setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
     const { setButtonOff: setMedRankingButtonOff } = useMedRankingStore();
     const { setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
@@ -28,20 +29,35 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-        setUnauthorizedHandler(() => {
-            setIsLogoutModalOpen();
-        });
-    }, [setIsLogoutModalOpen]);
+        if (isTokenExModalOpen) {
+            setUnauthorizedHandler(() => {
+                setIsTokenExModalOpen();
+            });
+        }
+    }, [setIsTokenExModalOpen]);
 
     return (
         <div className="flex flex-col w-full h-screen">
             <Header pharmacy={member === 'PHARMACY'} />
             {
+                isTokenExModalOpen
+                    ? <NotiModal
+                        type='alert'
+                        message={`로그인이 만료되어\n자동으로 로그아웃됩니다.`}
+                        hasButton={true}
+                        hasTwoButton={false}
+                        onClose={setIsTokenExModalClose}
+                        onClickYes={handleClickLogoutYes}
+                    />
+                    : null
+            }
+            {
                 isLogoutModalOpen
                     ? <NotiModal
                         type='alert'
                         message={`로그아웃하시겠습니까?`}
-                        hasFooter={true}
+                        hasButton={true}
+                        hasTwoButton={true}
                         onClickYes={handleClickLogoutYes}
                         onClickNo={setIsLogoutModalClose}
                         onClose={setIsLogoutModalClose}

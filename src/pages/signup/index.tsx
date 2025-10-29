@@ -400,7 +400,8 @@ export default function SignUp() {
                         ? <NotiModal
                             type='check'
                             message={"회원가입에 성공했습니다.\n로그인 페이지로 넘어갑니다."}
-                            hasFooter={false}
+                            hasButton={true}
+                            hasTwoButton={false}
                             onClose={setIsModalClose}
                         />
                         : null

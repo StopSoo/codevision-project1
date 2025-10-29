@@ -48,8 +48,8 @@ export default function MedRanking() {
                                 <button
                                     key={index}
                                     className={(data.medicineId !== selectedMedNumber)
-                                        ? "w-full flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                        : "w-full flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                        ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                        : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                     }
                                     onClick={() => setSelectedMedNumber(data.medicineId)}
                                 >
@@ -73,7 +73,7 @@ export default function MedRanking() {
                                                         : "w-[60%] text-point-negative"
                                             }
                                         >
-                                            {data.orderRate}
+                                            {data.orderRate}%
                                         </span>
                                     </div>
                                 </button>

@@ -33,7 +33,7 @@ export default function Order() {
                                             priority
                                         />
                                         <div className="text-center text-sub-font whitespace-nowrap">
-                                            [오늘의 주문] 버튼을 눌러<br />AI가 분석한<br />예상 주문 목록을 확인하세요!
+                                            [오늘의 주문] 버튼을 눌러<br />AI가 분석한 예상 주문 목록과<br />요즘 약국의 약품 주문 랭킹을<br />확인하세요!
                                         </div>
                                     </div>
                             )

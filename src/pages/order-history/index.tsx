@@ -36,7 +36,6 @@ export default function OrderHistory() {
                     ...d,
                     orderDateTime: formatDate(d.orderDateTime)
                 }));
-                console.log(newOrderHistoryList);
                 setOrderHistoryList(newOrderHistoryList);
                 setSelectedNumber(null);
             }
