@@ -3,7 +3,7 @@ import auth from "./auth";
 
 let onUnauthorized: (() => void) | null = null;
 
-export const setUnauthorizedHandler = (handler: () => void) => {
+export const setUnauthorizedHandler = (handler: (() => void) | null) => {
     onUnauthorized = handler;
 };
 

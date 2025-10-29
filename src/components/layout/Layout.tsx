@@ -30,10 +30,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-        if (isTokenExModalOpen) {
-            setUnauthorizedHandler(() => {
-                setIsTokenExModalOpen();
-            });
+        // access token 만료
+        setUnauthorizedHandler(() => {
+            setIsTokenExModalOpen();
+        });
+
+        return () => {
+            setUnauthorizedHandler(null);
         }
     }, [setIsTokenExModalOpen]);
 

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 import { VscChromeClose } from "react-icons/vsc";
 
-import { useCartStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
+import { useCartStore, useCautionModalStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
 import { deleteAllCart, deleteCartItem, getAllCarts, patchEditCart } from "@/apis/cart";
 import { useCallback, useEffect } from "react";
 import { postPharmacyOrder } from "@/apis/order";
@@ -11,6 +11,7 @@ export default function Cart() {
     const { cart, addToCart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCartStore();
     const { addToOrderedList } = useOrderedListStore();
     const { setIsModalOpen } = useOrderModalStore();
+    const { setIsModalOpen: setIsCautionModalOpen } = useCautionModalStore();
 
     const allCancelButtonStyle = "w-full h-[30px] py-5 mb-[9px] flex flex-row items-center justify-center border-2 border-sub-font hover:bg-selected-bg hover:border-selected-line rounded-xl"
 
@@ -26,8 +27,10 @@ export default function Cart() {
                 console.log("수량 변경 성공");
             }
         } catch (error) {
-            alert("수량 변경 실패");
-            console.log(error);
+            if (error instanceof Error && error.message === 'QUANTITY_EXCEEDED') {
+                setIsCautionModalOpen();
+                handleQuantityChange(cartItemId, quantity - 1);
+            }
         }
     };
 
@@ -52,7 +55,6 @@ export default function Cart() {
                 clearCart();
             }
         } catch (error) {
-            alert("장바구니에서 전체 상품 삭제 실패");
             console.log(error);
         }
     };
@@ -69,10 +71,10 @@ export default function Cart() {
                 });
             }
         } catch (error) {
-            alert("장바구니에서 전체 상품 불러오기 실패");
-            console.log(error);
+            console.error(error);
+            setIsCautionModalOpen();
         }
-    }, [clearCart, addToCart]);
+    }, [setIsCautionModalOpen, clearCart, addToCart]);
 
     const handleOrder = async () => {
         try {
@@ -156,17 +158,38 @@ export default function Cart() {
                                         </div>
                                         <div className="flex flex-row items-center">
                                             <span className="text-sm text-sub-font w-[40%]">수량</span>
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                placeholder="0"
-                                                value={item.quantity || ""}
-                                                onChange={(e) => {
-                                                    updateQuantity(item.cartItemId, Number(e.target.value));
-                                                    handleQuantityChange(item.cartItemId, Number(e.target.value));
-                                                }}
-                                                className="w-16 py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
-                                            />
+                                            <div className="flex flex-row items-space-between gap-2 w-[60%]">
+                                                <button
+                                                    className="border border-sub-font px-2 rounded-md hover:bg-selected-bg hover:border-selected-line"
+                                                    onClick={() => {
+                                                        updateQuantity(item.cartItemId, item.quantity - 1);
+                                                        handleQuantityChange(item.cartItemId, item.quantity - 1);
+                                                    }}
+                                                >
+                                                    -
+                                                </button>
+                                                <input
+                                                    readOnly
+                                                    type="number"
+                                                    min="1"
+                                                    placeholder="0"
+                                                    value={item.quantity || ""}
+                                                    onChange={(e) => {
+                                                        updateQuantity(item.cartItemId, Number(e.target.value));
+                                                        handleQuantityChange(item.cartItemId, Number(e.target.value));
+                                                    }}
+                                                    className="w-16 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
+                                                />
+                                                <button
+                                                    className="border border-sub-font px-2 rounded-md hover:bg-selected-bg hover:border-selected-line"
+                                                    onClick={() => {
+                                                        updateQuantity(item.cartItemId, item.quantity + 1);
+                                                        handleQuantityChange(item.cartItemId, item.quantity + 1);
+                                                    }}
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

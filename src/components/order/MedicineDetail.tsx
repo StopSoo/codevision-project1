@@ -62,11 +62,11 @@ export default function MedicineDetail() {
                 quantity: quantity,
                 itemTotalPrice: wholesaleItem.unitPrice * quantity,
                 wholesaleName: wholesaleItem.wholesaleName,
-                wholesaleId: 0,
+                wholesaleId: wholesaleItem.wholesaleId,
             };
 
             if (quantity > 0) {
-                if (isAbleToAdd(cartItem)) {
+                if (isAbleToAdd(cartItem, wholesaleItem.expectedStockQty)) {
                     const result = await postAddCart({
                         medicineId: medicine!.medicineId,
                         wholesaleId: wholesaleItem.wholesaleId,
@@ -77,9 +77,7 @@ export default function MedicineDetail() {
                         const updateCartItem = {
                             ...cartItem,
                             cartItemId: result.cartItemId,
-                            wholesaleId: result.wholesaleId,
                         };
-                        console.log(updateCartItem); // debug
                         setIsModalOpen();
                         addToCart(updateCartItem); // 장바구니에 담기
                         setQuantities(prev => ({ // 선택 수량 초기화
@@ -96,8 +94,10 @@ export default function MedicineDetail() {
                 }
             }
         } catch (error) {
-            alert("장바구니에 담기 실패");
-            console.error(error);
+            // 재고 수량 초과 시 안내 모달창 띄우기
+            if (error instanceof Error && error.message === 'QUANTITY_EXCEEDED') {
+                setIsCautionModalOpen();
+            }
         }
     };
 
@@ -158,7 +158,14 @@ export default function MedicineDetail() {
                                 <span className="text-main-font">{data.unitPrice.toLocaleString()}</span>
                                 <div className="p-2 mx-4 bg-mileage-bg rounded-xl">
                                     <span className="text-mileage-font font-medium">
-                                        {data.point > 0 ? "+" : data.point == 0 ? "" : "-"} {data.point} %
+                                        {
+                                            data.point > 0
+                                                ? "+"
+                                                : data.point == 0
+                                                    ? ""
+                                                    : "-"
+                                        }
+                                        {data.point} %
                                     </span>
                                 </div>
                                 <span className="text-main-font">{data.expectedStockQty ?? 0}</span>

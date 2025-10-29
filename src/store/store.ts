@@ -168,18 +168,22 @@ export const useCartStore = create<CartStore>((set, get) => ({
         const state = get();
         return state.cart.reduce((total, item) => total + (item.unitPrice * item.quantity), 0);
     },
-    isAbleToAdd: (item) => {
+    isAbleToAdd: (item, maxQuantity) => {
         const state = get();
-        const isExist = state.cart.some(cartItem =>
-            cartItem.medicineId === item.medicineId
-            && cartItem.wholesaleName === item.wholesaleName
+        const isExist = state.cart.some(cartItem => {
+            console.log(cartItem.wholesaleId)
+            console.log(item.wholesaleId)
+            return cartItem.medicineId === item.medicineId
+                && cartItem.wholesaleId === item.wholesaleId;
+        }
         );
 
         if (isExist) {
             return state.cart.some(cartItem =>
-                cartItem.medicineId === item.medicineId &&
-                cartItem.wholesaleName === item.wholesaleName
-            )
+                cartItem.medicineId === item.medicineId
+                && cartItem.wholesaleId === item.wholesaleId
+                && cartItem.quantity + item.quantity <= maxQuantity
+            );
         } else {
             return true;
         }

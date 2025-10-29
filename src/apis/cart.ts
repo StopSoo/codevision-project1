@@ -15,7 +15,9 @@ export const postAddCart = async ({
         }
     } catch (error) {
         const err = error as AxiosError;
-        console.error("postAddCart error", err);
+        if (err && err.response?.status === 400) {
+            throw new Error('QUANTITY_EXCEEDED');
+        }
     }
 }
 
@@ -35,7 +37,9 @@ export const patchEditCart = async (
         }
     } catch (error) {
         const err = error as AxiosError;
-        console.error("patchEditCart error", err);
+        if (err && err.response?.status === 400) {
+            throw new Error('QUANTITY_EXCEEDED');
+        }
     }
 };
 
@@ -85,12 +89,17 @@ export const getAllCarts = async () => {
         const err = error as AxiosError;
         console.error("getAllCarts error", err);
         if (err.response?.status === 404) {
+            // 장바구니가 없는 경우
             console.log("404 error in getAllCarts");
             return {
                 items: [],
                 totalQuantity: 0,
                 totalPrice: 0,
             };
+        } else if (err.response?.status === 401) {
+            // access token 만료 시
+            console.log("401 error in getAllCarts");
+            throw err;
         }
         throw err;
     }

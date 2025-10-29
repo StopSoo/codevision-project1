@@ -19,7 +19,7 @@ export type CartStore = {
     updateQuantity: (cartItemId: number, quantity: number) => void;
     clearCart: () => void;
     getTotalPrice: () => number;
-    isAbleToAdd: (item: CartItem) => boolean;
+    isAbleToAdd: (item: CartItem, maxQuantity: number) => boolean;
 }
 
 /* 장바구니 API */
