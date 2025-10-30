@@ -14,7 +14,7 @@ export default function SignUp() {
 
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
-    const { name: username, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
+    const { setMember, name: username, setName: setUserName, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
     const [workplace, setWorkplace] = useState<string>('');
@@ -110,9 +110,12 @@ export default function SignUp() {
     }, [isSignup, router, isModalOpen, setIsModalClose]);
 
     useEffect(() => {
+        // localStorage 상태 초기화
         setZipCode('');
         setRoadAddress('');
         setDetailAddress('');
+        setUserName('');
+        setMember('');
     }, []);
 
     useEffect(() => {
@@ -253,7 +256,7 @@ export default function SignUp() {
                             </div>
                         </div>
 
-                        <div className="bg-gray-100 p-6 flex items-start gap-4 border-b-2 border-gray-200">
+                        <div className="bg-gray-100 p-6 h-[120px] flex items-start gap-4 border-b-2 border-gray-200">
                             <label className="w-32 pt-3 text-main-font font-medium">
                                 <span className="text-point-negative">•</span> 비밀번호
                             </label>
@@ -265,6 +268,13 @@ export default function SignUp() {
                                     onChange={(e) => setPw(e.target.value)}
                                     className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
+                                <div className="text-xs mt-2">
+                                    {pw !== "" &&
+                                        (isValidPassword(pw)
+                                            ? <p className="text-xs text-point-positive mt-2">비밀번호 조건을 통과하였습니다.</p>
+                                            : <p className="text-xs text-point-negative mt-2">비밀번호 조건을 통과하지 못했습니다.</p>
+                                        )}
+                                </div>
                             </div>
                         </div>
 
@@ -280,7 +290,7 @@ export default function SignUp() {
                                     onChange={(e) => setPwConfirm(e.target.value)}
                                     className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
-                                <div className="text-xs text-point-negative mt-2">
+                                <div className="text-xs mt-2">
                                     {pwConfirm !== "" &&
                                         (!isPwConfirmFilled
                                             ? <p className="text-xs text-point-negative mt-2">비밀번호가 일치하지 않습니다.</p>

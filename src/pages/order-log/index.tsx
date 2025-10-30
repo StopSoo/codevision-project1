@@ -1,15 +1,46 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useDateModalStore, useOrderItemStore } from "@/store/store";
+import { useCallback, useEffect, useState } from "react";
+import { useDateModalStore, useOrderItemStore, useSelectedOrderStore } from "@/store/store";
 import Area from "@/components/common/Area";
+import { WholesaleOrder, WholesaleOrderItem } from "@/types/wholesaler/predictItem";
+import { getWholesaleOrderDetail, getWholesaleOrders } from "@/apis/orderLog";
+import { formatDate } from "@/utils/formatDate";
+import OrderHistorySkeleton from "@/components/skeleton/OrderHistorySkeleton";
 
 export default function OrderLog() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
+    const [orderLogList, setOrderLogList] = useState<WholesaleOrder[]>([]);
+    const [orderDetailList, setOrderDetailList] = useState<WholesaleOrderItem[]>([]);
+    const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { orderedList, getTotalPrice } = useOrderItemStore();
+    const { getTotalPrice } = useOrderItemStore();
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
+    const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
+
+    const handleOrderLogInfo = useCallback(async () => {
+        try {
+            const data = await getWholesaleOrders(startDate, endDate, 1, 10);
+
+            if (data) {
+                const newOrderLogList = data.map((d) => ({
+                    ...d,
+                    orderDateTime: formatDate(d.orderDateTime)
+                }));
+                setOrderLogList(newOrderLogList);
+                setSelectedNumber(null);
+            }
+        } catch (error) {
+            alert("주문 목록 정보 불러오기 실패");
+            console.error(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        handleOrderLogInfo();
+    }, [handleOrderLogInfo]);
 
     useEffect(() => {
         if (startDate > endDate) {
@@ -19,10 +50,33 @@ export default function OrderLog() {
         }
     }, [startDate, endDate, setIsModalOpen, setIsModalClose]);
 
+    useEffect(() => {
+        const handleOrderLogDetail = async (id: number) => {
+            setIsLoading(true);
+            try {
+                const data = await getWholesaleOrderDetail(id);
+
+                if (data) {
+                    setIsDetailOpen(true);
+                    setOrderDetailList(data.items);
+                }
+            } catch (error) {
+                alert("주문 상세 정보 불러오기 실패");
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        if (selectedNumber !== null) {
+            handleOrderLogDetail(selectedNumber);
+        }
+    }, [selectedNumber]);
+
     return (
         <Layout>
             <div className="flex flex-col">
-                <Area size='default' hasHeader={true} title={"주문 내역"}>
+                <Area size='default' hasHeader={true} title={"약국의 약품 주문 내역"}>
                     <div className="flex flex-row items-center justify-between gap-4 mb-6">
                         <div className="flex items-center justify-center gap-3 h-11">
                             <Image
@@ -51,20 +105,19 @@ export default function OrderLog() {
                         <span className="text-main-color">{startDate} </span>
                         부터
                         <span className="text-main-color"> {endDate} </span>
-                        까지의 주문 내역입니다.
+                        까지의 약국들의 약품 주문 내역입니다.
                     </div>
 
-                    <div className="bg-gray-200 grid grid-cols-5 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
+                    <div className="bg-gray-200 grid grid-cols-4 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
                         <span>날짜</span>
-                        <span>품목 명</span>
-                        <span>약품 단가</span>
-                        <span>수량</span>
-                        <span>가격</span>
+                        <span>주문 번호</span>
+                        <span>총 수량</span>
+                        <span>총 가격</span>
                     </div>
 
                     <div className="flex-1 bg-gray-50 rounded-b-lg h-screen">
                         {
-                            orderedList.length === 0
+                            orderLogList.length === 0
                                 ? (
                                     <div className="flex flex-col items-center justify-center h-full py-10">
                                         <Image
@@ -76,26 +129,82 @@ export default function OrderLog() {
                                             priority
                                         />
                                         <div className="text-center text-sub-font space-y-2">
-                                            <p>현재 주문 내역이 없습니다.</p>
-                                            <p>AI가 분석한 주문 예상 품목을 통해</p>
-                                            <p>약국에서 필요한 약품 주문을 시작해보세요!</p>
+                                            <p>현재 약국들의 주문 내역이 없습니다.</p>
                                         </div>
                                     </div>
                                 )
                                 : (
                                     <div className="justify-start w-full space-y-2">
-                                        {orderedList.map((order, index) => {
-                                            if (startDate <= order.date && order.date <= endDate)
-                                                return (
-                                                    <div key={index} className="grid grid-cols-5 gap-4 p-4 bg-white text-center">
-                                                        <span>{order.date}</span>
-                                                        <span>{order.name}</span>
-                                                        <span>{order.unitPrice.toLocaleString()}</span>
-                                                        <span>{order.quantity}</span>
-                                                        <span>{order.price.toLocaleString()}원</span>
-                                                    </div>
-                                                )
-                                        })}
+                                        {
+                                            orderLogList.map((order, index) => {
+                                                if (
+                                                    startDate <= order.orderDateTime.split(' ')[0]
+                                                    && order.orderDateTime.split(' ')[0] <= endDate)
+                                                    return (
+                                                        <div key={index}>
+                                                            <button
+                                                                className={selectedNumber === order.orderId
+                                                                    ? "flex-1 w-full border-2 bg-white border-selected-line"
+                                                                    : "flex-1 w-full border-2 border-white hover:bg-selected-bg hover:border-selected-line"
+                                                                }
+                                                                onClick={() => setSelectedNumber(order.orderId)}
+                                                            >
+                                                                <div
+                                                                    key={index}
+                                                                    className="grid grid-cols-4 gap-4 p-4 bg-white text-center"
+                                                                >
+                                                                    <span>{order.orderDateTime}</span>
+                                                                    <span>{order.orderNumber}</span>
+                                                                    <span>{order.wholesaleTotalQuantity}</span>
+                                                                    <span>{order.wholesaleTotalPrice.toLocaleString()}원</span>
+                                                                </div>
+                                                            </button>
+
+                                                            {
+                                                                isDetailOpen && selectedNumber === order.orderId
+                                                                    ? <div className="flex-1 w-full border-2 border-white"
+                                                                    >
+                                                                        <div className="grid grid-cols-6 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
+                                                                            <span>약품명</span>
+                                                                            <span>약품 상세 이름</span>
+                                                                            <span>단위 가격</span>
+                                                                            <span>수량</span>
+                                                                            <span>도매상명</span>
+                                                                            <span>결제 총액</span>
+                                                                        </div>
+
+                                                                        {
+                                                                            isLoading
+                                                                                ? <OrderHistorySkeleton count={orderDetailList.length} />
+                                                                                : (
+                                                                                    orderDetailList.map((o, idx) => (
+                                                                                        <div
+                                                                                            key={idx}
+                                                                                            className="grid grid-cols-6 gap-4 p-4 bg-white text-center"
+                                                                                        >
+                                                                                            <span>{o.medicineName + ' ' + o.detailName + ' ' + o.unit}</span>
+                                                                                            <span>{o.unitPrice.toLocaleString()}</span>
+                                                                                            <span>{o.quantity}</span>
+                                                                                            <span>{o.itemTotalPrice.toLocaleString()}원</span>
+                                                                                        </div>
+                                                                                    ))
+                                                                                )
+                                                                        }
+                                                                    </div>
+                                                                    : null
+                                                            }
+
+                                                            {/* {
+                                                                orderDetailList[index + 1]
+                                                                    && order.orderDateTime.split(' ')[0] !== orderDetailList[index + 1]..split(' ')[0]
+                                                                    ? <div
+                                                                        className="w-full h-2 my-2 bg-selected-line"
+                                                                    />
+                                                                    : null
+                                                            } */}
+                                                        </div>
+                                                    )
+                                            })}
                                     </div>
                                 )
                         }

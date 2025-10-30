@@ -99,7 +99,6 @@ export const getAllCarts = async () => {
         } else if (err.response?.status === 401) {
             // access token 만료 시
             console.log("401 error in getAllCarts");
-            throw err;
         }
         throw err;
     }

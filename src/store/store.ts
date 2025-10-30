@@ -225,6 +225,7 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
 }))
 
 // 주문 내역 상세 보기
+// 약국, 도매상 모두 
 export const useSelectedOrderStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
     setSelectedNumber: (index) => set({ selectedNumber: index }),
@@ -239,13 +240,13 @@ export const usePredictItemStore = create<PredictItemStore>((set) => ({
     updateQuantity: (id, quantity) =>
         set((state) => ({
             result: state.result.map(item =>
-                item.id === id ? { ...item, quantity } : item
+                item.medicineId === id ? { ...item, expectedQty: quantity } : item
             ),
         })),
-    updateTotalPrice: (id, unitPrice, quantity) =>
+    updateTotalPrice: (id, totalPrice) =>
         set((state) => ({
             result: state.result.map(item =>
-                item.id === id ? { ...item, price: unitPrice * quantity } : item
+                item.medicineId === id ? { ...item, totalPrice: totalPrice } : item
             ),
         })),
 }))
@@ -261,22 +262,21 @@ export const useOrderItemStore = create<OrderItemStore>((set, get) => ({
     orderedList: [],
     addToOrderedList: (item) => set((state) => {
         const newOrderHistory = {
-            id: state.orderedList.length,
-            date: new Date().toISOString().split('T')[0],
-            name: item.name,
-            unitPrice: item.unitPrice,
-            quantity: item.quantity,
-            price: item.unitPrice * item.quantity,
+            orderId: item.orderId,
+            orderNumber: item.orderNumber,
+            wholesaleTotalPrice: item.wholesaleTotalPrice,
+            wholesaleTotalQuantity: item.wholesaleTotalQuantity,
+            orderDateTime: item.orderDateTime,
         }
         return { orderedList: [...state.orderedList, newOrderHistory] }
     }),
-    removeFromOrderedList: (id) => set((state) => ({
-        orderedList: state.orderedList.filter(item => item.id !== id)
-    })),
+    // removeFromOrderedList: (id) => set((state) => ({
+    //     orderedList: state.orderedList.filter(item => item.medicineId !== id)
+    // })),
     clearOrderedList: () => set({ orderedList: [] }),
     getTotalPrice: () => {
         const state = get();
-        return state.orderedList.reduce((total, item) => total + item.price, 0);
+        return state.orderedList.reduce((total, item) => total + item.wholesaleTotalPrice, 0);
     },
 }))
 
@@ -286,7 +286,7 @@ export const usePredictPharmacyStore = create<PredictPharmacyStore>((set, get) =
     setMedInfoList: (newList) => set({ medInfoList: newList }),
     getTotalQuantity: () => {
         const state = get();
-        return state.medInfoList.reduce((totalQuantity, item) => totalQuantity + item.quantity, 0);
+        return state.medInfoList.reduce((total, item) => total + item.expectedQty, 0);
     }
 }))
 
