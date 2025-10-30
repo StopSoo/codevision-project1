@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: __dirname,
   experimental: {
-    optimizePackageImports: ["geist"], // <-- geist 자동 최적화 막기
+    optimizePackageImports: ["geist"],
   },
   webpack(config) {
     return config;

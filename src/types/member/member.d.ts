@@ -22,7 +22,6 @@ export type MemberStore = {
 /* 모달 */
 export type ModalStore = {
     isModalOpen: boolean;
-    type?: string;
     setIsModalOpen: () => void;
     setIsModalClose: () => void;
 }

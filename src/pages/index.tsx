@@ -51,7 +51,6 @@ export default function Home() {
         setIsFailModalOpen();
       }
     } catch (error) {
-      console.log(error);
       setIsFailModalOpen();
     }
   };
@@ -201,7 +200,7 @@ export default function Home() {
           ? <NotiModal
             type='alert'
             message='로그인에 실패했습니다.'
-            hasButton={true}
+            hasButton={false}
             hasTwoButton={false}
             onClose={setIsFailModalClose}
           />
