@@ -53,6 +53,7 @@ export default function Home() {
         setIsFailModalOpen();
       }
     } catch (error) {
+      console.log(error);
       setIsFailModalOpen();
     }
   };
@@ -81,6 +82,7 @@ export default function Home() {
         setIsWithdrawalModalClose();
       }, 2000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsFailModalClose, router]);
 
   useEffect(() => {

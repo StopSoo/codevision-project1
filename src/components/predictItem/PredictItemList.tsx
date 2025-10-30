@@ -1,5 +1,5 @@
 import { usePredictItemStore, useSelectedItemStore } from "@/store/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getPredictOrder } from "@/apis/predictItem";
 
 export default function PredictItemList() {
@@ -31,6 +31,7 @@ export default function PredictItemList() {
         };
         // API 연동
         handlePredictOrderList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

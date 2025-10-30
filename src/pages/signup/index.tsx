@@ -116,6 +116,7 @@ export default function SignUp() {
         setDetailAddress('');
         setUserName('');
         setMember('');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

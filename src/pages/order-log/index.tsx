@@ -36,7 +36,7 @@ export default function OrderLog() {
             alert("주문 목록 정보 불러오기 실패");
             console.error(error);
         }
-    }, []);
+    }, [endDate, setSelectedNumber, startDate]);
 
     useEffect(() => {
         handleOrderLogInfo();

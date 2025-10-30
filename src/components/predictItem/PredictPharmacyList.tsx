@@ -1,6 +1,5 @@
 import { getPredictOrderDetail } from "@/apis/predictItem";
 import { usePredictItemStore, usePredictPharmacyStore, useSelectedItemStore } from "@/store/store";
-import { PredictPharmacyType } from "@/types/wholesaler/predictItem";
 import Image from "next/image";
 import { useEffect } from "react";
 
@@ -25,6 +24,7 @@ export default function PredictPharmacyList() {
         };
 
         handlePharmacyList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedMedNumber]);
 
     return (
