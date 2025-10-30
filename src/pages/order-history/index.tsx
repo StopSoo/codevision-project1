@@ -160,6 +160,7 @@ export default function OrderHistory() {
                                                 height={150}
                                                 alt="empty cart"
                                                 className="mb-6"
+                                                priority
                                             />
                                             <div className="text-center text-sub-font space-y-2">
                                                 <p>현재 주문 내역이 없습니다.</p>

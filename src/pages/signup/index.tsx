@@ -14,7 +14,7 @@ export default function SignUp() {
 
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
-    const { name: username, zipCode, roadAddress, detailAddress, setDetailAddress } = useMemberStore();
+    const { name: username, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
     const [workplace, setWorkplace] = useState<string>('');
@@ -108,6 +108,12 @@ export default function SignUp() {
             router.push('/');
         }
     }, [isSignup, router, isModalOpen, setIsModalClose]);
+
+    useEffect(() => {
+        setZipCode('');
+        setRoadAddress('');
+        setDetailAddress('');
+    }, []);
 
     useEffect(() => {
         setIsEmailFilled(email.trim() !== "");

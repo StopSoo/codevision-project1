@@ -189,8 +189,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
     isAbleToAdd: (item, maxQuantity) => {
         const state = get();
         const isExist = state.cart.some(cartItem => {
-            console.log(cartItem.wholesaleId)
-            console.log(item.wholesaleId)
             return cartItem.medicineId === item.medicineId
                 && cartItem.wholesaleId === item.wholesaleId;
         }
