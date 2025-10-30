@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, KeyboardEvent } from "react";
 import { useDateModalStore, useSelectedOrderStore } from "@/store/store";
 import Area from "@/components/common/Area";
 import { getPharmacyOrderHistory, getPharmacyOrderHistoryDetail } from "@/apis/order";
@@ -20,6 +20,12 @@ export default function OrderHistory() {
 
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
     const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
+
+    const enterkey = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.keyCode === 13) {
+            handleOrderInfo();
+        }
+    };
 
     const getTotalPrice = () => {
         // 주문 내역의 총합 반환
@@ -115,6 +121,7 @@ export default function OrderHistory() {
                                     value={keyword}
                                     placeholder="도매상명 or 약품명 입력"
                                     onChange={(e) => setKeyword(e.target.value)}
+                                    onKeyUp={(e) => enterkey(e)}
                                     className="px-5 py-2 w-[250px] h-11 border-2 border-gray-300 text-main-font text-sm rounded focus:outline-none focus:border-main-color focus:bg-selected-bg"
                                 />
                                 <button

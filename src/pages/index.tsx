@@ -5,15 +5,17 @@ import NotiModal from '@/components/modal/NotiModal';
 import Button from '@/components/common/Button';
 
 import { MemberProps } from '@/types/member/member';
-import { useMemberStore, useLoginModalStore, useLoginFailModalStore } from '@/store/store';
+import { useMemberStore, useLoginModalStore, useLoginFailModalStore, useNotExistEmailModalStore, useWrongPwModalStore, useWithdrawalModalStore } from '@/store/store';
 import { postLoginInfo } from '@/apis/login';
-import { setUnauthorizedHandler } from '@/apis/axiosInstance';
 
 export default function Home() {
   const router = useRouter();
   const { member, setMember, setName, isLogin, setLogin } = useMemberStore();
   const { isModalOpen, setIsModalOpen, setIsModalClose } = useLoginModalStore();
   const { isModalOpen: isFailModalOpen, setIsModalOpen: setIsFailModalOpen, setIsModalClose: setIsFailModalClose } = useLoginFailModalStore();
+  const { isModalOpen: isNotExistModalOpen, setIsModalClose: setIsNotExistModalClose } = useNotExistEmailModalStore();
+  const { isModalOpen: isWrongPwModalOpen, setIsModalClose: setIsWrongPwModalClose } = useWrongPwModalStore();
+  const { isModalOpen: isWithdrawalModalOpen, setIsModalClose: setIsWithdrawalModalClose } = useWithdrawalModalStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,10 +73,13 @@ export default function Home() {
           router.push('/predict-item');
         }
       }, 2000);
-    } else if (isFailModalOpen) {
+    } else if (isFailModalOpen || isNotExistModalOpen || isWrongPwModalOpen || isWithdrawalModalOpen) {
       setTimeout(() => {
         setIsFailModalClose();
-      }, 3000);
+        setIsNotExistModalClose();
+        setIsWrongPwModalClose();
+        setIsWithdrawalModalClose();
+      }, 2000);
     }
   }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsFailModalClose, router]);
 
@@ -83,12 +88,6 @@ export default function Home() {
     setIsEmailFilled(email.trim() !== "");
     setIsPwFilled(password.trim() !== "");
   }, [email, password]);
-
-  useEffect(() => {
-    setUnauthorizedHandler(() => {
-      setIsFailModalOpen();
-    });
-  }, [setIsFailModalOpen]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
@@ -203,6 +202,45 @@ export default function Home() {
             hasButton={false}
             hasTwoButton={false}
             onClose={setIsFailModalClose}
+          />
+          : null
+      }
+
+      {
+        // 로그인 실패 - 이메일이 존재하지 않음
+        isNotExistModalOpen
+          ? <NotiModal
+            type='alert'
+            message='존재하지 않는 이메일입니다.'
+            hasButton={false}
+            hasTwoButton={false}
+            onClose={setIsNotExistModalClose}
+          />
+          : null
+      }
+
+      {
+        // 로그인 실패 - 비밀번호 불일치
+        isWrongPwModalOpen
+          ? <NotiModal
+            type='alert'
+            message='비밀번호가 일치하지 않습니다.'
+            hasButton={false}
+            hasTwoButton={false}
+            onClose={setIsWrongPwModalClose}
+          />
+          : null
+      }
+
+      {
+        // 로그인 실패 - 탈퇴한 사용자
+        isWithdrawalModalOpen
+          ? <NotiModal
+            type='alert'
+            message='탈퇴한 사용자입니다.'
+            hasButton={false}
+            hasTwoButton={false}
+            onClose={setIsWithdrawalModalClose}
           />
           : null
       }
