@@ -22,14 +22,13 @@ export type PredictItemStore = {
 export type OrderItemStore = {
     orderedList: WholesaleOrder[];
     addToOrderedList: (item: WholesaleOrder) => void;
-    // removeFromOrderedList: (id: number) => void;
     clearOrderedList: () => void;
     getTotalPrice: () => number;
 }
 // 도매상 - 주문 예상 약국
 export type PredictPharmacyType = {
     pharmacyId: number;
-    workspace: string; // 약국명
+    pharmacyName: string; // 약국명
     expectedQty: number; // 수량
     probOrder: number; // 주문 확률
 }
@@ -79,6 +78,7 @@ export type PredictOrderDetailRes = {
 // 주문 목록 조회
 export type WholesaleOrder = {
     orderId: number;
+    pharmacyName: string;
     orderNumber: string;
     wholesaleTotalPrice: number;
     wholesaleTotalQuantity: number;
@@ -103,10 +103,12 @@ export type WholesaleOrderItem = {
 }
 
 export type WholesaleOrderItemRes = {
-    orderNumber: string;
-    pharmacyId: number;
-    items: WholesaleOrderItem[];
-    totalQuantity: number;
-    totalPrice: number;
-    orderDateTime: string;
+    data: {
+        orderNumber: string;
+        pharmacyId: number;
+        items: WholesaleOrderItem[];
+        totalQuantity: number;
+        totalPrice: number;
+        orderDateTime: string;
+    }
 }

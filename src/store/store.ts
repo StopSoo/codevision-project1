@@ -5,7 +5,7 @@ import { CartStore } from '@/types/cart/cart';
 import { PharmacyRankingStore, TodaysOrderStore } from '@/types/pharmacy/order';
 import { OrderedListStore } from '@/types/pharmacy/orderedList';
 import { MemberStore, ModalStore } from '@/types/member/member';
-import { OrderItemStore, PharmacyMemberStore, PredictItemStore, PredictPharmacyStore } from '@/types/wholesaler/predictItem';
+import { PharmacyMemberStore, PredictItemStore, PredictPharmacyStore } from '@/types/wholesaler/predictItem';
 import { SelectedStore } from '@/types/pharmacy/medicine';
 
 /* 회원 */
@@ -255,29 +255,6 @@ export const usePredictItemStore = create<PredictItemStore>((set) => ({
 export const useSelectedItemStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
     setSelectedNumber: (index) => set({ selectedNumber: index }),
-}))
-
-// 주문 내역
-export const useOrderItemStore = create<OrderItemStore>((set, get) => ({
-    orderedList: [],
-    addToOrderedList: (item) => set((state) => {
-        const newOrderHistory = {
-            orderId: item.orderId,
-            orderNumber: item.orderNumber,
-            wholesaleTotalPrice: item.wholesaleTotalPrice,
-            wholesaleTotalQuantity: item.wholesaleTotalQuantity,
-            orderDateTime: item.orderDateTime,
-        }
-        return { orderedList: [...state.orderedList, newOrderHistory] }
-    }),
-    // removeFromOrderedList: (id) => set((state) => ({
-    //     orderedList: state.orderedList.filter(item => item.medicineId !== id)
-    // })),
-    clearOrderedList: () => set({ orderedList: [] }),
-    getTotalPrice: () => {
-        const state = get();
-        return state.orderedList.reduce((total, item) => total + item.wholesaleTotalPrice, 0);
-    },
 }))
 
 // 주문 예상 약국

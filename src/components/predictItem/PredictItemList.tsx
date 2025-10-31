@@ -1,11 +1,13 @@
 import { usePredictItemStore, useSelectedItemStore } from "@/store/store";
 import { useEffect } from "react";
 import { getPredictOrder } from "@/apis/predictItem";
+import { diffTime } from "@/utils/formatDate";
 
 export default function PredictItemList() {
     const { result, setResult, updateQuantity, updateTotalPrice } = usePredictItemStore();
-
     const { selectedNumber: selectedMedNumber, setSelectedNumber: setSelectedMedNumber } = useSelectedItemStore(); // 선택한 약품의 id
+
+    const todaysDate = new Date().toISOString().split('T')[0];
 
     const handleQuantityChange = (id: number, value: string, totalPrice: number) => {
         const numValue = Number(value);
@@ -83,7 +85,17 @@ export default function PredictItemList() {
                                             />
                                         </div>
                                         <span className="text-center">{predictItem.totalPrice.toLocaleString()}</span>
-                                        <span className="text-center">{predictItem.expectedOrderDate}</span>
+                                        <span
+                                            className={
+                                                diffTime(todaysDate, predictItem.expectedOrderDate) <= 14
+                                                    ? "text-center text-point-negative"
+                                                    : diffTime(todaysDate, predictItem.expectedOrderDate) <= 31
+                                                        ? "text-center text-point-positive"
+                                                        : "text-center text-main-font"
+                                            }
+                                        >
+                                            {predictItem.expectedOrderDate}
+                                        </span>
                                     </div>
                                 </button>
                             </div>

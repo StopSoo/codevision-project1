@@ -1,7 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { useDateModalStore, useOrderItemStore, useSelectedOrderStore } from "@/store/store";
+import { useDateModalStore, useSelectedOrderStore } from "@/store/store";
 import Area from "@/components/common/Area";
 import { WholesaleOrder, WholesaleOrderItem } from "@/types/wholesaler/predictItem";
 import { getWholesaleOrderDetail, getWholesaleOrders } from "@/apis/orderLog";
@@ -16,27 +16,44 @@ export default function OrderLog() {
     const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { getTotalPrice } = useOrderItemStore();
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
     const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
+
+    const getTotalPrice = () => {
+        // 주문 내역의 총합 반환
+        const result = orderLogList.reduce((total, item) => total + item.wholesaleTotalPrice, 0);
+        return result;
+    }
 
     const handleOrderLogInfo = useCallback(async () => {
         try {
             const data = await getWholesaleOrders(startDate, endDate, 1, 10);
 
             if (data) {
-                const newOrderLogList = data.map((d) => ({
-                    ...d,
-                    orderDateTime: formatDate(d.orderDateTime)
-                }));
+                const newOrderLogList = data.map((d) => {
+                    if (d.orderDateTime === null && d.pharmacyName === null) {
+                        // 서버 내 목데이터 경우 처리
+                        // TODO: 나중에 지울 것
+                        return {
+                            ...d,
+                            pharmacyName: '하이 약국',
+                            orderDateTime: '2025-10-30 오후 5:30'
+                        };
+                    } else {
+                        return {
+                            ...d,
+                            orderDateTime: formatDate(d.orderDateTime)
+                        };
+                    }
+                });
                 setOrderLogList(newOrderLogList);
                 setSelectedNumber(null);
             }
         } catch (error) {
-            alert("주문 목록 정보 불러오기 실패");
+            alert("도매상 주문 목록 정보 불러오기 실패");
             console.error(error);
         }
-    }, [endDate, setSelectedNumber, startDate]);
+    }, [startDate, endDate, setSelectedNumber]);
 
     useEffect(() => {
         handleOrderLogInfo();
@@ -55,8 +72,8 @@ export default function OrderLog() {
             setIsLoading(true);
             try {
                 const data = await getWholesaleOrderDetail(id);
-
-                if (data) {
+                if (data && 'items' in data) {
+                    console.log(data.items);
                     setIsDetailOpen(true);
                     setOrderDetailList(data.items);
                 }
@@ -108,9 +125,10 @@ export default function OrderLog() {
                         까지의 약국들의 약품 주문 내역입니다.
                     </div>
 
-                    <div className="bg-gray-200 grid grid-cols-4 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
-                        <span>날짜</span>
+                    <div className="bg-gray-200 grid grid-cols-5 gap-4 p-4 text-center font-medium text-main-font rounded-t-lg">
                         <span>주문 번호</span>
+                        <span>주문 약국</span>
+                        <span>날짜</span>
                         <span>총 수량</span>
                         <span>총 가격</span>
                     </div>
@@ -151,10 +169,11 @@ export default function OrderLog() {
                                                             >
                                                                 <div
                                                                     key={index}
-                                                                    className="grid grid-cols-4 gap-4 p-4 bg-white text-center"
+                                                                    className="grid grid-cols-5 gap-4 p-4 bg-white text-center"
                                                                 >
-                                                                    <span>{order.orderDateTime}</span>
                                                                     <span>{order.orderNumber}</span>
+                                                                    <span>{order.pharmacyName}</span>
+                                                                    <span>{order.orderDateTime}</span>
                                                                     <span>{order.wholesaleTotalQuantity}</span>
                                                                     <span>{order.wholesaleTotalPrice.toLocaleString()}원</span>
                                                                 </div>
@@ -164,12 +183,10 @@ export default function OrderLog() {
                                                                 isDetailOpen && selectedNumber === order.orderId
                                                                     ? <div className="flex-1 w-full border-2 border-white"
                                                                     >
-                                                                        <div className="grid grid-cols-6 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
+                                                                        <div className="grid grid-cols-4 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
                                                                             <span>약품명</span>
-                                                                            <span>약품 상세 이름</span>
                                                                             <span>단위 가격</span>
                                                                             <span>수량</span>
-                                                                            <span>도매상명</span>
                                                                             <span>결제 총액</span>
                                                                         </div>
 
@@ -177,15 +194,15 @@ export default function OrderLog() {
                                                                             isLoading
                                                                                 ? <OrderHistorySkeleton count={orderDetailList.length} />
                                                                                 : (
-                                                                                    orderDetailList.map((o, idx) => (
+                                                                                    orderDetailList.map((order, idx) => (
                                                                                         <div
                                                                                             key={idx}
-                                                                                            className="grid grid-cols-6 gap-4 p-4 bg-white text-center"
+                                                                                            className="grid grid-cols-4 gap-4 p-4 bg-white text-center"
                                                                                         >
-                                                                                            <span>{o.medicineName + ' ' + o.detailName + ' ' + o.unit}</span>
-                                                                                            <span>{o.unitPrice.toLocaleString()}</span>
-                                                                                            <span>{o.quantity}</span>
-                                                                                            <span>{o.itemTotalPrice.toLocaleString()}원</span>
+                                                                                            <span>{order.medicineName + ' ' + order.unit}</span>
+                                                                                            <span>{order.unitPrice.toLocaleString()}</span>
+                                                                                            <span>{order.quantity}</span>
+                                                                                            <span>{order.itemTotalPrice.toLocaleString()}원</span>
                                                                                         </div>
                                                                                     ))
                                                                                 )

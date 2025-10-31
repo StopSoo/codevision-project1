@@ -59,7 +59,7 @@ export default function PredictPharmacyList() {
                                         className="flex-1 flex flex-row w-full items-center justify-start p-4 space-2 gap-4 overflow-y-auto bg-gray-50 rounded-b-lg"
                                     >
                                         <div key={index} className="w-full grid grid-cols-3 gap-4 p-4 bg-white text-center">
-                                            <span>{predictItem.workspace}</span>
+                                            <span>{predictItem.pharmacyName}</span>
                                             <span>{predictItem.expectedQty}</span>
                                             <span>{predictItem.probOrder}</span>
                                         </div>

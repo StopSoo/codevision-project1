@@ -22,7 +22,7 @@ export const getWholesaleOrderDetail = async (
         const response = await AuthAPI.viewWholesaleOrderLogDetail(
             orderId
         );
-        return response;
+        return response.data;
     } catch (error) {
         const err = error as AxiosError;
         console.log('getWholesaleOrderDetail error', err);
