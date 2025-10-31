@@ -1,5 +1,5 @@
 import { useMedRankingStore, useSelectedMedStore } from "@/store/store";
-import { Suspense, useEffect } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
 import { getTodaysRanking } from "@/apis/pharmacy";
 
@@ -7,23 +7,26 @@ export default function MedRanking() {
     const { result, setResult } = useMedRankingStore();
     const { selectedNumber: selectedMedNumber, setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
 
-    const handleMedRanking = async () => {
+    const [listCount, setListCount] = useState(20);
+    const [percent, setPercent] = useState(70);
+
+    const handleMedRanking = useCallback(async () => {
         try {
-            const ranking = await getTodaysRanking();
+            console.log("요즘 약국 랭킹 데이터 받아오기 시도");
+            const ranking = await getTodaysRanking(listCount, percent);
 
             if (ranking?.items) {
+                console.log(ranking.items);
                 setResult(ranking.items);
             }
         } catch (error) {
             console.error(error);
         }
-    };
+    }, [listCount, percent, setResult]);
+
     useEffect(() => {
-        if (result.length === 0) {
-            handleMedRanking();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        handleMedRanking();
+    }, [listCount, percent, handleMedRanking]);
 
     return (
         <div className="h-full flex flex-col">
@@ -33,6 +36,46 @@ export default function MedRanking() {
                 </div>
                 <div className="text-xs text-sub-font leading-relaxed whitespace-nowrap">
                     지난 1주일 간 주변약국 주문자가 가장 많이<br />주문한 약품부터 주문율 떨어지는 약품까지<br />순위로 정리했습니다.<br />
+                </div>
+                <div className="flex flex-row gap-2">
+                    <div className="flex flex-row gap-1 items-center">
+                        <span className="text-sm w-9">개수</span>
+                        <select
+                            value={listCount}
+                            onChange={(e) => setListCount(Number(e.target.value))}
+                            className="w-full max-w-[80px] h-12 px-3 py-3 border border-gray-300 text-sm text-main-font focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                        >
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="60">60</option>
+                            <option value="70">70</option>
+                            <option value="80">80</option>
+                            <option value="90">90</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div className="flex flex-row gap-1 items-center">
+                        <span className="text-sm w-9">상위</span>
+                        <select
+                            value={percent}
+                            onChange={(e) => setPercent(Number(e.target.value))}
+                            className="w-full max-w-[80px] h-12 px-3 py-3 border border-gray-300 text-sm text-main-font focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                        >
+                            <option value="10">10%</option>
+                            <option value="20">20%</option>
+                            <option value="30">30%</option>
+                            <option value="40">40%</option>
+                            <option value="50">50%</option>
+                            <option value="60">60%</option>
+                            <option value="70">70%</option>
+                            <option value="80">80%</option>
+                            <option value="90">90%</option>
+                            <option value="100">100%</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

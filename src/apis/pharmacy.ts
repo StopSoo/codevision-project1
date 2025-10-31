@@ -17,9 +17,11 @@ export const getTodaysOrderList = async ({ date, scope = 'DAY' }: {
     }
 };
 // 요즘 약국 랭킹 
-export const getTodaysRanking = async () => {
+export const getTodaysRanking = async (
+    qty?: number, percent?: number
+) => {
     try {
-        const response = await AuthAPI.viewMedRanking();
+        const response = await AuthAPI.viewMedRanking(qty, percent);
         return response.data;
     } catch (error) {
         const err = error as AxiosError;

@@ -157,6 +157,8 @@ export const useMedRankingStore = create<PharmacyRankingStore>((set) => ({
 export const useSelectedMedStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
     setSelectedNumber: (id) => set({ selectedNumber: id }),
+    expectedQty: 0,
+    setExpectedQty: (qty) => set({ expectedQty: qty }),
 }))
 
 // 장바구니

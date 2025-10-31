@@ -17,6 +17,8 @@ export type DataType = {
 export type SelectedStore = {
     selectedNumber: number | null; // 선택한 약품/회원의 인덱스 번호 or 약품 번호
     setSelectedNumber: (id: number | null) => void;
+    expectedQty?: number | null; // 선택한 약품의 예측 수량
+    setExpectedQty?: (qty: number | null) => void;
 }
 
 /* 약국 - 약품 담기 */

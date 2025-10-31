@@ -39,11 +39,6 @@ const auth = (axiosInstance: AxiosInstance) => ({
         );
         return response.data;
     },
-    // 로그아웃
-    // logout: async (): Promise<void> => {
-    //     localStorage.removeItem('accessToken');
-    //     // await axiosInstance.post('/auth/logout');
-    // },
     // 장바구니 담기
     addCart: async (item: AddCartReq): Promise<AddCartRes> => {
         const response = await axiosInstance.post<AddCartRes>(
@@ -125,9 +120,15 @@ const auth = (axiosInstance: AxiosInstance) => ({
         return response.data;
     },
     // 주변약국 주문 약품 순위
-    viewMedRanking: async (): Promise<RankingRes> => {
+    viewMedRanking: async (
+        qty?: number,
+        percent?: number
+    ): Promise<RankingRes> => {
         const response = await axiosInstance.get<RankingRes>(
-            '/pharmacy/today-ranking'
+            '/pharmacy/today-ranking',
+            {
+                params: { qty, percent }
+            }
         );
         return response.data;
     },

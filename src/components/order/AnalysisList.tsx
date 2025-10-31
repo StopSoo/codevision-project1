@@ -4,8 +4,8 @@ import DataListSkeleton from "../skeleton/DataListSkeleton";
 import { getTodaysOrderList } from "@/apis/pharmacy";
 
 export default function AnalysisList() {
-    const { click, result, setResult, dayData, setDayData, dowData, setDowData, weekData, setWeekData, monthData, setMonthData, filterList, setFilterList } = useAnalysisStore();
-    const { selectedNumber, setSelectedNumber } = useSelectedMedStore();
+    const { result, setResult, dayData, setDayData, dowData, setDowData, weekData, setWeekData, monthData, setMonthData, filterList, setFilterList } = useAnalysisStore();
+    const { selectedNumber, setSelectedNumber, setExpectedQty } = useSelectedMedStore();
 
     const handleTodaysOrderList = useCallback(async () => {
         try {
@@ -62,7 +62,7 @@ export default function AnalysisList() {
         ];
         setResult(newResult);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [click, filterList, dayData, dowData, weekData, monthData]);
+    }, [filterList]);
 
     useEffect(() => {
         if (result.length === 0) {
@@ -140,7 +140,12 @@ export default function AnalysisList() {
                                             ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
                                             : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                         }
-                                        onClick={() => setSelectedNumber(analysis.medicineId)}
+                                        onClick={() => {
+                                            setSelectedNumber(analysis.medicineId);
+                                            if (setExpectedQty) {
+                                                setExpectedQty(analysis.expectedQty);
+                                            }
+                                        }}
                                     >
                                         <div className="flex flex-row items-center font-medium text-main-font text-left gap-2">
                                             <p
