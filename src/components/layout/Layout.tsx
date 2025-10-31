@@ -17,10 +17,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const { setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
     const { setButtonOff: setMedRankingButtonOff } = useMedRankingStore();
     const { setSelectedNumber: setSelectedMedNumber } = useSelectedMedStore();
-    const { member, setLogout } = useMemberStore();
+    const { setName, member, setLogout } = useMemberStore();
 
     const handleClickLogoutYes = () => {
         setLogout();
+        setName('');
         localStorage.removeItem('accessToken');
         setIsLogoutModalClose();
         setAnalysisButtonOff();

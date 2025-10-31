@@ -23,7 +23,7 @@ export const getPharmacyOrderHistory = async (
         );
 
         if ("data" in response) {
-            return response.data;
+            return response;
         }
     } catch (error) {
         const err = error as AxiosError;

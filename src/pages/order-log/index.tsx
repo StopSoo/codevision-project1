@@ -7,6 +7,7 @@ import { WholesaleOrder, WholesaleOrderItem } from "@/types/wholesaler/predictIt
 import { getWholesaleOrderDetail, getWholesaleOrders } from "@/apis/orderLog";
 import { formatDate } from "@/utils/formatDate";
 import OrderHistorySkeleton from "@/components/skeleton/OrderHistorySkeleton";
+import PaginationComponent from "@/components/common/Pagination";
 
 export default function OrderLog() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
@@ -15,6 +16,9 @@ export default function OrderLog() {
     const [orderDetailList, setOrderDetailList] = useState<WholesaleOrderItem[]>([]);
     const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(1); // 현재 페이지
+    const [totalPages, setTotalPages] = useState(0);
+    const contentLimit = 10; // 한 페이지 당 보여줄 주문 내역 건 수
 
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
     const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
@@ -27,10 +31,11 @@ export default function OrderLog() {
 
     const handleOrderLogInfo = useCallback(async () => {
         try {
-            const data = await getWholesaleOrders(startDate, endDate, 1, 10);
+            const data = await getWholesaleOrders(startDate, endDate, page, contentLimit);
 
             if (data) {
-                const newOrderLogList = data.map((d) => {
+                setTotalPages(data.totalElements);
+                const newOrderLogList = data.data.map((d) => {
                     if (d.orderDateTime === null && d.pharmacyName === null) {
                         // 서버 내 목데이터 경우 처리
                         // TODO: 나중에 지울 것
@@ -53,7 +58,7 @@ export default function OrderLog() {
             alert("도매상 주문 목록 정보 불러오기 실패");
             console.error(error);
         }
-    }, [startDate, endDate, setSelectedNumber]);
+    }, [startDate, endDate, page, setSelectedNumber]);
 
     useEffect(() => {
         handleOrderLogInfo();
@@ -132,7 +137,10 @@ export default function OrderLog() {
                         <span>총 가격</span>
                     </div>
 
-                    <div className="flex-1 bg-gray-50 rounded-b-lg h-screen">
+                    <div
+                        className="flex-1 bg-gray-50 rounded-b-lg h-[720px] overflow-y-auto overflow-hidden"
+                        style={{ scrollbarGutter: "stable" }}
+                    >
                         {
                             orderLogList.length === 0
                                 ? (
@@ -151,7 +159,7 @@ export default function OrderLog() {
                                     </div>
                                 )
                                 : (
-                                    <div className="justify-start w-full space-y-2">
+                                    <div className="justify-start w-full space-y-2 flex-1">
                                         {
                                             orderLogList.map((order, index) => {
                                                 if (
@@ -180,13 +188,13 @@ export default function OrderLog() {
 
                                                             {
                                                                 isDetailOpen && selectedNumber === order.orderId
-                                                                    ? <div className="flex-1 w-full border-2 border-white"
+                                                                    ? <div className="flex-1 w-full border-2 border-white animate-slideDown"
                                                                     >
-                                                                        <div className="grid grid-cols-4 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
-                                                                            <span>약품명</span>
-                                                                            <span>단위 가격</span>
-                                                                            <span>수량</span>
-                                                                            <span>결제 총액</span>
+                                                                        <div className="grid grid-cols-6 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
+                                                                            <span className="col-span-2">약품명</span>
+                                                                            <span className="col-span-1">단위 가격</span>
+                                                                            <span className="col-span-1">수량</span>
+                                                                            <span className="col-span-2">결제 총액</span>
                                                                         </div>
 
                                                                         {
@@ -196,12 +204,12 @@ export default function OrderLog() {
                                                                                     orderDetailList.map((order, idx) => (
                                                                                         <div
                                                                                             key={idx}
-                                                                                            className="grid grid-cols-4 gap-4 p-4 bg-white text-center"
+                                                                                            className="grid grid-cols-6 gap-4 p-4 bg-white text-center"
                                                                                         >
-                                                                                            <span>{order.medicineName + ' ' + order.unit}</span>
-                                                                                            <span>{order.unitPrice.toLocaleString()}</span>
-                                                                                            <span>{order.quantity}</span>
-                                                                                            <span>{order.itemTotalPrice.toLocaleString()}원</span>
+                                                                                            <span className="col-span-2">{order.medicineName + ' ' + order.unit}</span>
+                                                                                            <span className="col-span-1">{order.unitPrice.toLocaleString()}</span>
+                                                                                            <span className="col-span-1">{order.quantity}</span>
+                                                                                            <span className="col-span-2">{order.itemTotalPrice.toLocaleString()}원</span>
                                                                                         </div>
                                                                                     ))
                                                                                 )

@@ -8,7 +8,7 @@ export const getWholesaleOrders = async (
         const response = await AuthAPI.viewWholesaleOrderLog(
             startDate, endDate, page, size
         );
-        return response.data;
+        return response;
     } catch (error) {
         const err = error as AxiosError;
         console.log('getWholesaleOrders error', err);

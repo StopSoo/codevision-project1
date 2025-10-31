@@ -8,6 +8,7 @@ import { OrderedItem } from "@/types/pharmacy/orderedList";
 import { CartDetailItem } from "@/types/cart/cart";
 import { formatDate } from "@/utils/formatDate";
 import OrderHistorySkeleton from "@/components/skeleton/OrderHistorySkeleton";
+import PaginationComponent from "@/components/common/Pagination";
 
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
@@ -18,6 +19,9 @@ export default function OrderHistory() {
     const [keyword, setKeyword] = useState<string>('');
     const [paramKeyword, setParamKeyword] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(1); // 현재 페이지
+    const [totalPages, setTotalPages] = useState(0);
+    const contentLimit = 10; // 한 페이지 당 보여줄 주문 내역 건 수
 
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
     const { selectedNumber, setSelectedNumber } = useSelectedOrderStore(); // 선택한 주문의 orderId
@@ -37,10 +41,11 @@ export default function OrderHistory() {
 
     const handleOrderInfo = useCallback(async () => {
         try {
-            const data = await getPharmacyOrderHistory(startDate, endDate, 1, 20, paramKeyword);
+            const data = await getPharmacyOrderHistory(startDate, endDate, page, contentLimit, paramKeyword);
 
             if (data) {
-                const newOrderHistoryList = data.map((d) => ({
+                setTotalPages(data.totalElements);
+                const newOrderHistoryList = data.data.map((d) => ({
                     ...d,
                     orderDateTime: formatDate(d.orderDateTime)
                 }));
@@ -51,7 +56,7 @@ export default function OrderHistory() {
             alert("주문 목록 정보 불러오기 실패");
             console.error(error);
         }
-    }, [startDate, endDate, paramKeyword, setSelectedNumber]);
+    }, [startDate, endDate, page, paramKeyword, setSelectedNumber]);
 
     useEffect(() => {
         if (startDate > endDate) {
@@ -151,7 +156,10 @@ export default function OrderHistory() {
                             <span>주문 금액</span>
                         </div>
 
-                        <div className="flex-1 bg-gray-50 rounded-b-lg h-full">
+                        <div
+                            className="flex-1 bg-gray-50 rounded-b-lg h-[720px] overflow-y-auto overflow-hidden"
+                            style={{ scrollbarGutter: "stable" }}
+                        >
                             {
                                 orderHistoryList.length === 0
                                     ? keyword === ''
@@ -193,7 +201,7 @@ export default function OrderHistory() {
                                             </div>
                                         )
                                     : (
-                                        <div className="justify-start w-full space-y-2 flex-1 overflow-y-auto">
+                                        <div className="justify-start w-full space-y-2 flex-1">
                                             {
                                                 orderHistoryList.map((order, index) => {
                                                     if (
@@ -218,15 +226,15 @@ export default function OrderHistory() {
 
                                                                 {
                                                                     isDetailOpen && selectedNumber === order.orderId
-                                                                        ? <div className="flex-1 w-full border-2 border-white"
+                                                                        ? <div className="flex-1 w-full border-2 border-white animate-slideDown"
                                                                         >
-                                                                            <div className="grid grid-cols-6 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
-                                                                                <span>약품명</span>
-                                                                                <span>약품 상세 이름</span>
-                                                                                <span>단위 가격</span>
-                                                                                <span>수량</span>
-                                                                                <span>도매상명</span>
-                                                                                <span>결제 총액</span>
+                                                                            <div className="grid grid-cols-9 gap-4 p-4 bg-selected-bg text-center border-b-2 border-selected-line/30">
+                                                                                <span className="col-span-2">약품명</span>
+                                                                                <span className="col-span-2">약품 상세 이름</span>
+                                                                                <span className="col-span-1">단위 가격</span>
+                                                                                <span className="col-span-1">수량</span>
+                                                                                <span className="col-span-1">도매상명</span>
+                                                                                <span className="col-span-2">결제 총액</span>
                                                                             </div>
 
                                                                             {
@@ -236,14 +244,18 @@ export default function OrderHistory() {
                                                                                         orderDetailList.map((order, idx) => (
                                                                                             <div
                                                                                                 key={idx}
-                                                                                                className="grid grid-cols-6 gap-4 p-4 bg-white text-center"
+                                                                                                className={
+                                                                                                    keyword !== '' && order.medicineName.includes(keyword)
+                                                                                                        ? "grid grid-cols-9 gap-4 p-4 bg-sub-color/40 text-center"
+                                                                                                        : "grid grid-cols-9 gap-4 p-4 bg-white text-center"
+                                                                                                }
                                                                                             >
-                                                                                                <span>{order.medicineName}</span>
-                                                                                                <span>{order.detailName}</span>
-                                                                                                <span>{order.unitPrice.toLocaleString()}</span>
-                                                                                                <span>{order.quantity}</span>
-                                                                                                <span>{order.wholesaleName}</span>
-                                                                                                <span>{order.itemTotalPrice.toLocaleString()}원</span>
+                                                                                                <span className="col-span-2">{order.medicineName}</span>
+                                                                                                <span className="col-span-2">{order.detailName}</span>
+                                                                                                <span className="col-span-1">{order.unitPrice.toLocaleString()}</span>
+                                                                                                <span className="col-span-1">{order.quantity}</span>
+                                                                                                <span className="col-span-1">{order.wholesaleName}</span>
+                                                                                                <span className="col-span-2">{order.itemTotalPrice.toLocaleString()}원</span>
                                                                                             </div>
                                                                                         ))
                                                                                     )
@@ -269,13 +281,20 @@ export default function OrderHistory() {
                             }
                         </div>
 
-                        <div className="flex justify-between items-center pt-6 mt-6 border-t-2 border-gray-300">
+                        <PaginationComponent
+                            total={totalPages}
+                            page={page}
+                            limit={contentLimit}
+                            setPage={setPage}
+                        />
+
+                        <div className="flex justify-between items-center pt-6 mt-3 border-t-2 border-gray-300">
                             <span className="text-2xl font-bold text-main-font">합계</span>
                             <span className="text-2xl font-bold text-main-font">{getTotalPrice().toLocaleString()} 원</span>
                         </div>
                     </div>
                 </Area>
-            </div>
+            </div >
         </Layout >
     );
 }
