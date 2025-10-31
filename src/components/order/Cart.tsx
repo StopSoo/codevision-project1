@@ -24,7 +24,6 @@ export default function Cart() {
 
             if (result) {
                 updateQuantity(cartItemId, quantity);
-                console.log("수량 변경 성공");
             }
         } catch (error) {
             if (error instanceof Error && error.message === 'QUANTITY_EXCEEDED') {
@@ -40,11 +39,9 @@ export default function Cart() {
             if (result) {
                 removeFromCart(cartItemId);
                 handleAllItem(); // 장바구니 전체 다시 조회
-                console.log("장바구니에서 개별 약품 삭제 성공");
             }
         } catch (error) {
             alert("장바구니에서 개별 약품 삭제 실패");
-            console.log(error);
         }
     };
 
@@ -163,8 +160,10 @@ export default function Cart() {
                                                 <button
                                                     className="border border-sub-font px-2 rounded-md hover:bg-selected-bg hover:border-selected-line"
                                                     onClick={() => {
-                                                        updateQuantity(item.cartItemId, item.quantity - 1);
-                                                        handleQuantityChange(item.cartItemId, item.quantity - 1);
+                                                        if (item.quantity - 1 > 0) {
+                                                            updateQuantity(item.cartItemId, item.quantity - 1);
+                                                            handleQuantityChange(item.cartItemId, item.quantity - 1);
+                                                        }
                                                     }}
                                                 >
                                                     -

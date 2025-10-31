@@ -14,7 +14,6 @@ export default function PredictPharmacyList() {
                 if (selectedMedNumber !== null) {
                     const result = await getPredictOrderDetail(selectedMedNumber);
                     if (result && "data" in result) {
-                        console.log(result);
                         setMedInfoList(result.data.pharmacyList);
                     }
                 }

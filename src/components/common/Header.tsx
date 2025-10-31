@@ -35,72 +35,61 @@ export default function Header({ pharmacy }: HeaderProps) {
                     <span className="text-3xl md:text-5xl">Medict</span>
                 </div>
 
-                {pharmacy
-                    ? <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-medium text-lg md:text-2xl whitespace-nowrap">
-                        <Link
-                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/order')
-                                ? 'text-main-color'
-                                : 'text-unselected-font hover:text-main-color'
-                                }`}
-                            href="/order"
-                        >
-                            AI 오늘의 주문
-                            {isActive('/order') && (
-                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
-                            )}
-                        </Link>
-                        <Link
-                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-history')
-                                ? 'text-main-color'
-                                : 'text-unselected-font hover:text-main-color'
-                                }`}
-                            href="/order-history"
-                        >
-                            주문 내역
-                            {isActive('/order-history') && (
-                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
-                            )}
-                        </Link>
-                    </nav>
-                    :
-                    <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-medium text-lg md:text-2xl whitespace-nowrap">
-                        <Link
-                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/predict-item')
-                                ? 'text-main-color'
-                                : 'text-unselected-font hover:text-main-color'
-                                }`}
-                            href="/predict-item"
-                        >
-                            주문 예상 품목
-                            {isActive('/predict-item') && (
-                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
-                            )}
-                        </Link>
-                        <Link
-                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/predict-pharmacy')
-                                ? 'text-main-color'
-                                : 'text-unselected-font hover:text-main-color'
-                                }`}
-                            href="/predict-pharmacy"
-                        >
-                            약국별 예측
-                            {isActive('/predict-pharmacy') && (
-                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
-                            )}
-                        </Link>
-                        <Link
-                            className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-log')
-                                ? 'text-main-color'
-                                : 'text-unselected-font hover:text-main-color'
-                                }`}
-                            href="/order-log"
-                        >
-                            주문 내역
-                            {isActive('/order-log') && (
-                                <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
-                            )}
-                        </Link>
-                    </nav>
+                {
+                    pharmacy
+                        ? <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-medium text-lg md:text-2xl whitespace-nowrap">
+                            <Link
+                                className={`h-[84px] flex items-center transition-colors relative ${isActive('/order')
+                                    ? 'text-main-color'
+                                    : 'text-unselected-font hover:text-main-color'
+                                    }`}
+                                href="/order"
+                            >
+                                AI 오늘의 주문
+                                {isActive('/order') && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
+                                )}
+                            </Link>
+                            <Link
+                                className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-history')
+                                    ? 'text-main-color'
+                                    : 'text-unselected-font hover:text-main-color'
+                                    }`}
+                                href="/order-history"
+                            >
+                                주문 내역
+                                {isActive('/order-history') && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
+                                )}
+                            </Link>
+                        </nav>
+                        :
+                        <nav className="w-full flex items-center gap-[20px] md:gap-[100px] font-medium text-lg md:text-2xl whitespace-nowrap">
+                            <Link
+                                className={`h-[84px] flex items-center transition-colors relative ${isActive('/predict-item')
+                                    ? 'text-main-color'
+                                    : 'text-unselected-font hover:text-main-color'
+                                    }`}
+                                href="/predict-item"
+                            >
+                                주문 예상 품목
+                                {isActive('/predict-item') && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
+                                )}
+                            </Link>
+                            <Link
+                                className={`h-[84px] flex items-center transition-colors relative ${isActive('/order-log')
+                                    ? 'text-main-color'
+                                    : 'text-unselected-font hover:text-main-color'
+                                    }`}
+                                href="/order-log"
+                            >
+                                주문 내역
+                                {isActive('/order-log') && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-1 bg-main-color"></span>
+                                )}
+                            </Link>
+                        </nav>
                 }
             </div>
 

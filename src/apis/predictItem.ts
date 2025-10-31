@@ -23,10 +23,7 @@ export const getPredictOrderDetail = async (
     try {
         const response = await AuthAPI.viewPredictOrderDetail(predictId);
         if ("data" in response) {
-            console.log('성공');
             return response;
-        } else {
-            console.log('실패');
         }
     } catch (error) {
         const err = error as AxiosError;

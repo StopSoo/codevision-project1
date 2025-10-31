@@ -16,6 +16,7 @@ export default function OrderHistory() {
     const [orderDetailList, setOrderDetailList] = useState<CartDetailItem[]>([]); // 주문 내역
     const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
+    const [paramKeyword, setParamKeyword] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
 
     const { setIsModalOpen, setIsModalClose } = useDateModalStore();
@@ -23,6 +24,7 @@ export default function OrderHistory() {
 
     const enterkey = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.keyCode === 13) {
+            setParamKeyword(keyword);
             handleOrderInfo();
         }
     };
@@ -35,7 +37,7 @@ export default function OrderHistory() {
 
     const handleOrderInfo = useCallback(async () => {
         try {
-            const data = await getPharmacyOrderHistory(startDate, endDate, 1, 10, keyword);
+            const data = await getPharmacyOrderHistory(startDate, endDate, 1, 20, paramKeyword);
 
             if (data) {
                 const newOrderHistoryList = data.map((d) => ({
@@ -49,7 +51,7 @@ export default function OrderHistory() {
             alert("주문 목록 정보 불러오기 실패");
             console.error(error);
         }
-    }, [startDate, endDate, keyword, setSelectedNumber]);
+    }, [startDate, endDate, paramKeyword, setSelectedNumber]);
 
     useEffect(() => {
         if (startDate > endDate) {
@@ -126,7 +128,10 @@ export default function OrderHistory() {
                                 />
                                 <button
                                     className="text-base text-main-font px-4 py-2 border-2 hover:border-selected-line"
-                                    onClick={handleOrderInfo}
+                                    onClick={() => {
+                                        setParamKeyword(keyword);
+                                        handleOrderInfo();
+                                    }}
                                 >
                                     검색
                                 </button>
@@ -146,31 +151,49 @@ export default function OrderHistory() {
                             <span>주문 금액</span>
                         </div>
 
-                        <div className="flex-1 bg-gray-50 rounded-b-lg h-screen">
+                        <div className="flex-1 bg-gray-50 rounded-b-lg h-full">
                             {
                                 orderHistoryList.length === 0
-                                    ? (
-                                        <div
-                                            key="hi"
-                                            className="flex flex-col items-center justify-center h-full py-10"
-                                        >
-                                            <Image
-                                                src="/assets/cart_plus_icon.png"
-                                                width={150}
-                                                height={150}
-                                                alt="empty cart"
-                                                className="mb-6"
-                                                priority
-                                            />
-                                            <div className="text-center text-sub-font space-y-2">
-                                                <p>현재 주문 내역이 없습니다.</p>
-                                                <p>AI가 분석한 주문 리스트를 통해</p>
-                                                <p>약품 주문을 시작해보세요!</p>
+                                    ? keyword === ''
+                                        ? (
+                                            <div
+                                                className="flex flex-col items-center justify-center h-full py-10"
+                                            >
+                                                <Image
+                                                    src="/assets/cart_plus_icon.png"
+                                                    width={150}
+                                                    height={150}
+                                                    alt="empty cart"
+                                                    className="mb-6"
+                                                    priority
+                                                />
+                                                <div className="text-center text-sub-font space-y-2">
+                                                    <p>현재 주문 내역이 없습니다.</p>
+                                                    <p>AI가 분석한 주문 리스트를 통해</p>
+                                                    <p>약품 주문을 시작해보세요!</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
+                                        )
+                                        : (
+                                            <div
+                                                className="flex flex-col items-center justify-center h-full py-10"
+                                            >
+                                                <Image
+                                                    src="/assets/search_icon.png"
+                                                    width={150}
+                                                    height={150}
+                                                    alt="no search keyword"
+                                                    className="mb-6"
+                                                    priority
+                                                />
+                                                <div className="text-center text-sub-font space-y-2">
+                                                    <p>검색어와 일치하는 주문 내역이 없습니다.</p>
+                                                    <p>검색어를 확인해주세요!</p>
+                                                </div>
+                                            </div>
+                                        )
                                     : (
-                                        <div className="justify-start w-full space-y-2">
+                                        <div className="justify-start w-full space-y-2 flex-1 overflow-y-auto">
                                             {
                                                 orderHistoryList.map((order, index) => {
                                                     if (

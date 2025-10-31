@@ -23,7 +23,6 @@ export default function PredictItemList() {
                 const result = await getPredictOrder(1, 10);
 
                 if (result) {
-                    console.log(result[0].items);
                     const items = result[0].items;
                     setResult(items);
                 }
@@ -35,10 +34,6 @@ export default function PredictItemList() {
         handlePredictOrderList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-        console.log(selectedMedNumber);
-    }, [selectedMedNumber]);
 
     return (
         <div className="h-full flex flex-col">

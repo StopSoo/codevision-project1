@@ -73,7 +73,6 @@ export default function OrderLog() {
             try {
                 const data = await getWholesaleOrderDetail(id);
                 if (data && 'items' in data) {
-                    console.log(data.items);
                     setIsDetailOpen(true);
                     setOrderDetailList(data.items);
                 }
