@@ -125,6 +125,14 @@ export const useAnalysisStore = create<TodaysOrderStore>((set) => ({
     setButtonOff: () => set({ click: false }),
     result: [],
     setResult: (newResult) => set({ result: newResult }),
+    dayData: [],
+    setDayData: (newResult) => set({ dayData: newResult }),
+    dowData: [],
+    setDowData: (newResult) => set({ dowData: newResult }),
+    weekData: [],
+    setWeekData: (newResult) => set({ weekData: newResult }),
+    monthData: [],
+    setMonthData: (newResult) => set({ monthData: newResult }),
     filterList: ['DAY'],
     setFilterList: (filterName) =>
         set((state) => {

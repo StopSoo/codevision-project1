@@ -95,7 +95,7 @@ export type WholesaleOrderRes = {
 // 주문 내역 조회
 export type WholesaleOrderItem = {
     medicineName: string;
-    detailName: string;
+    standard: string;
     unit: string;
     unitPrice: number;
     quantity: number;

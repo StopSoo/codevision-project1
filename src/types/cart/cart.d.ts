@@ -3,7 +3,7 @@ export type CartItem = {
     cartItemId: number;
     medicineId: number;
     medicineName: string;
-    detailName: string;
+    standard: string;
     unit: string;
     unitPrice: number;
     quantity: number;
@@ -56,7 +56,7 @@ export interface EditCartReq {
 // 장바구니 전체 조회
 export interface CartDetailItem {
     medicineName: string;
-    detailName: string;
+    standard: string;
     unit: string;
     unitPrice: number;
     quantity: number;

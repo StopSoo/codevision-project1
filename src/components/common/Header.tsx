@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SlArrowDown } from "react-icons/sl";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
+import { GiMedicines } from "react-icons/gi";
+import { AiFillMedicineBox } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 import { useMemberModalStore, useMemberStore } from "@/store/store";
@@ -13,7 +15,7 @@ interface HeaderProps {
 export default function Header({ pharmacy }: HeaderProps) {
     const router = useRouter();
     const { name } = useMemberStore();
-    const { setIsModalOpen } = useMemberModalStore();
+    const { isModalOpen, setIsModalOpen } = useMemberModalStore();
 
     const isActive = (path: string) => router.pathname === path;
 
@@ -95,13 +97,18 @@ export default function Header({ pharmacy }: HeaderProps) {
 
             <div className="flex flex-row gap-2 font-medium text-lg md:text-2xl items-center text-main-font whitespace-nowrap">
                 <button
-                    className="flex flex-row justify-center ml-2 gap-2"
+                    className="flex flex-row justify-center ml-2 gap-3"
                     onClick={handleClick}
                 >
-                    <span>{name}</span>
+                    {
+                        pharmacy ? <GiMedicines /> : <AiFillMedicineBox />
+                    }
+                    <span className="text-main-logo">{name}</span>
                     <span>님</span>
                     <div className="w-7 h-7">
-                        <SlArrowDown />
+                        {
+                            isModalOpen ? <SlArrowUp /> : <SlArrowDown />
+                        }
                     </div>
                 </button>
             </div>

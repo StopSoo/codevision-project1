@@ -56,7 +56,7 @@ export default function MedicineDetail() {
                 cartItemId: 0,
                 medicineId: medicine!.medicineId,
                 medicineName: medicine!.productName,
-                detailName: medicine!.standard,
+                standard: medicine!.standard,
                 unit: String(medicine!.unitQty),
                 unitPrice: wholesaleItem.unitPrice,
                 quantity: quantity,
@@ -118,7 +118,7 @@ export default function MedicineDetail() {
                 </div>
 
                 <div className="flex flex-col justify-center w-[400px] border border-gray-200 rounded-lg p-4 space-y-2">
-                    <div className="flex flex-row items-center justify-around font-medium text-lg">
+                    <div className="flex flex-row items-center justify-around gap-4 font-medium text-lg">
                         <span className="text-main-font w-[40%]">단위</span>
                         <span className="w-[60%]">{`${medicine?.unitQty}${medicine?.innerUnit}`}</span>
                     </div>
@@ -140,23 +140,23 @@ export default function MedicineDetail() {
 
             <div className="flex flex-col space-y-4">
                 <div className="rounded-xl overflow-hidden">
-                    <div className="bg-gray-300 grid grid-cols-5 gap-4 p-3 text-sm font-medium text-main-font text-center border-b-2 border-gray-400">
-                        <span>도매상 명</span>
-                        <span>약품 단가</span>
-                        <span>마일리지</span>
-                        <span>예상 수량</span>
-                        <span>선택 수량</span>
+                    <div className="bg-gray-300 grid grid-cols-9 gap-4 py-3 text-sm font-medium text-main-font text-center border-b-2 border-gray-400">
+                        <span className="col-span-2">도매상 명</span>
+                        <span className="col-span-2">약품 단가</span>
+                        <span className="col-span-2">마일리지</span>
+                        <span className="col-span-1">예상 수량</span>
+                        <span className="col-span-2">선택 수량</span>
                     </div>
 
                     {
                         wholesales.map((data, index) => (
                             <div
                                 key={index}
-                                className="grid grid-cols-5 gap-4 py-3 items-center text-xs md:text-sm text-center"
+                                className="grid grid-cols-9 gap-4 py-3 items-center text-xs md:text-sm text-center"
                             >
-                                <span className="text-main-font">{data.wholesaleName}</span>
-                                <span className="text-main-font">{data.unitPrice.toLocaleString()}</span>
-                                <div className="p-2 mx-4 bg-mileage-bg rounded-xl">
+                                <span className="text-main-font col-span-2">{data.wholesaleName}</span>
+                                <span className="text-main-font col-span-2">{data.unitPrice.toLocaleString()}</span>
+                                <div className="p-2 mx-4 bg-mileage-bg rounded-xl col-span-2">
                                     <span className="text-mileage-font font-medium">
                                         {
                                             data.point > 0
@@ -168,8 +168,8 @@ export default function MedicineDetail() {
                                         {data.point} %
                                     </span>
                                 </div>
-                                <span className="text-main-font">{data.expectedStockQty ?? 0}</span>
-                                <div className="flex flex-row w-full items-center justify-center gap-2">
+                                <span className="text-main-font col-span-1">{data.expectedStockQty ?? 0}</span>
+                                <div className="flex flex-row w-full items-center justify-center gap-2 col-span-2">
                                     <input
                                         type="number"
                                         min="0"

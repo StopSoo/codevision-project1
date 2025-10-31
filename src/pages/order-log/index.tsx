@@ -97,7 +97,7 @@ export default function OrderLog() {
     return (
         <Layout>
             <div className="flex flex-col">
-                <Area size='default' hasHeader={true} title={"약국의 약품 주문 내역"}>
+                <Area size='default' hasHeader={true} title={"약품 주문 내역"}>
                     <div className="flex flex-row items-center justify-between gap-4 mb-6">
                         <div className="flex items-center justify-center gap-3 h-11">
                             <Image
@@ -233,6 +233,13 @@ export default function OrderLog() {
                                 )
                         }
                     </div>
+
+                    <PaginationComponent
+                        total={totalPages}
+                        page={page}
+                        limit={contentLimit}
+                        setPage={setPage}
+                    />
 
                     <div className="flex justify-between items-center pt-6 mt-6 border-t-2 border-gray-300">
                         <span className="text-2xl font-bold text-main-font">합계</span>

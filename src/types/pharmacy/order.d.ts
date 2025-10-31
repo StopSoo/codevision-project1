@@ -7,6 +7,14 @@ export type TodaysOrderStore = {
     setButtonOff: () => void;
     result: DataType[]; // 분석 결과 리스트
     setResult: (newResult: DataType[]) => void;
+    dayData: DataType[];
+    setDayData: (newResult: DataType[]) => void;
+    dowData: DataType[];
+    setDowData: (newResult: DataType[]) => void;
+    weekData: DataType[];
+    setWeekData: (newResult: DataType[]) => void;
+    monthData: DataType[];
+    setMonthData: (newResult: DataType[]) => void;
     // 오늘의 주문 필터링
     filterList: string[];
     setFilterList: (filterName: string) => void;

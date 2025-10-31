@@ -1,5 +1,5 @@
 import { usePredictItemStore, useSelectedItemStore } from "@/store/store";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { getPredictOrder } from "@/apis/predictItem";
 import { diffTime } from "@/utils/formatDate";
 
@@ -17,31 +17,35 @@ export default function PredictItemList() {
         }
     };
 
-    useEffect(() => {
-        const handlePredictOrderList = async () => {
-            try {
-                const result = await getPredictOrder(1, 10);
+    const handlePredictOrderList = useCallback(async () => {
+        try {
+            const data = await getPredictOrder(1, 10);
 
-                if (result) {
-                    const items = result[0].items;
-                    setResult(items);
-                }
-            } catch (error) {
-                console.error(error);
+            if (data) {
+                const items = data[0].items;
+                setResult(items);
             }
-        };
-        // API 연동
-        handlePredictOrderList();
+        } catch (error) {
+            console.error(error);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        // API 연동
+        if (result.length === 0) {
+            handlePredictOrderList();
+        }
+        setSelectedMedNumber(null);
+    }, [handlePredictOrderList, result.length, setSelectedMedNumber]);
+
     return (
         <div className="h-full flex flex-col">
-            <div className="bg-gray-200 grid grid-cols-4 gap-4 py-4 px-4 text-center font-medium text-main-font rounded-t-lg">
-                <span>품목</span>
-                <span>수량</span>
-                <span>가격 총합</span>
-                <span>주문 예상 일자</span>
+            <div className="bg-gray-200 grid grid-cols-7 gap-4 py-4 px-4 text-center font-medium text-main-font rounded-t-lg">
+                <span className="col-span-2">품목</span>
+                <span className="col-span-1">수량</span>
+                <span className="col-span-2">가격 총합</span>
+                <span className="col-span-2">예상 주문 일자</span>
             </div>
 
             {/* suspense 적용 체크 - 적용하려면 skeleton 컴포넌트 제작 필수 */}
@@ -61,14 +65,14 @@ export default function PredictItemList() {
                                         key={index}
                                         className={
                                             predictItem.predictId === selectedMedNumber
-                                                ? "flex flex-row items-center justify-center w-full grid grid-cols-4 gap-4 py-4 bg-selected-bg text-sm border-2 border-selected-line whitespace-nowrap text-start"
-                                                : "flex flex-row items-center justify-center w-full grid grid-cols-4 gap-4 py-4 bg-white text-sm border-2 border-white whitespace-nowrap text-start hover:bg-selected-bg hover:border-selected-line"
+                                                ? "flex flex-row items-center justify-center w-full grid grid-cols-7 gap-4 py-4 bg-selected-bg text-sm border-2 border-selected-line whitespace-nowrap text-start"
+                                                : "flex flex-row items-center justify-center w-full grid grid-cols-7 gap-4 py-4 bg-white text-sm border-2 border-white whitespace-nowrap text-start hover:bg-selected-bg hover:border-selected-line"
                                         }
                                     >
-                                        <span className="ml-4">
+                                        <span className="ml-4 col-span-2">
                                             {predictItem.productName + ' ' + String(predictItem.unitQty) + predictItem.innerUnit}
                                         </span>
-                                        <div className="flex flex-row items-center justify-center px-10">
+                                        <div className="flex flex-row items-center justify-center col-span-1">
                                             <input
                                                 readOnly
                                                 type="number"
@@ -76,17 +80,17 @@ export default function PredictItemList() {
                                                 placeholder="0"
                                                 value={predictItem.expectedQty || ""}
                                                 onChange={(e) => handleQuantityChange(predictItem.medicineId, e.target.value, predictItem.totalPrice)}
-                                                className="w-full py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
+                                                className="w-full py-1 border border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm cursor-pointer"
                                             />
                                         </div>
-                                        <span className="text-center">{predictItem.totalPrice.toLocaleString()}</span>
+                                        <span className="text-center col-span-2">{predictItem.totalPrice.toLocaleString()}</span>
                                         <span
                                             className={
                                                 diffTime(todaysDate, predictItem.expectedOrderDate) <= 14
-                                                    ? "text-center text-point-negative"
+                                                    ? "text-center text-point-negative col-span-2"
                                                     : diffTime(todaysDate, predictItem.expectedOrderDate) <= 31
-                                                        ? "text-center text-point-positive"
-                                                        : "text-center text-main-font"
+                                                        ? "text-center text-point-positive col-span-2"
+                                                        : "text-center text-main-font col-span-2"
                                             }
                                         >
                                             {predictItem.expectedOrderDate}

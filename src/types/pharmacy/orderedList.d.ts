@@ -39,7 +39,7 @@ export interface ViewPharmacyOrderRes {
 // 주문 내역 조회
 interface CartDetailItem {
     medicineName: string;
-    detailName: string;
+    standard: string;
     unit: string;
     unitPrice: number;
     quantity: number;

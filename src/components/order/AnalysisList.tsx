@@ -1,17 +1,57 @@
 import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
 import { getTodaysOrderList } from "@/apis/pharmacy";
-import { AnalysisItem } from "@/types/pharmacy/order";
 
 export default function AnalysisList() {
-    const { click, result, setResult, filterList, setFilterList } = useAnalysisStore();
+    const { click, result, setResult, dayData, setDayData, dowData, setDowData, weekData, setWeekData, monthData, setMonthData, filterList, setFilterList } = useAnalysisStore();
     const { selectedNumber, setSelectedNumber } = useSelectedMedStore();
 
-    const [dayData, setDayData] = useState<AnalysisItem[]>([]);
-    const [dowData, setDowData] = useState<AnalysisItem[]>([]);
-    const [weekData, setWeekData] = useState<AnalysisItem[]>([]);
-    const [monthData, setMonthData] = useState<AnalysisItem[]>([]);
+    const handleTodaysOrderList = useCallback(async () => {
+        try {
+            const todayDate = new Date().toISOString().split('T')[0];
+
+            const [dayRes, dowRes, weekRes, monthRes] = await Promise.all([
+                getTodaysOrderList({ date: todayDate, scope: 'DAY' }),
+                getTodaysOrderList({ date: todayDate, scope: 'DOW' }),
+                getTodaysOrderList({ date: todayDate, scope: 'WEEK' }),
+                getTodaysOrderList({ date: todayDate, scope: 'MONTH' }),
+            ]);
+
+            if (dayRes?.items) {
+                const newDayData = dayRes.items.map((item) => ({
+                    ...item,
+                    sort: 'DAY'
+                }));
+                setDayData(newDayData);
+                setResult(newDayData); // 일별 필터링이 기본값
+            }
+            if (dowRes?.items) {
+                const newDowData = dowRes.items.map((item) => ({
+                    ...item,
+                    sort: 'DOW'
+                }));
+                setDowData(newDowData);
+            }
+            if (weekRes?.items) {
+                const newWeekData = weekRes.items.map((item) => ({
+                    ...item,
+                    sort: 'WEEK'
+                }));
+                setWeekData(newWeekData);
+            }
+            if (monthRes?.items) {
+                const newMonthData = monthRes.items.map((item) => ({
+                    ...item,
+                    sort: 'MONTH'
+                }));
+                setMonthData(newMonthData);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         const newResult = [
@@ -25,54 +65,10 @@ export default function AnalysisList() {
     }, [click, filterList, dayData, dowData, weekData, monthData]);
 
     useEffect(() => {
-        const handleTodaysOrderList = async () => {
-            try {
-                const todayDate = new Date().toISOString().split('T')[0];
-
-                const [dayRes, dowRes, weekRes, monthRes] = await Promise.all([
-                    getTodaysOrderList({ date: todayDate, scope: 'DAY' }),
-                    getTodaysOrderList({ date: todayDate, scope: 'DOW' }),
-                    getTodaysOrderList({ date: todayDate, scope: 'WEEK' }),
-                    getTodaysOrderList({ date: todayDate, scope: 'MONTH' }),
-                ]);
-
-                if (dayRes?.items) {
-                    const newDayData = dayRes.items.map((item) => ({
-                        ...item,
-                        sort: 'DAY'
-                    }));
-                    setDayData(newDayData);
-                    setResult(newDayData); // 일별 필터링이 기본값
-                }
-                if (dowRes?.items) {
-                    const newDowData = dowRes.items.map((item) => ({
-                        ...item,
-                        sort: 'DOW'
-                    }));
-                    setDowData(newDowData);
-                }
-                if (weekRes?.items) {
-                    const newWeekData = weekRes.items.map((item) => ({
-                        ...item,
-                        sort: 'WEEK'
-                    }));
-                    setWeekData(newWeekData);
-                }
-                if (monthRes?.items) {
-                    const newMonthData = monthRes.items.map((item) => ({
-                        ...item,
-                        sort: 'MONTH'
-                    }));
-                    setMonthData(newMonthData);
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        // TODO: 성능을 위한 데이터 캐싱 적용 
-        handleTodaysOrderList();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        if (result.length === 0) {
+            handleTodaysOrderList();
+        }
+    }, [result.length, handleTodaysOrderList]);
 
     return (
         <div className="h-full flex flex-col">

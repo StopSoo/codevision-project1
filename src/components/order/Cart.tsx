@@ -41,7 +41,7 @@ export default function Cart() {
                 handleAllItem(); // 장바구니 전체 다시 조회
             }
         } catch (error) {
-            alert("장바구니에서 개별 약품 삭제 실패");
+            console.error(error);
         }
     };
 

@@ -1,30 +1,31 @@
 import { getPredictOrderDetail } from "@/apis/predictItem";
 import { usePredictItemStore, usePredictPharmacyStore, useSelectedItemStore } from "@/store/store";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export default function PredictPharmacyList() {
     const { result } = usePredictItemStore();
     const { medInfoList, setMedInfoList, getTotalQuantity } = usePredictPharmacyStore();
     const { selectedNumber: selectedMedNumber } = useSelectedItemStore();
 
-    useEffect(() => {
-        const handlePharmacyList = async () => {
-            try {
-                if (selectedMedNumber !== null) {
-                    const result = await getPredictOrderDetail(selectedMedNumber);
-                    if (result && "data" in result) {
-                        setMedInfoList(result.data.pharmacyList);
-                    }
+    const handlePharmacyList = useCallback(async () => {
+        try {
+            if (selectedMedNumber !== null) {
+                const result = await getPredictOrderDetail(selectedMedNumber);
+                if (result && "data" in result) {
+                    setMedInfoList(result.data.pharmacyList);
                 }
-            } catch (error) {
-                console.error(error);
             }
-        };
+        } catch (error) {
+            console.error(error);
+        }
+    }, [setMedInfoList, selectedMedNumber]);
 
-        handlePharmacyList();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedMedNumber]);
+    useEffect(() => {
+        if (medInfoList.length === 0) {
+            handlePharmacyList();
+        }
+    }, [handlePharmacyList, medInfoList.length, selectedMedNumber]);
 
     return (
         <div className="h-full flex flex-col">

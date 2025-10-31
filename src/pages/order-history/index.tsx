@@ -13,8 +13,8 @@ import PaginationComponent from "@/components/common/Pagination";
 export default function OrderHistory() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
-    const [orderHistoryList, setOrderHistoryList] = useState<OrderedItem[]>([]); // 주문 내역
-    const [orderDetailList, setOrderDetailList] = useState<CartDetailItem[]>([]); // 주문 내역
+    const [orderHistoryList, setOrderHistoryList] = useState<OrderedItem[]>([]); // 주문 목록
+    const [orderDetailList, setOrderDetailList] = useState<CartDetailItem[]>([]); // 주문 상세 목록
     const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
     const [paramKeyword, setParamKeyword] = useState<string>('');
@@ -251,7 +251,7 @@ export default function OrderHistory() {
                                                                                                 }
                                                                                             >
                                                                                                 <span className="col-span-2">{order.medicineName}</span>
-                                                                                                <span className="col-span-2">{order.detailName}</span>
+                                                                                                <span className="col-span-2">{order.standard}</span>
                                                                                                 <span className="col-span-1">{order.unitPrice.toLocaleString()}</span>
                                                                                                 <span className="col-span-1">{order.quantity}</span>
                                                                                                 <span className="col-span-1">{order.wholesaleName}</span>
