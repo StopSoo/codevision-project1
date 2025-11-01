@@ -135,6 +135,7 @@ export default function AnalysisList() {
                                 ? <DataListSkeleton />
                                 : result.map((analysis, index) =>
                                     <button
+                                        area-label="todays order list"
                                         key={index}
                                         className={(analysis.medicineId !== selectedNumber)
                                             ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"

@@ -31,6 +31,7 @@ export default function Order() {
                                             alt="ai todays order logo"
                                             className="mb-[24px]"
                                             priority
+                                            fetchPriority="high"
                                         />
                                         <div className="text-center text-sub-font whitespace-nowrap">
                                             [오늘의 주문] 버튼을 눌러<br />AI가 분석한 예상 주문 목록과<br />요즘 약국의 약품 주문 랭킹을<br />확인하세요!
@@ -51,6 +52,7 @@ export default function Order() {
                                     alt="ai selected med info"
                                     className="mb-[24px]"
                                     priority
+                                    fetchPriority="high"
                                 />
                                 <div className="text-center text-sub-font whitespace-nowrap">원하는 약품을 선택해<br />주문 가능한 수량을 확인하세요!</div>
                             </div>

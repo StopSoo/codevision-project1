@@ -108,6 +108,7 @@ export default function Cart() {
                     alt="empty cart logo"
                     className="mb-[24px]"
                     priority
+                    fetchPriority="high"
                 />
                 <div className="text-center text-sub-font whitespace-nowrap">
                     필요한 약품과 수량을 선택해<br />장바구니에 담아보세요!
@@ -194,8 +195,9 @@ export default function Cart() {
                                     </div>
                                 </div>
                                 <button
+                                    area-label="item delete button"
                                     onClick={() => handleRemoveItem(item.cartItemId)}
-                                    className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-colors transition-transform"
+                                    className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-transform"
                                 >
                                     <VscChromeClose size={28} />
                                 </button>
