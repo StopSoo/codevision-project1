@@ -89,6 +89,7 @@ export default function MedRanking() {
                             ? <DataListSkeleton />
                             : result.map((data, index) =>
                                 <button
+                                    area-label="med ranking"
                                     key={index}
                                     className={(data.medicineId !== selectedMedNumber)
                                         ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"

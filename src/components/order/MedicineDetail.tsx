@@ -185,6 +185,7 @@ export default function MedicineDetail() {
                                                     className="w-[60%] px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                                 />
                                                 <button
+                                                    area-label="cart button"
                                                     onClick={() => handleAddToCart(data)}
                                                     className="w-[40%] px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
                                                 >

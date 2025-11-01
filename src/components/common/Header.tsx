@@ -33,6 +33,8 @@ export default function Header({ pharmacy }: HeaderProps) {
                         height={60}
                         alt="medict desktop logo"
                         className="flex flex-row items-center"
+                        priority
+                        fetchPriority="high"
                     />
                     <span className="text-3xl md:text-5xl">Medict</span>
                 </div>
