@@ -141,6 +141,7 @@ export default function SignUp() {
                         width={150}
                         height={150}
                         priority
+                        fetchPriority="high"
                     />
                 </div>
 

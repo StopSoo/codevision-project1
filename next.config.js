@@ -12,11 +12,16 @@ const nextConfig = {
     // SWC minify 활성화
     removeConsole: process.env.NEXT_PUBLIC_NEXT_APP_ENV === "production",
   },
-  // 레거시 브라우저 지원 제거
   swcMinify: true,
   experimental: {
     browsersListForSwc: true,
     legacyBrowsers: false,
+  },
+  productionBrowserSourceMaps: false,
+  images: {
+    domains: ["~"],
+    minimumCacheTTL: 86400,
+    formats: ["image/avif", "image/webp"],
   },
   async rewrites() {
     return [
