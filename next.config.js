@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: __dirname,
-  turbopack: {},
   experimental: {
     optimizePackageImports: ["geist"],
   },
@@ -14,7 +13,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**", 
+        hostname: "**",
       },
     ],
     minimumCacheTTL: 86400,
