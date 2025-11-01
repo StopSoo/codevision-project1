@@ -44,5 +44,9 @@
     "url": "https://github.com/StopSoo/codevision-project1/issues"
   },
   "homepage": "https://github.com/StopSoo/codevision-project1#readme",
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:3000",
+  "browserslist": [
+    "defaults and supports es6-module",
+    "maintained node versions"
+  ]
 }

@@ -101,11 +101,13 @@ export default function Home() {
             width={200}
             height={200}
             priority
+            sizes="200px"
+            quality={90}
           />
         </div>
         <h1
           className="text-4xl md:text-5xl font-bold text-center text-main-logo mb-12"
-          style={{ fontStyle: 'italic' }}
+          style={{ fontStyle: "italic" }}
         >
           Medict
         </h1>
@@ -138,8 +140,8 @@ export default function Home() {
                 type="radio"
                 name="memberType"
                 value="PHARMACY"
-                checked={memberType === 'PHARMACY'}
-                onChange={(e) => setMemberType(e.target.value as 'PHARMACY')}
+                checked={memberType === "PHARMACY"}
+                onChange={(e) => setMemberType(e.target.value as "PHARMACY")}
                 className="w-5 h-5 accent-main-font"
               />
               <span className="text-main-font font-medium">약국</span>
@@ -149,8 +151,8 @@ export default function Home() {
                 type="radio"
                 name="memberType"
                 value="WHOLESALE"
-                checked={memberType === 'WHOLESALE'}
-                onChange={(e) => setMemberType(e.target.value as 'WHOLESALE')}
+                checked={memberType === "WHOLESALE"}
+                onChange={(e) => setMemberType(e.target.value as "WHOLESALE")}
                 className="w-5 h-5 accent-main-font"
               />
               <span className="text-main-font font-medium">도매상</span>
@@ -184,67 +186,67 @@ export default function Home() {
 
       {
         // 로그인 성공
-        isModalOpen
-          ? <NotiModal
-            type='check'
-            message='로그인되었습니다.'
+        isModalOpen ? (
+          <NotiModal
+            type="check"
+            message="로그인되었습니다."
             hasButton={false}
             hasTwoButton={false}
             onClose={setIsModalClose}
           />
-          : null
+        ) : null
       }
 
       {
         // 로그인 실패
-        isFailModalOpen
-          ? <NotiModal
-            type='alert'
-            message='로그인에 실패했습니다.'
+        isFailModalOpen ? (
+          <NotiModal
+            type="alert"
+            message="로그인에 실패했습니다."
             hasButton={false}
             hasTwoButton={false}
             onClose={setIsFailModalClose}
           />
-          : null
+        ) : null
       }
 
       {
         // 로그인 실패 - 이메일이 존재하지 않음
-        isNotExistModalOpen
-          ? <NotiModal
-            type='alert'
-            message='존재하지 않는 이메일입니다.'
+        isNotExistModalOpen ? (
+          <NotiModal
+            type="alert"
+            message="존재하지 않는 이메일입니다."
             hasButton={false}
             hasTwoButton={false}
             onClose={setIsNotExistModalClose}
           />
-          : null
+        ) : null
       }
 
       {
         // 로그인 실패 - 비밀번호 불일치
-        isWrongPwModalOpen
-          ? <NotiModal
-            type='alert'
-            message='비밀번호가 일치하지 않습니다.'
+        isWrongPwModalOpen ? (
+          <NotiModal
+            type="alert"
+            message="비밀번호가 일치하지 않습니다."
             hasButton={false}
             hasTwoButton={false}
             onClose={setIsWrongPwModalClose}
           />
-          : null
+        ) : null
       }
 
       {
         // 로그인 실패 - 탈퇴한 사용자
-        isWithdrawalModalOpen
-          ? <NotiModal
-            type='alert'
-            message='탈퇴한 사용자입니다.'
+        isWithdrawalModalOpen ? (
+          <NotiModal
+            type="alert"
+            message="탈퇴한 사용자입니다."
             hasButton={false}
             hasTwoButton={false}
             onClose={setIsWithdrawalModalClose}
           />
-          : null
+        ) : null
       }
     </div>
   );
