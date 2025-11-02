@@ -3,11 +3,11 @@ import Image from "next/image";
 interface NotiModalProps {
     type: 'check' | 'alert';
     message: string; // 모달창 안내 멘트
-    hasButton: boolean;
+    hasButton: boolean; // 버튼 존재 여부
     hasTwoButton?: boolean; // 예/아니오 버튼 or 확인 버튼
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
-    onClickYes?: () => void;
-    onClickNo?: () => void;
+    onClickYes?: () => void; // 예 버튼 눌렀을 때의 동작 함수
+    onClickNo?: () => void; // 아니오 버튼 눌렀을 때의 동작 함수
 }
 
 export default function NotiModal({
@@ -45,7 +45,7 @@ export default function NotiModal({
                     }
                 </div>
 
-                <p className="text-base text-main-font text-lg flex-0 whitespace-pre-line text-center">
+                <p className="text-base text-main-font flex-0 whitespace-pre-line text-center">
                     {message}
                 </p>
 
