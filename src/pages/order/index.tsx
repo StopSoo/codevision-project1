@@ -1,12 +1,27 @@
 import Area from "@/components/common/Area";
 import Layout from "@/components/layout/Layout";
-import AnalysisList from "@/components/order/AnalysisList";
-import MedicineDetail from "@/components/order/MedicineDetail";
 import Cart from "@/components/order/Cart";
+import DataListSkeleton from "@/components/skeleton/DataListSkeleton";
+import MedicineDetailSkeleton from "@/components/skeleton/MedicineDetailSkeleton";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { useAnalysisStore, useMedRankingStore, useSelectedMedStore } from "@/store/store";
-import MedRanking from "@/components/order/MedRanking";
+
+const AnalysisList = dynamic(() => import("@/components/order/AnalysisList"), {
+    loading: () => <DataListSkeleton />,
+    ssr: false
+});
+
+const MedRanking = dynamic(() => import("@/components/order/MedRanking"), {
+    loading: () => <DataListSkeleton />,
+    ssr: false
+});
+
+const MedicineDetail = dynamic(() => import("@/components/order/MedicineDetail"), {
+    loading: () => <MedicineDetailSkeleton />,
+    ssr: false
+});
 
 export default function Order() {
     const { click: clickAnalysis } = useAnalysisStore();

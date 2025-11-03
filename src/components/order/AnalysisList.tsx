@@ -131,63 +131,61 @@ export default function AnalysisList() {
                         style={{ scrollbarGutter: "stable" }}
                     >
                         {
-                            result.length === 0
-                                ? <DataListSkeleton />
-                                : result.map((analysis, index) =>
-                                    <button
-                                        area-label="todays order list"
-                                        key={index}
-                                        className={(analysis.medicineId !== selectedNumber)
-                                            ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                            : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                            result.map((analysis, index) =>
+                                <button
+                                    area-label="todays order list"
+                                    key={index}
+                                    className={(analysis.medicineId !== selectedNumber)
+                                        ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                        : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                    }
+                                    onClick={() => {
+                                        setSelectedNumber(analysis.medicineId);
+                                        if (setExpectedQty) {
+                                            setExpectedQty(analysis.expectedQty);
                                         }
-                                        onClick={() => {
-                                            setSelectedNumber(analysis.medicineId);
-                                            if (setExpectedQty) {
-                                                setExpectedQty(analysis.expectedQty);
+                                    }}
+                                >
+                                    <div className="flex flex-row items-center font-medium text-main-font text-left gap-2">
+                                        <p
+                                            className={
+                                                analysis.sort === 'DAY'
+                                                    ? "text-xs text-sub-color"
+                                                    : analysis.sort === 'WEEK'
+                                                        ? "text-xs text-hover-green"
+                                                        : analysis.sort === 'DOW'
+                                                            ? "text-xs text-main-color"
+                                                            : "text-xs text-main-logo"
                                             }
-                                        }}
-                                    >
-                                        <div className="flex flex-row items-center font-medium text-main-font text-left gap-2">
-                                            <p
-                                                className={
-                                                    analysis.sort === 'DAY'
-                                                        ? "text-xs text-sub-color"
-                                                        : analysis.sort === 'WEEK'
-                                                            ? "text-xs text-hover-green"
-                                                            : analysis.sort === 'DOW'
-                                                                ? "text-xs text-main-color"
-                                                                : "text-xs text-main-logo"
-                                                }
-                                            >
-                                                {
-                                                    analysis.sort === 'DAY'
-                                                        ? "today"
-                                                        : analysis.sort === 'WEEK'
-                                                            ? "week"
-                                                            : analysis.sort === 'DOW'
-                                                                ? "day"
-                                                                : "month"
-                                                }
-                                            </p>
-                                            <p className="text-sm">{analysis.productName}</p>
-                                        </div>
-                                        <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
-                                            <span>{analysis.productCompany}</span>
-                                            <span>보험코드 {analysis.insuranceCode}</span>
-                                        </div>
-                                        <div className="w-full h-[1px] bg-gray-300" />
-                                        <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">
-                                            <span className="w-[50%]">단위</span>
-                                            <span className="w-[50%]">수량</span>
-                                        </div>
+                                        >
+                                            {
+                                                analysis.sort === 'DAY'
+                                                    ? "today"
+                                                    : analysis.sort === 'WEEK'
+                                                        ? "week"
+                                                        : analysis.sort === 'DOW'
+                                                            ? "day"
+                                                            : "month"
+                                            }
+                                        </p>
+                                        <p className="text-sm">{analysis.productName}</p>
+                                    </div>
+                                    <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
+                                        <span>{analysis.productCompany}</span>
+                                        <span>보험코드 {analysis.insuranceCode}</span>
+                                    </div>
+                                    <div className="w-full h-[1px] bg-gray-300" />
+                                    <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">
+                                        <span className="w-[50%]">단위</span>
+                                        <span className="w-[50%]">수량</span>
+                                    </div>
 
-                                        <div className="flex flex-row flex-1 text-main-font text-center text-[11px]">
-                                            <span className="w-[50%]">{String(analysis.unitQty) + analysis.innerUnit} {analysis.containerUnit ? `(${analysis.containerUnit})` : null}</span>
-                                            <span className="w-[50%]">{analysis.expectedQty}</span>
-                                        </div>
-                                    </button>
-                                )
+                                    <div className="flex flex-row flex-1 text-main-font text-center text-[11px]">
+                                        <span className="w-[50%]">{String(analysis.unitQty) + analysis.innerUnit} {analysis.containerUnit ? `(${analysis.containerUnit})` : null}</span>
+                                        <span className="w-[50%]">{analysis.expectedQty}</span>
+                                    </div>
+                                </button>
+                            )
                         }
                     </div>
                 }

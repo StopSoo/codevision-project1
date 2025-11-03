@@ -135,7 +135,6 @@ export default function OrderHistory() {
                                     className="text-base text-main-font px-4 py-2 border-2 hover:border-selected-line"
                                     onClick={() => {
                                         setParamKeyword(keyword);
-                                        handleOrderInfo();
                                     }}
                                 >
                                     검색
@@ -245,7 +244,9 @@ export default function OrderHistory() {
                                                                                             <div
                                                                                                 key={idx}
                                                                                                 className={
-                                                                                                    keyword !== '' && order.medicineName.includes(keyword)
+                                                                                                    keyword !== ''
+                                                                                                        && (order.medicineName.includes(keyword)
+                                                                                                            || order.wholesaleName.includes(keyword))
                                                                                                         ? "grid grid-cols-9 gap-4 p-4 bg-sub-color/40 text-center"
                                                                                                         : "grid grid-cols-9 gap-4 p-4 bg-white text-center"
                                                                                                 }

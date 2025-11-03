@@ -6,8 +6,8 @@ import Area from "@/components/common/Area";
 import { WholesaleOrder, WholesaleOrderItem } from "@/types/wholesaler/predictItem";
 import { getWholesaleOrderDetail, getWholesaleOrders } from "@/apis/orderLog";
 import { formatDate } from "@/utils/formatDate";
-import OrderHistorySkeleton from "@/components/skeleton/OrderHistorySkeleton";
 import PaginationComponent from "@/components/common/Pagination";
+import OrderLogSkeleton from "@/components/skeleton/OrderLogSkeleton";
 
 export default function OrderLog() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
@@ -199,7 +199,7 @@ export default function OrderLog() {
 
                                                                         {
                                                                             isLoading
-                                                                                ? <OrderHistorySkeleton count={orderDetailList.length} />
+                                                                                ? <OrderLogSkeleton count={orderDetailList.length} />
                                                                                 : (
                                                                                     orderDetailList.map((order, idx) => (
                                                                                         <div
@@ -217,15 +217,6 @@ export default function OrderLog() {
                                                                     </div>
                                                                     : null
                                                             }
-
-                                                            {/* {
-                                                                orderDetailList[index + 1]
-                                                                    && order.orderDateTime.split(' ')[0] !== orderDetailList[index + 1]..split(' ')[0]
-                                                                    ? <div
-                                                                        className="w-full h-2 my-2 bg-selected-line"
-                                                                    />
-                                                                    : null
-                                                            } */}
                                                         </div>
                                                     )
                                             })}

@@ -1,8 +1,17 @@
 import Area from "@/components/common/Area";
 import Layout from "@/components/layout/Layout";
-import PredictItemList from "@/components/predictItem/PredictItemList";
-import PredictPharmacyList from "@/components/predictItem/PredictPharmacyList";
+import PredictItemSkeleton from "@/components/skeleton/PredictItemSkeleton";
+import dynamic from "next/dynamic";
 
+const PredictItemList = dynamic(() => import("@/components/predictItem/PredictItemList"), {
+    loading: () => <PredictItemSkeleton />,
+    ssr: false
+});
+
+const PredictPharmacyList = dynamic(() => import("@/components/predictItem/PredictPharmacyList"), {
+    loading: () => null,
+    ssr: false
+});
 
 export default function PredictItem() {
     return (

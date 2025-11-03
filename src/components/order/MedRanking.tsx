@@ -12,7 +12,6 @@ export default function MedRanking() {
 
     const handleMedRanking = useCallback(async () => {
         try {
-            console.log("요즘 약국 랭킹 데이터 받아오기 시도");
             const ranking = await getTodaysRanking(listCount, percent);
 
             if (ranking?.items) {
@@ -85,43 +84,41 @@ export default function MedRanking() {
                     style={{ scrollbarGutter: "stable" }}
                 >
                     {
-                        result.length === 0
-                            ? <DataListSkeleton />
-                            : result.map((data, index) =>
-                                <button
-                                    area-label="med ranking"
-                                    key={index}
-                                    className={(data.medicineId !== selectedMedNumber)
-                                        ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                        : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
-                                    }
-                                    onClick={() => setSelectedMedNumber(data.medicineId)}
-                                >
-                                    <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
-                                        <span className="text-sub-color text-lg">{index + 1}</span>
-                                        {data.productName}
-                                    </div>
-                                    <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
-                                        <span>{data.productCompany}</span>
-                                        <span>보험코드 {data.insuranceCode}</span>
-                                    </div>
-                                    <div className="w-full h-[1px] bg-gray-300" />
-                                    <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
-                                        <span className="w-[40%]">주문율</span>
-                                        <span
-                                            className={
-                                                data.orderRate > 90
-                                                    ? "w-[60%] text-point-positive"
-                                                    : data.orderRate > 80
-                                                        ? "w-[60%] text-main-color"
-                                                        : "w-[60%] text-point-negative"
-                                            }
-                                        >
-                                            {data.orderRate}%
-                                        </span>
-                                    </div>
-                                </button>
-                            )
+                        result.map((data, index) =>
+                            <button
+                                area-label="med ranking"
+                                key={index}
+                                className={(data.medicineId !== selectedMedNumber)
+                                    ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                    : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                }
+                                onClick={() => setSelectedMedNumber(data.medicineId)}
+                            >
+                                <div className="flex flex-row items-center gap-3 text-sm font-medium text-main-font text-left">
+                                    <span className="text-sub-color text-lg">{index + 1}</span>
+                                    {data.productName}
+                                </div>
+                                <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
+                                    <span>{data.productCompany}</span>
+                                    <span>보험코드 {data.insuranceCode}</span>
+                                </div>
+                                <div className="w-full h-[1px] bg-gray-300" />
+                                <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
+                                    <span className="w-[40%]">주문율</span>
+                                    <span
+                                        className={
+                                            data.orderRate > 90
+                                                ? "w-[60%] text-point-positive"
+                                                : data.orderRate > 80
+                                                    ? "w-[60%] text-main-color"
+                                                    : "w-[60%] text-point-negative"
+                                        }
+                                    >
+                                        {data.orderRate}%
+                                    </span>
+                                </div>
+                            </button>
+                        )
                     }
                 </div>
             </Suspense>

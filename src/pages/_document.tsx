@@ -6,20 +6,21 @@ export default function Document() {
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <link
-          rel="preload"
+          rel="stylesheet preload"
           href="/fonts/Recipekorea.ttf"
-          as="font"
+          as="style"
           type="font/ttf"
           crossOrigin="anonymous"
         />
         <link
-          rel="preload"
+          rel="stylesheet preload"
           href="/fonts/pretendard.woff2"
-          as="font"
+          as="style"
           type="font/woff2"
           crossOrigin="anonymous"
         />
       </Head>
+      <title>Medict</title>
       <body className="font-recipe bg-main-bg">
         <Main />
         <NextScript />
