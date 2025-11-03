@@ -1,12 +1,16 @@
 import { useEffect, useState, KeyboardEvent } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import NotiModal from '@/components/modal/NotiModal';
 import Button from '@/components/common/Button';
 
 import { MemberProps } from '@/types/member/member';
 import { useMemberStore, useLoginModalStore, useLoginFailModalStore, useNotExistEmailModalStore, useWrongPwModalStore, useWithdrawalModalStore } from '@/store/store';
 import { postLoginInfo } from '@/apis/login';
+import dynamic from 'next/dynamic';
+
+const NotiModal = dynamic(() => import("@/components/modal/NotiModal"), {
+  ssr: false
+});
 
 export default function Home() {
   const router = useRouter();
@@ -20,16 +24,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
-  const [isEmailFilled, setIsEmailFilled] = useState(email.trim() !== "");
-  const [isPwFilled, setIsPwFilled] = useState(password.trim() !== "");
-  const isButtonActive = () => {
-    // 로그인 버튼 활성화 여부
-    if (isEmailFilled && isPwFilled) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  const isButtonActive = email.trim() !== "" && password.trim() !== "";
 
   const enterkey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode === 13) {
@@ -63,13 +58,7 @@ export default function Home() {
     if (isModalOpen) {
       setTimeout(() => {
         setIsModalClose();
-        if (member === 'PHARMACY') {
-          // 약국 회원일 경우 AI 오늘의 주문 페이지로 이동
-          router.push('/order');
-        } else {
-          // 도매상 회원일 경우 주문 예상 품목 페이지로 이동
-          router.push('/predict-item');
-        }
+        router.push(member === 'PHARMACY' ? '/order' : '/predict-item');
       }, 2000);
     } else if (isFailModalOpen || isNotExistModalOpen || isWrongPwModalOpen || isWithdrawalModalOpen) {
       setTimeout(() => {
@@ -81,12 +70,6 @@ export default function Home() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsFailModalClose, router]);
-
-  useEffect(() => {
-    // 아이디와 비밀번호 모두 채워졌을 때만 로그인 가능
-    setIsEmailFilled(email.trim() !== "");
-    setIsPwFilled(password.trim() !== "");
-  }, [email, password]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
@@ -161,7 +144,7 @@ export default function Home() {
           <Button
             text="로그인"
             height={57}
-            disabled={!isButtonActive()}
+            disabled={!isButtonActive}
             bgColor="main-color"
             onClick={handleLogin}
           />
