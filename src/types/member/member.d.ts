@@ -44,3 +44,25 @@ export interface MyPageRes {
         }
     }
 }
+// 내 정보 수정
+export interface UpdateProfileReq {
+    username: string;
+    phoneNumber: string;
+    address: {
+        zipCode: string;
+        roadAddress: string;
+        detailAddress: string;
+        latitude: number;
+        longtitude: number;
+    }
+}
+
+export interface UpdateProfileRes {
+    data: Record<string, never>;
+}
+// 비밀번호 변경
+export interface UpdatePasswordReq {
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}

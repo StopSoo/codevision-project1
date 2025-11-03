@@ -1,6 +1,6 @@
 import { AddCartReq, AddCartRes, EditCartReq, EmptyCartRes, TotalCartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
-import { MyPageRes } from "@/types/member/member";
+import { MyPageRes, UpdatePasswordReq, UpdateProfileReq, UpdateProfileRes } from "@/types/member/member";
 import { MedicineDetailRes, RankingRes, TodaysRes, WholesaleDetailRes } from "@/types/pharmacy/order";
 import { PharmacyOrderRes, ViewOrderDetailRes, ViewPharmacyOrderRes } from "@/types/pharmacy/orderedList";
 import { CheckEmailReq, CheckEmailRes, SignupReq, SignupRes } from "@/types/signup/signup";
@@ -44,6 +44,30 @@ const auth = (axiosInstance: AxiosInstance) => ({
     viewMyPage: async (): Promise<MyPageRes> => {
         const response = await axiosInstance.get<MyPageRes>(
             '/mypage'
+        );
+        return response.data;
+    },
+    // 내 정보 수정
+    updateProfile: async (data: UpdateProfileReq): Promise<UpdateProfileRes> => {
+        const response = await axiosInstance.patch<UpdateProfileRes>(
+            '/mypage/update-profile',
+            data
+        );
+        return response.data;
+    },
+    // 비밀번호 변경
+    updatePassword: async (data: UpdatePasswordReq): Promise<UpdateProfileRes> => {
+        const response = await axiosInstance.patch<UpdateProfileRes>(
+            '/mypage/update-password',
+            data
+        );
+        return response.data;
+    },
+    // 계정 탈퇴
+    withdrawMember: async (password: string): Promise<UpdateProfileRes> => {
+        const response = await axiosInstance.post<UpdateProfileRes>(
+            '/mypage/withdrawal',
+            { password }
         );
         return response.data;
     },

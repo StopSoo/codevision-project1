@@ -13,15 +13,15 @@ export default function MyPage() {
     const [email, setEmail] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [phoneNumber, setPhoneNumber] = useState<string>('010');
-    const [areaCode, setAreaCode] = useState<string>('');
+    const [zipCode, setZipCode] = useState<string>('');
     const [roadAddress, setRoadAddress] = useState<string>('');
     const [detailAddress, setDetailAddress] = useState<string>('');
 
     const handleEditMyInfo = () => {
         router.push('/mypage/edit');
     };
-
-    const handleMyInfo = useCallback(async () => {
+    // 사용자 정보 불러오기
+    const handleMyInfo = async () => {
         try {
             const result = await getMyPage();
 
@@ -35,7 +35,7 @@ export default function MyPage() {
                 setEmail(email);
                 setPhoneNumber(phoneNumber);
                 setWorkplace(workplace);
-                setAreaCode(address.zipCode);
+                setZipCode(address.zipCode);
                 setRoadAddress(address.roadAddress);
                 setDetailAddress(address.detailAddress);
             }
@@ -43,7 +43,7 @@ export default function MyPage() {
             alert("서버 오류 or 회원 정보 불러오기 실패");
             console.log(error);
         }
-    }, []);
+    };
 
     useEffect(() => {
         handleMyInfo();
@@ -115,50 +115,6 @@ export default function MyPage() {
                             </label>
                         </div>
 
-                        {/* <div className="bg-gray-100 p-6 h-[120px] flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 text-main-font font-medium">
-                                비밀번호
-                            </label>
-                            <div className="flex-1">
-                                <input
-                                    type="password"
-                                    value={password}
-                                    placeholder="영문 대문자/숫자/특수문자 !,@,#,$,%,^,& 중 1가지 이상 조합, 8자 이상"
-                                    onChange={(e) => setPw(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
-                                />
-                                <div className="text-xs mt-2">
-                                    {pw !== "" &&
-                                        (isValidPassword(pw)
-                                            ? <p className="text-xs text-point-positive mt-2">비밀번호 조건을 통과하였습니다.</p>
-                                            : <p className="text-xs text-point-negative mt-2">비밀번호 조건을 통과하지 못했습니다.</p>
-                                        )}
-                                </div>
-                            </div>
-                        </div> */}
-
-                        {/* <div className="bg-gray-100 p-6 h-[120px] flex items-start gap-4 border-b-2 border-gray-200">
-                            <label className="w-32 pt-3 text-main-font font-medium">
-                                <span className="text-point-negative">•</span> 비밀번호 확인
-                            </label>
-                            <div className="flex-1">
-                                <input
-                                    type="password"
-                                    value={pwConfirm}
-                                    placeholder="비밀번호 확인"
-                                    onChange={(e) => setPwConfirm(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
-                                />
-                                <div className="text-xs mt-2">
-                                    {pwConfirm !== "" &&
-                                        (!isPwConfirmFilled
-                                            ? <p className="text-xs text-point-negative mt-2">비밀번호가 일치하지 않습니다.</p>
-                                            : <p className="text-xs text-point-positive mt-2">비밀번호가 일치합니다.</p>
-                                        )}
-                                </div>
-                            </div>
-                        </div> */}
-
                         <div className="bg-gray-100 p-6 flex items-center gap-4 border-b-2 border-gray-200">
                             <label className="w-32 text-main-font font-medium">
                                 이름
@@ -184,7 +140,7 @@ export default function MyPage() {
                                 주소
                             </label>
                             <div className="flex-1 flex-col space-y-3">
-                                <span className="text-unselected-font font-medium">{areaCode}</span>
+                                <span className="text-unselected-font font-medium">{zipCode}</span>
                                 <label className="flex flex-row items-center justify-start gap-3">
                                     <span className="text-unselected-font font-medium">{roadAddress}</span>
                                     <span className="text-unselected-font font-medium">{detailAddress}</span>
@@ -194,11 +150,18 @@ export default function MyPage() {
                     </div>
                 </div>
 
-                <div className="flex mt-12 mb-8">
+                <div className="flex flex-row gap-5 mt-12 mb-8">
+                    <button
+                        name="go home button"
+                        onClick={() => router.push('/')}
+                        className="flex-1 py-4 bg-white border-2 border-gray-300 text-gray-800 font-medium text-lg hover:bg-gray-50 transition-colors"
+                    >
+                        홈으로 가기
+                    </button>
                     <button
                         name="edit button"
                         onClick={handleEditMyInfo}
-                        className="flex-1 py-4 bg-white border-2 border-gray-300 text-gray-800 font-medium text-lg hover:bg-gray-50 transition-colors"
+                        className="flex-1 py-4 text-white bg-main-logo border-none text-gray-800 font-medium text-lg hover:bg-hover-blue transition-colors"
                     >
                         회원 정보 수정
                     </button>
