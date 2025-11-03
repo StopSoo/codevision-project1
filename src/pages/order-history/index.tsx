@@ -105,6 +105,8 @@ export default function OrderHistory() {
                                     width={45}
                                     height={45}
                                     alt="check list icon"
+                                    priority
+                                    fetchPriority="high"
                                 />
                                 <input
                                     aria-label="startDate"

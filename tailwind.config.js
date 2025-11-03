@@ -13,7 +13,7 @@ module.exports = {
         "main-bg": "#FBFFFC",
         "main-color": "#016043",
         "sub-color": "#FFCC00",
-        "main-logo": "#4169B8",
+        "main-logo": "#345289",
         "selected-line": "#6BC6BC",
         "selected-bg": "#F2F8FF",
         "mileage-font": "#9D90B1",
@@ -25,7 +25,7 @@ module.exports = {
         "unselected-font": "#595959",
         "cart": "#C4F6EF",
         "hover-green": "#6BC6BC",
-        "hover-blue": "#345289",
+        "hover-blue": "#4169B8",
       },
       fontFamily: {
         recipe: ["Recipekorea", "pretendard", "sans-serif"],

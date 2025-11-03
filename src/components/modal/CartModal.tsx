@@ -53,10 +53,12 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                         type === 'cart'
                             ? <Image
                                 src="/assets/check_icon.png"
-                                width={50}
-                                height={50}
+                                width={40}
+                                height={40}
                                 alt="modal check icon"
+                                className="animate-bounce"
                                 priority
+                                fetchPriority="high"
                             />
                             : type === 'order'
                                 ? <Image
@@ -64,7 +66,9 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                                     width={50}
                                     height={50}
                                     alt="modal check list icon"
+                                    className="animate-bounce"
                                     priority
+                                    fetchPriority="high"
                                 />
                                 : <Image
                                     src="/assets/alert_icon.png"
@@ -72,6 +76,7 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                                     height={50}
                                     alt="modal alert icon"
                                     priority
+                                    fetchPriority="high"
                                 />
                     }
                 </div>

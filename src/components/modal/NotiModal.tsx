@@ -33,7 +33,9 @@ export default function NotiModal({
                                 width={100}
                                 height={100}
                                 alt="modal check icon"
+                                className="animate-bounce"
                                 priority
+                                fetchPriority="high"
                             />
                             : <Image
                                 src="/assets/alert_icon.png"
@@ -41,6 +43,7 @@ export default function NotiModal({
                                 height={100}
                                 alt="modal alert icon"
                                 priority
+                                fetchPriority="high"
                             />
                     }
                 </div>

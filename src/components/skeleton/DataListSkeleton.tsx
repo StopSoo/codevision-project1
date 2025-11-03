@@ -1,6 +1,9 @@
 export default function DataListSkeleton() {
     return (
-        <div className="min-w-[225px] animate-pulse flex flex-col gap-6">
+        <div
+            className="min-w-[225px] animate-pulse overflow-y-auto flex flex-col gap-6"
+            style={{ scrollbarGutter: "stable" }}
+        >
             {[...Array(5)].map((_, i) => (
                 <div
                     key={i}
