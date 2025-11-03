@@ -34,6 +34,7 @@ const PaginationComponent = ({
                         .fill(0)
                         .map((_, i) => (
                             <button
+                                name={`${i + 1} page button`}
                                 key={i + 1}
                                 onClick={() => setPage(i + 1)}
                                 aria-current={page === i + 1 && 'page'}

@@ -55,12 +55,14 @@ export default function NotiModal({
                             hasTwoButton
                                 ? <div className="flex flex-row w-full items-center justify-center gap-3">
                                     <button
+                                        name="noti modal yes button"
                                         className="w-full px-6 py-3 border-2 rounded-xl hover:bg-selected-bg hover:border-selected-line"
                                         onClick={onClickYes}
                                     >
                                         예
                                     </button>
                                     <button
+                                        name="noti modal no button"
                                         className="w-full px-6 py-3 border-2 rounded-xl hover:bg-selected-bg hover:border-selected-line"
                                         onClick={onClickNo}
                                     >
@@ -69,6 +71,7 @@ export default function NotiModal({
                                 </div>
                                 : <div className="flex flex-row w-full items-center justify-center gap-3">
                                     <button
+                                        name="noti modal confirm button"
                                         className="w-full px-6 py-3 border-2 rounded-xl hover:bg-selected-bg hover:border-selected-line"
                                         onClick={onClickYes}
                                     >

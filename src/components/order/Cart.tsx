@@ -122,6 +122,7 @@ export default function Cart() {
             {
                 cart.length > 0
                     ? <button
+                        name="all cancel button"
                         className={allCancelButtonStyle}
                         onClick={handleRemoveAllItem}
                     >
@@ -159,6 +160,7 @@ export default function Cart() {
                                             <span className="text-sm text-sub-font w-[40%]">수량</span>
                                             <div className="flex flex-row items-space-between gap-2 w-[60%]">
                                                 <button
+                                                    name="quantity minus button"
                                                     className="border border-sub-font px-2 rounded-md hover:bg-selected-bg hover:border-selected-line"
                                                     onClick={() => {
                                                         if (item.quantity - 1 > 0) {
@@ -182,6 +184,7 @@ export default function Cart() {
                                                     className="w-16 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center text-sm"
                                                 />
                                                 <button
+                                                    name="quantity plus button"
                                                     className="border border-sub-font px-2 rounded-md hover:bg-selected-bg hover:border-selected-line"
                                                     onClick={() => {
                                                         updateQuantity(item.cartItemId, item.quantity + 1);

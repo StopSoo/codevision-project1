@@ -10,6 +10,7 @@ interface ButtonProps {
 export default function Button({ text, height, disabled, bgColor, hoverBgColor, onClick }: ButtonProps) {
     return (
         <button
+            name="order page button"
             disabled={disabled}
             onClick={onClick}
             style={{ height: `${height}px` }}

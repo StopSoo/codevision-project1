@@ -58,6 +58,7 @@ export default function PredictItemList() {
                                 className="flex-1 flex flex-row w-full items-center justify-start p-4 space-2 gap-4 overflow-y-auto rounded-b-lg"
                             >
                                 <button
+                                    name="predict item button"
                                     key={index}
                                     onClick={() => setSelectedMedNumber(predictItem.predictId)}
                                 >

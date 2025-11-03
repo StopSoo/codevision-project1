@@ -133,6 +133,7 @@ export default function AnalysisList() {
                         {
                             result.map((analysis, index) =>
                                 <button
+                                    name="medicine item button"
                                     area-label="todays order list"
                                     key={index}
                                     className={(analysis.medicineId !== selectedNumber)

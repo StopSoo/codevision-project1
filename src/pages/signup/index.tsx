@@ -231,6 +231,7 @@ export default function SignUp() {
                                         className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
                                     <button
+                                        name="check email button"
                                         onClick={() => {
                                             setIsEmailCheckButtonClick(true);
                                             handleEmailExist();
@@ -369,6 +370,7 @@ export default function SignUp() {
                                         className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
                                     <button
+                                        name="search address button"
                                         onClick={setIsAddressModalOpen}
                                         className="w-32 h-15 p-3 bg-white text-sm border-2 border-main-font"
                                     >
@@ -396,12 +398,14 @@ export default function SignUp() {
 
                 <div className="flex gap-4 mt-12 mb-8">
                     <button
+                        name="cancel button"
                         onClick={handleCancel}
                         className="flex-1 py-4 bg-white border-2 border-gray-300 text-gray-800 font-medium text-lg hover:bg-gray-50 transition-colors"
                     >
                         취소
                     </button>
                     <button
+                        name="signup button"
                         onClick={handleSignUp}
                         className={isButtonActive()
                             ? "flex-1 py-4 bg-main-logo text-white font-medium text-lg hover:bg-gray-700 transition-colors"

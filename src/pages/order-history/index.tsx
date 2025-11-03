@@ -134,7 +134,7 @@ export default function OrderHistory() {
                                     className="px-5 py-2 w-[250px] h-11 border-2 border-gray-300 text-main-font text-sm rounded focus:outline-none focus:border-main-color focus:bg-selected-bg"
                                 />
                                 <button
-                                    name="search component"
+                                    name="search button"
                                     className="text-base text-main-font px-4 py-2 border-2 hover:border-selected-line"
                                     onClick={() => {
                                         setParamKeyword(keyword);
@@ -213,7 +213,7 @@ export default function OrderHistory() {
                                                         return (
                                                             <div key={index}>
                                                                 <button
-                                                                    name="order history item"
+                                                                    name="order history item button"
                                                                     className={selectedNumber === order.orderId
                                                                         ? "flex-1 w-full border-2 bg-white border-selected-line"
                                                                         : "flex-1 w-full border-2 border-white hover:bg-selected-bg hover:border-selected-line"

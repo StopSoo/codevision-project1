@@ -168,6 +168,7 @@ export default function OrderLog() {
                                                     return (
                                                         <div key={index}>
                                                             <button
+                                                                name="order log item button"
                                                                 className={selectedNumber === order.orderId
                                                                     ? "flex-1 w-full border-2 bg-white border-selected-line"
                                                                     : "flex-1 w-full border-2 border-white hover:bg-selected-bg hover:border-selected-line"
