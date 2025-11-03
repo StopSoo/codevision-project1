@@ -78,6 +78,7 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                 <p className="text-base text-main-font text-lg flex-1 whitespace-pre-line text-center">{message}</p>
                 {
                     type === 'order' && <button
+                        name="close modal button"
                         onClick={onClose}
                         className="flex-shrink-0 text-sub-font hover:text-unselected-font transition-colors"
                     >

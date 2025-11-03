@@ -31,6 +31,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
                             text="오늘의 주문"
                             height={70}
                             bgColor="main-color"
+                            hoverBgColor="hover-green"
                             onClick={() => {
                                 setSelectedMedNumber(null);
                                 setAnalysisButtonOn();
@@ -41,6 +42,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
                             text="요즘 약국 랭킹"
                             height={70}
                             bgColor="main-logo"
+                            hoverBgColor="hover-blue"
                             onClick={() => {
                                 setSelectedMedNumber(null);
                                 setAnalysisButtonOff();

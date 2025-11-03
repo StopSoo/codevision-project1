@@ -99,6 +99,7 @@ export default function Header({ pharmacy }: HeaderProps) {
 
             <div className="flex flex-row gap-2 font-medium text-lg md:text-2xl items-center text-main-font whitespace-nowrap">
                 <button
+                    name="header member name button"
                     className="flex flex-row justify-center ml-2 gap-3"
                     onClick={handleClick}
                 >

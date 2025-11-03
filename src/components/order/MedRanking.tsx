@@ -86,6 +86,7 @@ export default function MedRanking() {
                     {
                         result.map((data, index) =>
                             <button
+                                name="medicine ranking item button"
                                 area-label="med ranking"
                                 key={index}
                                 className={(data.medicineId !== selectedMedNumber)

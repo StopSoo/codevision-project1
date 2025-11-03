@@ -30,6 +30,7 @@ export default function MemberModal({ onClose }: MemberModalProps) {
         >
             <div className="bg-main-bg rounded-xl shadow-lg px-6 py-2 flex flex-col items-center justify-center min-w-[200px] min-h-[100px] animate-slideDown">
                 <button
+                    name="header member modal mypage button"
                     className="flex-shrink-0"
                     onClick={() => router.push('/mypage')}
                 >
@@ -37,6 +38,7 @@ export default function MemberModal({ onClose }: MemberModalProps) {
                 </button>
                 <div className="w-full h-1 bg-gray-300 rounded-xl my-2" />
                 <button
+                    name="header member modal logout button"
                     className="flex-shrink-0"
                     onClick={handleLogout}
                 >

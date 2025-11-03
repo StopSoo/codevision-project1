@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       colors: {
         "main-bg": "#FBFFFC",
-        "main-color": "#01C78D",
+        "main-color": "#016043",
         "sub-color": "#FFCC00",
         "main-logo": "#4169B8",
         "selected-line": "#6BC6BC",
@@ -25,6 +25,7 @@ module.exports = {
         "unselected-font": "#595959",
         "cart": "#C4F6EF",
         "hover-green": "#6BC6BC",
+        "hover-blue": "#345289",
       },
       fontFamily: {
         recipe: ["Recipekorea", "pretendard", "sans-serif"],

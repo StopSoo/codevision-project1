@@ -20,6 +20,7 @@ const PaginationComponent = ({
         <section className="mt-3">
             <div className="flex justify-center gap-x-4">
                 <button
+                    name="before page"
                     onClick={() => {
                         setPage(page - 1);
                     }}
@@ -33,6 +34,7 @@ const PaginationComponent = ({
                         .fill(0)
                         .map((_, i) => (
                             <button
+                                name={`${i + 1} page button`}
                                 key={i + 1}
                                 onClick={() => setPage(i + 1)}
                                 aria-current={page === i + 1 && 'page'}
@@ -48,6 +50,7 @@ const PaginationComponent = ({
                 }
 
                 <button
+                    name="next page"
                     onClick={() => {
                         setPage(page + 1);
                     }}

@@ -4,7 +4,7 @@ export default function PredictItemSkeleton() {
             className="animate-pulse flex flex-col"
         >
             {
-                [...Array(4)].map((_, i) => (
+                [...Array(8)].map((_, i) => (
                     <div
                         key={i}
                         className="grid grid-cols-7 gap-4 p-4 bg-white text-center"

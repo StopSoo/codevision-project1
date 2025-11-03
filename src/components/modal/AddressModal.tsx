@@ -32,6 +32,7 @@ export default function AddressModal({ onClose }: AddressModalProps) {
                         주소 검색
                     </div>
                     <button
+                        name="close modal button"
                         onClick={onClose}
                         className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-colors transition-transform"
                     >

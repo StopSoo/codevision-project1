@@ -146,6 +146,7 @@ export default function Home() {
             height={57}
             disabled={!isButtonActive}
             bgColor="main-color"
+            hoverBgColor="hover-green"
             onClick={handleLogin}
           />
 
@@ -157,6 +158,7 @@ export default function Home() {
               회원가입을 하고 서비스를 이용해보세요!
             </p>
             <button
+              name="signup button"
               onClick={handleSignup}
               className="w-full py-3 border border-gray-400 text-lg md:text-xl text-main-font font-bold hover:bg-gray-50 transition-colors"
             >
