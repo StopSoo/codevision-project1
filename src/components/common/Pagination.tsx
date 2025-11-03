@@ -20,6 +20,7 @@ const PaginationComponent = ({
         <section className="mt-3">
             <div className="flex justify-center gap-x-4">
                 <button
+                    name="before page"
                     onClick={() => {
                         setPage(page - 1);
                     }}
@@ -48,6 +49,7 @@ const PaginationComponent = ({
                 }
 
                 <button
+                    name="next page"
                     onClick={() => {
                         setPage(page + 1);
                     }}

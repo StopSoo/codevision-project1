@@ -146,6 +146,7 @@ export default function Home() {
             height={57}
             disabled={!isButtonActive}
             bgColor="main-color"
+            hoverBgColor="hover-green"
             onClick={handleLogin}
           />
 

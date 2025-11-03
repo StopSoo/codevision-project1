@@ -228,6 +228,7 @@ export default function Cart() {
                     text="주문하기"
                     height={60}
                     bgColor="main-color"
+                    hoverBgColor="hover-green"
                     onClick={handleOrder}
                 />
             </div>

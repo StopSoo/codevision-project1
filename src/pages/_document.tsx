@@ -6,16 +6,16 @@ export default function Document() {
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <link
-          rel="stylesheet preload"
+          rel="preload"
           href="/fonts/Recipekorea.ttf"
-          as="style"
+          as="font"
           type="font/ttf"
           crossOrigin="anonymous"
         />
         <link
-          rel="stylesheet preload"
+          rel="preload"
           href="/fonts/pretendard.woff2"
-          as="style"
+          as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
