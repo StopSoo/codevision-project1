@@ -198,7 +198,7 @@ export default function Cart() {
                                     </div>
                                 </div>
                                 <button
-                                    area-label="item delete button"
+                                    name="item delete button"
                                     onClick={() => handleRemoveItem(item.cartItemId)}
                                     className="text-gray-600 hover:text-red-600 hover:rotate-90 duration-300 transition-transform"
                                 >

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -14,7 +14,7 @@ export default function SignUp() {
 
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
-    const { setMember, name: username, setName: setUserName, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
+    const { setMember, setName: setUserName, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
     const [workplace, setWorkplace] = useState<string>('');
@@ -47,6 +47,13 @@ export default function SignUp() {
         }
     }
 
+    const enterkey = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.keyCode === 13) {
+            setIsEmailCheckButtonClick(true);
+            handleEmailExist();
+        }
+    };
+
     const handleCancel = () => {
         router.back();
     };
@@ -55,7 +62,7 @@ export default function SignUp() {
         // 회원가입 API 연동
         try {
             const result = await postSignupInfo({
-                username,
+                username: name,
                 email,
                 password: pw,
                 phoneNumber: `${areaCode}-${phone1}-${phone2}`,
@@ -98,16 +105,6 @@ export default function SignUp() {
             console.log(error);
         }
     };
-
-    useEffect(() => {
-        if (isModalOpen) {
-            setTimeout(() => {
-                setIsModalClose();
-            }, 2000);
-        } else if (isSignup && !isModalOpen) {
-            router.push('/');
-        }
-    }, [isSignup, router, isModalOpen, setIsModalClose]);
 
     useEffect(() => {
         // localStorage 상태 초기화
@@ -228,6 +225,7 @@ export default function SignUp() {
                                             setEmail(e.target.value);
                                             setIsEmailCheckButtonClick(false);
                                         }}
+                                        onKeyUp={(e) => enterkey(e)}
                                         className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
                                     <button
@@ -324,6 +322,7 @@ export default function SignUp() {
                             </label>
                             <div className="flex-1 flex items-center gap-2">
                                 <select
+                                    aria-label="area-code"
                                     value={areaCode}
                                     onChange={(e) => setAreaCode(e.target.value)}
                                     className="w-full max-w-[90px] h-15 px-4 py-3 border border-gray-300 text-sm text-main-font focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
@@ -337,6 +336,7 @@ export default function SignUp() {
                                 </select>
                                 <span className="text-gray-600">―</span>
                                 <input
+                                    aria-label="phone number"
                                     type="text"
                                     value={phone1}
                                     placeholder='1234'
@@ -346,6 +346,7 @@ export default function SignUp() {
                                 />
                                 <span className="text-gray-600">―</span>
                                 <input
+                                    aria-label="phone number"
                                     type="text"
                                     value={phone2}
                                     placeholder='5678'
@@ -424,6 +425,7 @@ export default function SignUp() {
                             message={"회원가입에 성공했습니다.\n로그인 페이지로 넘어갑니다."}
                             hasButton={true}
                             hasTwoButton={false}
+                            onClickYes={() => router.push('/')}
                             onClose={setIsModalClose}
                         />
                         : null
