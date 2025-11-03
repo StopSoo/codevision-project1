@@ -1,5 +1,6 @@
 import { AddCartReq, AddCartRes, EditCartReq, EmptyCartRes, TotalCartRes } from "@/types/cart/cart";
 import { LoginReq, LoginRes } from "@/types/login/login";
+import { MyPageRes } from "@/types/member/member";
 import { MedicineDetailRes, RankingRes, TodaysRes, WholesaleDetailRes } from "@/types/pharmacy/order";
 import { PharmacyOrderRes, ViewOrderDetailRes, ViewPharmacyOrderRes } from "@/types/pharmacy/orderedList";
 import { CheckEmailReq, CheckEmailRes, SignupReq, SignupRes } from "@/types/signup/signup";
@@ -36,6 +37,13 @@ const auth = (axiosInstance: AxiosInstance) => ({
             {
                 params: data
             }
+        );
+        return response.data;
+    },
+    // 마이 페이지
+    viewMyPage: async (): Promise<MyPageRes> => {
+        const response = await axiosInstance.get<MyPageRes>(
+            '/mypage'
         );
         return response.data;
     },

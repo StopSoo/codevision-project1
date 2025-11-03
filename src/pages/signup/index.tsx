@@ -419,7 +419,7 @@ export default function SignUp() {
                 </div>
 
                 {
-                    isModalOpen
+                    isSignup && isModalOpen
                         ? <NotiModal
                             type='check'
                             message={"회원가입에 성공했습니다.\n로그인 페이지로 넘어갑니다."}

@@ -25,3 +25,22 @@ export type ModalStore = {
     setIsModalOpen: () => void;
     setIsModalClose: () => void;
 }
+
+/* 마이페이지 API */
+// 마이페이지
+export interface MyPageRes {
+    data: {
+        username: string;
+        email: string;
+        phoneNumber: string;
+        role: string;
+        workplace: string;
+        address: {
+            zipCode: string;
+            roadAddress: string;
+            detailAddress: string;
+            latitude: number;
+            longtitude: number;
+        }
+    }
+}

@@ -12,10 +12,8 @@ export const postLoginInfo = async ({ email, password, role }: LoginReq) => {
         });
 
         if ("data" in response) {
-            console.log('login 성공');
             return response;
         } else {
-            console.log('login 실패');
             return null;
         }
     } catch (error) {
