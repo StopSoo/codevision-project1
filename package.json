@@ -47,5 +47,12 @@
     "url": "https://github.com/StopSoo/codevision-project1/issues"
   },
   "homepage": "https://github.com/StopSoo/codevision-project1#readme",
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:3000",
+  "browserslist": [
+    "chrome >= 90",
+    "edge >= 90",
+    "firefox >= 88",
+    "safari >= 14",
+    "ios >= 14"
+  ]
 }

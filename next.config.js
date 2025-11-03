@@ -6,10 +6,10 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    optimizePackageImports: ["geist"],
+    optimizePackageImports: ["geist", "react-icons"],
   },
   compiler: {
-    removeConsole: process.env.NEXT_PUBLIC_NEXT_APP_ENV === "production",
+    removeConsole: process.env.NODE_ENV === "production",
   },
   productionBrowserSourceMaps: false,
   images: {
