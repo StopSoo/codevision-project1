@@ -58,7 +58,7 @@ export const useWrongPwModalStore = create<ModalStore>((set) => ({
     setIsModalClose: () => set({ isModalOpen: false })
 }))
 // 로그인 실패 - 탈퇴한 사용자
-export const useWithdrawalModalStore = create<ModalStore>((set) => ({
+export const useWithdrawalUserModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
@@ -89,6 +89,18 @@ export const useLogoutModalStore = create<ModalStore>((set) => ({
 }))
 // 토큰 만료 후 로그아웃 안내
 export const useTokenExpirationModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 회원 탈퇴 요청
+export const useWithdrawalModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 회원 탈퇴 성공
+export const useWithdrawalSuccessModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })

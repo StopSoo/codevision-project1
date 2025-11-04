@@ -1,12 +1,18 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { MemberProps } from '@/types/member/member';
 import { getMyPage } from '@/apis/member';
 import Image from 'next/image';
+import { useMemberModalStore, useMemberStore, useWithdrawalModalStore, useWithdrawalSuccessModalStore } from '@/store/store';
+import WithdrawalModal from '@/components/modal/WithdrawalModal';
 
 export default function MyPage() {
     const router = useRouter();
+
+    const { setLogout } = useMemberStore();
+    const { isModalOpen: isWithdrawalModalOpen, setIsModalOpen: setIsWithdrawalModalOpen, setIsModalClose: setIsWithdrawalModalClose } = useWithdrawalModalStore();
+    const { isModalOpen: isWithdrawalSuccessModalOpen, setIsModalClose: setIsWithdrawalSuccessModalClose } = useWithdrawalSuccessModalStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
     const [workplace, setWorkplace] = useState<string>('');
@@ -150,11 +156,11 @@ export default function MyPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-row gap-5 mt-12 mb-8">
+                <div className="flex flex-row gap-5 mt-12">
                     <button
                         name="go home button"
                         onClick={() => router.back()}
-                        className="flex-1 py-4 bg-white border-2 border-gray-300 text-gray-800 font-medium text-lg hover:bg-gray-50 transition-colors"
+                        className="flex-1 py-4 bg-white border-2 border-gray-300 text-gray-800 font-medium text-lg hover:bg-gray-100 transition-colors"
                     >
                         홈으로 가기
                     </button>
@@ -166,7 +172,42 @@ export default function MyPage() {
                         회원 정보 수정
                     </button>
                 </div>
+
+                <div className="flex flex-row mt-5">
+                    <button
+                        name="withdrawal button"
+                        onClick={setIsWithdrawalModalOpen}
+                        className="flex-1 py-4 text-point-negative border-2 border-point-negative bg-white text-gray-800 font-medium text-lg hover:bg-point-negative/80 hover:text-white transition-colors"
+                    >
+                        회원 탈퇴
+                    </button>
+                </div>
             </div>
+
+            {
+                isWithdrawalModalOpen
+                    ? <WithdrawalModal
+                        type='process'
+                        message='회원 탈퇴를 원하실 경우, 비밀번호를 입력해주세요.'
+                        onClose={setIsWithdrawalModalClose}
+                    />
+                    : null
+            }
+
+            {
+                isWithdrawalSuccessModalOpen
+                    ? <WithdrawalModal
+                        type='complete'
+                        message={`회원 탈퇴에 성공하셨습니다.\n로그인 화면으로 이동합니다.`}
+                        onClose={() => {
+                            setIsWithdrawalSuccessModalClose();
+                            setLogout();
+                            localStorage.removeItem('accessToken');
+                            router.push('/');
+                        }}
+                    />
+                    : null
+            }
         </div>
     );
 }

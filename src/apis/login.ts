@@ -1,7 +1,7 @@
 import { LoginReq } from "@/types/login/login";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
-import { useLoginFailModalStore, useNotExistEmailModalStore, useWithdrawalModalStore, useWrongPwModalStore } from "@/store/store";
+import { useLoginFailModalStore, useNotExistEmailModalStore, useWithdrawalUserModalStore, useWrongPwModalStore } from "@/store/store";
 // 로그인
 export const postLoginInfo = async ({ email, password, role }: LoginReq) => {
     try {
@@ -26,7 +26,7 @@ export const postLoginInfo = async ({ email, password, role }: LoginReq) => {
             useWrongPwModalStore.setState({ isModalOpen: true });
         } else if (err.response?.status === 404) {
             console.error("탈퇴한 사용자입니다.");
-            useWithdrawalModalStore.setState({ isModalOpen: true });
+            useWithdrawalUserModalStore.setState({ isModalOpen: true });
         } else {
             console.error("로그인 실패:", err.message);
             useLoginFailModalStore.setState({ isModalOpen: true });

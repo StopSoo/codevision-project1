@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 import { MemberProps } from '@/types/member/member';
-import { useMemberStore, useLoginModalStore, useLoginFailModalStore, useNotExistEmailModalStore, useWrongPwModalStore, useWithdrawalModalStore } from '@/store/store';
+import { useMemberStore, useLoginModalStore, useLoginFailModalStore, useNotExistEmailModalStore, useWrongPwModalStore, useWithdrawalUserModalStore } from '@/store/store';
 import { postLoginInfo } from '@/apis/login';
 import dynamic from 'next/dynamic';
 
@@ -19,7 +19,7 @@ export default function Home() {
   const { isModalOpen: isFailModalOpen, setIsModalClose: setIsFailModalClose } = useLoginFailModalStore();
   const { isModalOpen: isNotExistModalOpen, setIsModalClose: setIsNotExistModalClose } = useNotExistEmailModalStore();
   const { isModalOpen: isWrongPwModalOpen, setIsModalClose: setIsWrongPwModalClose } = useWrongPwModalStore();
-  const { isModalOpen: isWithdrawalModalOpen, setIsModalClose: setIsWithdrawalModalClose } = useWithdrawalModalStore();
+  const { isModalOpen: isWithdrawalModalOpen, setIsModalClose: setIsWithdrawalModalClose } = useWithdrawalUserModalStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -60,16 +60,9 @@ export default function Home() {
         setIsModalClose();
         router.push(member === 'PHARMACY' ? '/order' : '/predict-item');
       }, 2000);
-    } else if (isFailModalOpen || isNotExistModalOpen || isWrongPwModalOpen || isWithdrawalModalOpen) {
-      setTimeout(() => {
-        setIsFailModalClose();
-        setIsNotExistModalClose();
-        setIsWrongPwModalClose();
-        setIsWithdrawalModalClose();
-      }, 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLogin, member, isModalOpen, setIsModalClose, isFailModalOpen, setIsFailModalClose, router]);
+  }, [isLogin, isModalOpen, setIsModalClose, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-main-bg">
@@ -187,8 +180,9 @@ export default function Home() {
           <NotiModal
             type="alert"
             message="로그인에 실패했습니다."
-            hasButton={false}
+            hasButton={true}
             hasTwoButton={false}
+            onClickYes={setIsFailModalClose}
             onClose={setIsFailModalClose}
           />
         ) : null
@@ -200,8 +194,9 @@ export default function Home() {
           <NotiModal
             type="alert"
             message="존재하지 않는 이메일입니다."
-            hasButton={false}
+            hasButton={true}
             hasTwoButton={false}
+            onClickYes={setIsNotExistModalClose}
             onClose={setIsNotExistModalClose}
           />
         ) : null
@@ -213,8 +208,9 @@ export default function Home() {
           <NotiModal
             type="alert"
             message="비밀번호가 일치하지 않습니다."
-            hasButton={false}
+            hasButton={true}
             hasTwoButton={false}
+            onClickYes={setIsWrongPwModalClose}
             onClose={setIsWrongPwModalClose}
           />
         ) : null
@@ -226,8 +222,9 @@ export default function Home() {
           <NotiModal
             type="alert"
             message="탈퇴한 사용자입니다."
-            hasButton={false}
+            hasButton={true}
             hasTwoButton={false}
+            onClickYes={setIsWithdrawalModalClose}
             onClose={setIsWithdrawalModalClose}
           />
         ) : null
