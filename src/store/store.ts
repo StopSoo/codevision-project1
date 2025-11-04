@@ -33,91 +33,92 @@ export const useMemberStore = create<MemberStore>()(
 )
 
 /* 모달창 */
+// 로그인 성공
 export const useLoginModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 로그인 실패
 export const useLoginFailModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 로그인 실패 - 이메일이 존재하지 않음
 export const useNotExistEmailModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 로그인/회원 정보 수정 실패 - 비밀번호 불일치
 export const useWrongPwModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 로그인 실패 - 탈퇴한 사용자
 export const useWithdrawalModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 회원가입 성공
 export const useSignupModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 회원가입/회원 정보 수정 - 주소 입력
+export const useAddressModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 회원 정보 수정 성공
 export const useEditMyInfoModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
-export const useCartModalStore = create<ModalStore>((set) => ({
-    isModalOpen: false,
-    setIsModalOpen: () => set({ isModalOpen: true }),
-    setIsModalClose: () => set({ isModalOpen: false })
-}))
-
-export const useOrderModalStore = create<ModalStore>((set) => ({
-    isModalOpen: false,
-    setIsModalOpen: () => set({ isModalOpen: true }),
-    setIsModalClose: () => set({ isModalOpen: false })
-}))
-
-export const useCautionModalStore = create<ModalStore>((set) => ({
-    isModalOpen: false,
-    setIsModalOpen: () => set({ isModalOpen: true }),
-    setIsModalClose: () => set({ isModalOpen: false })
-}))
-
-export const useDateModalStore = create<ModalStore>((set) => ({
-    isModalOpen: false,
-    setIsModalOpen: () => set({ isModalOpen: true }),
-    setIsModalClose: () => set({ isModalOpen: false })
-}))
-
-export const useMemberModalStore = create<ModalStore>((set) => ({
-    isModalOpen: false,
-    setIsModalOpen: () => set({ isModalOpen: true }),
-    setIsModalClose: () => set({ isModalOpen: false })
-}))
-
+// 로그아웃 안내
 export const useLogoutModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
+// 토큰 만료 후 로그아웃 안내
 export const useTokenExpirationModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
-
-export const useAddressModalStore = create<ModalStore>((set) => ({
+// 장바구니에 약품 담기 성공
+export const useCartModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 장바구니 물품 주문 성공
+export const useOrderModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 장바구니에 약품 담기 - 재고 수량 초과 
+export const useCautionModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 주문 내역 - 적절하지 않은 날짜 입력
+export const useDateModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
+// 헤더 - 멤버 모달
+export const useMemberModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
@@ -149,7 +150,6 @@ export const useAnalysisStore = create<TodaysOrderStore>((set) => ({
             }
         })
 }))
-
 // 요즘 약국 랭킹
 export const useMedRankingStore = create<PharmacyRankingStore>((set) => ({
     click: false,
@@ -158,7 +158,6 @@ export const useMedRankingStore = create<PharmacyRankingStore>((set) => ({
     result: [],
     setResult: (newResult) => set({ result: newResult })
 }))
-
 // 약품 선택
 export const useSelectedMedStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
@@ -166,7 +165,6 @@ export const useSelectedMedStore = create<SelectedStore>((set) => ({
     expectedQty: 0,
     setExpectedQty: (qty) => set({ expectedQty: qty }),
 }))
-
 // 장바구니
 export const useCartStore = create<CartStore>((set, get) => ({
     cart: [],
@@ -221,7 +219,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
         }
     }
 }))
-
 // 주문 내역
 export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
     orderedList: [],
@@ -239,14 +236,11 @@ export const useOrderedListStore = create<OrderedListStore>((set, get) => ({
         return state.orderedList.reduce((total, item) => total + item.orderTotalPrice, 0);
     }
 }))
-
-// 주문 내역 상세 보기
-// 약국, 도매상 모두 
+// 주문 내역 상세 보기(약국, 도매상) 
 export const useSelectedOrderStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
     setSelectedNumber: (index) => set({ selectedNumber: index }),
 }))
-
 
 /* 도매상 */
 // 주문 예상 품목
@@ -266,13 +260,11 @@ export const usePredictItemStore = create<PredictItemStore>((set) => ({
             ),
         })),
 }))
-
 // 주문 예상 품목 - 약품 선택
 export const useSelectedItemStore = create<SelectedStore>((set) => ({
     selectedNumber: null,
     setSelectedNumber: (index) => set({ selectedNumber: index }),
 }))
-
 // 주문 예상 약국
 export const usePredictPharmacyStore = create<PredictPharmacyStore>((set, get) => ({
     medInfoList: [],
@@ -282,13 +274,11 @@ export const usePredictPharmacyStore = create<PredictPharmacyStore>((set, get) =
         return state.medInfoList.reduce((total, item) => total + item.expectedQty, 0);
     }
 }))
-
 // 약국 회원 리스트
 export const usePharmacyMemberStore = create<PharmacyMemberStore>((set) => ({
     result: [],
     setResult: (newResult) => set({ result: newResult }),
 }))
-
 // 약국 회원 선택
 export const useSelectedMemberStore = create<SelectedStore>((set) => ({
     selectedNumber: null,

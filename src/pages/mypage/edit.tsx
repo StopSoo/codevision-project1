@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { useAddressModalStore, useMemberStore, useSignupModalStore, useEditMyInfoModalStore } from '@/store/store';
+import { useAddressModalStore, useMemberStore, useSignupModalStore, useEditMyInfoModalStore, useWrongPwModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
 import { isValidPassword } from '@/utils/utility';
 import { MemberProps } from '@/types/member/member';
@@ -14,6 +14,7 @@ export default function MyPageEdit() {
 
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
     const { isModalOpen: isEditSuccessModalOpen, setIsModalOpen: setIsEditSuccessModalOpen, setIsModalClose: setIsEditSuccessModalClose } = useEditMyInfoModalStore();
+    const { isModalOpen: isWrongPwModalOpen, setIsModalClose: setIsWrongPwModalClose } = useWrongPwModalStore();
     const { setName: setUserName, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
@@ -57,7 +58,7 @@ export default function MyPageEdit() {
 
             if (result) {
                 const { username, email, phoneNumber, role, workplace, address } = result;
-                const new_role = role.split('_')[1]
+                const new_role = role.split('_')[1];
                 if (new_role === 'PHARMACY' || new_role === 'WHOLESALE') {
                     setMemberType(new_role);
                 }
@@ -88,9 +89,7 @@ export default function MyPageEdit() {
                     address: {
                         zipCode,
                         roadAddress,
-                        detailAddress,
-                        latitude,
-                        longtitude
+                        detailAddress
                     }
                 }),
                 patchMyPassword({
@@ -99,7 +98,7 @@ export default function MyPageEdit() {
                     confirmNewPassword: pwConfirm,
                 })
             ]);
-            console.log(profileResult, pwResult);
+
             if (profileResult && pwResult) {
                 setIsEditSuccessModalOpen();
                 setUserName(name);
@@ -413,7 +412,7 @@ export default function MyPageEdit() {
                             hasTwoButton={false}
                             onClickYes={() => {
                                 setIsEditSuccessModalClose();
-                                router.push('/mypage');
+                                router.back();
                             }}
                             onClose={setIsEditSuccessModalClose}
                         />
@@ -426,6 +425,19 @@ export default function MyPageEdit() {
                             onClose={setIsAddressModalClose}
                         />
                         : null
+                }
+
+                {
+                    isWrongPwModalOpen ? (
+                        <NotiModal
+                            type="alert"
+                            message="기존 비밀번호가 일치하지 않습니다."
+                            hasButton={true}
+                            hasTwoButton={false}
+                            onClickYes={setIsWrongPwModalClose}
+                            onClose={setIsWrongPwModalClose}
+                        />
+                    ) : null
                 }
             </div>
         </div>

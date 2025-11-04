@@ -2,7 +2,7 @@ import { LoginReq } from "@/types/login/login";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
 import { useLoginFailModalStore, useNotExistEmailModalStore, useWithdrawalModalStore, useWrongPwModalStore } from "@/store/store";
-
+// 로그인
 export const postLoginInfo = async ({ email, password, role }: LoginReq) => {
     try {
         const response = await AuthAPI.login({

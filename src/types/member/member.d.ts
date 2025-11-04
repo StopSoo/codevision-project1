@@ -52,8 +52,6 @@ export interface UpdateProfileReq {
         zipCode: string;
         roadAddress: string;
         detailAddress: string;
-        latitude: number;
-        longtitude: number;
     }
 }
 

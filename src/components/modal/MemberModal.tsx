@@ -32,7 +32,10 @@ export default function MemberModal({ onClose }: MemberModalProps) {
                 <button
                     name="header member modal mypage button"
                     className="flex-shrink-0"
-                    onClick={() => router.push('/mypage')}
+                    onClick={() => {
+                        onClose();
+                        router.push('/mypage');
+                    }}
                 >
                     마이페이지
                 </button>

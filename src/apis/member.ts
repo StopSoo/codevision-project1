@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { AuthAPI } from "./axiosInstance";
 import { UpdatePasswordReq, UpdateProfileReq } from "@/types/member/member";
+import { useWrongPwModalStore } from "@/store/store";
 // 마이페이지
 export const getMyPage = async () => {
     try {
@@ -41,7 +42,14 @@ export const patchMyPassword = async (data: UpdatePasswordReq) => {
         }
     } catch (error) {
         const err = error as AxiosError;
-        console.error("patchMyPassword error", err);
+        if (err.response?.status === 400) {
+            console.error("새로운 비밀번호가 일치하지 않습니다.");
+        } else if (err.response?.status === 401) {
+            console.error("비밀번호가 일치하지 않습니다.");
+            useWrongPwModalStore.setState({ isModalOpen: true });
+        } else if (err.response?.status === 404) {
+            console.error("유저를 찾을 수 없습니다.");
+        }
         return null;
     }
 }

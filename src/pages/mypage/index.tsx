@@ -47,7 +47,7 @@ export default function MyPage() {
 
     useEffect(() => {
         handleMyInfo();
-    }, []);
+    }, [name, phoneNumber, zipCode, roadAddress, detailAddress]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-main-bg py-12">
@@ -153,7 +153,7 @@ export default function MyPage() {
                 <div className="flex flex-row gap-5 mt-12 mb-8">
                     <button
                         name="go home button"
-                        onClick={() => router.push('/')}
+                        onClick={() => router.back()}
                         className="flex-1 py-4 bg-white border-2 border-gray-300 text-gray-800 font-medium text-lg hover:bg-gray-50 transition-colors"
                     >
                         홈으로 가기
