@@ -453,6 +453,6 @@ export default function SignUp() {
                         : null
                 }
             </div>
-        </div >
+        </div>
     );
 }

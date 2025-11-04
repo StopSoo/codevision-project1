@@ -19,7 +19,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
         return (
             <div
                 style={{ width: `${sizeMap[size]}px` }}
-                className={"bg-white px-[14px] py-[30px] min-w-[320px] rounded-xl outline-solid shadow-lg flex flex-col h-full"}
+                className={"bg-white px-[14px] py-[30px] min-w-[330px] rounded-xl outline-solid shadow-lg flex flex-col h-full"}
             >
                 {
                     hasHeader ? (
@@ -62,7 +62,7 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
     } else {
         return (
             <div
-                className="w-full bg-white px-[15px] py-[30px] rounded-xl outline-solid shadow-lg flex flex-col h-full"
+                className="w-full min-w-[750px] bg-white px-[15px] py-[30px] rounded-xl outline-solid shadow-lg flex flex-col h-full"
             >
                 {
                     hasHeader &&

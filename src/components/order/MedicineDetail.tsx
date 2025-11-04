@@ -12,6 +12,7 @@ export default function MedicineDetail() {
     const [medicine, setMedicine] = useState<MedicineDetailData>(); // 선택한 약품 정보
     const [wholesales, setWholesales] = useState<WholesaleItem[]>([]); // 선택한 약품의 도매상 정보
     const [isLoading, setIsLoading] = useState<boolean>(false); // 데이터 로딩 여부
+    const [isExistWholesaleData, setIsExistWholesaleData] = useState<boolean>(true); // 도매상 정보 존재 여부
 
     const { setIsModalOpen } = useCartModalStore();
     const { addToCart, isAbleToAdd } = useCartStore();
@@ -36,12 +37,11 @@ export default function MedicineDetail() {
                         getWholesaleDetail(selectedMedNumber)
                     ]);
 
-                    if (medResponse && wholesaleResponse) {
-                        setMedicine(medResponse);
-                        setWholesales(wholesaleResponse);
-                    } else {
-                        console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`);
-                    }
+                    if (medResponse) { setMedicine(medResponse); }
+                    else { console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`); }
+
+                    if (wholesaleResponse) { setWholesales(wholesaleResponse); }
+                    else { setIsExistWholesaleData(false); }
                 }
             } catch (error) {
                 console.error(error);
@@ -160,53 +160,71 @@ export default function MedicineDetail() {
                     </div>
 
                     {
-                        wholesales.map((data, index) => (
-                            <div
-                                key={index}
-                                className="grid grid-cols-9 gap-4 py-3 items-center text-xs md:text-sm text-center"
-                            >
-                                <span className="text-main-font col-span-2">{data.wholesaleName}</span>
-                                <span className="text-main-font col-span-2">{data.unitPrice.toLocaleString()}</span>
-                                <div className="p-2 mx-4 bg-mileage-bg rounded-xl col-span-2">
-                                    <span className="text-mileage-font font-medium">
-                                        {
-                                            data.point > 0
-                                                ? "+"
-                                                : data.point == 0
-                                                    ? ""
-                                                    : "-"
-                                        }
-                                        {data.point} %
-                                    </span>
-                                </div>
-                                <span className="text-main-font col-span-1">{data.expectedStockQty ?? 0}</span>
-                                <div className="flex flex-row w-full items-center justify-center gap-2 col-span-2">
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        max={data.expectedStockQty}
-                                        placeholder={String(expectedQty)}
-                                        value={quantities[data.wholesaleName] || ""}
-                                        onChange={(e) => handleQuantityChange(data.wholesaleName, e.target.value)}
-                                        className="w-[60%] px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
-                                    />
-                                    <button
-                                        name="cart button"
-                                        area-label="cart button"
-                                        onClick={() => handleAddToCart(data)}
-                                        className="w-[40%] px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
-                                    >
-                                        <Image
-                                            src="/assets/cart_icon.png"
-                                            width={25}
-                                            height={25}
-                                            alt={data.wholesaleName}
-                                            priority
+                        isExistWholesaleData
+                            ? (wholesales.map((data, index) => (
+                                <div
+                                    key={index}
+                                    className="grid grid-cols-9 gap-4 py-3 items-center text-xs md:text-sm text-center"
+                                >
+                                    <span className="text-main-font col-span-2">{data.wholesaleName}</span>
+                                    <span className="text-main-font col-span-2">{data.unitPrice.toLocaleString()}</span>
+                                    <div className="p-2 mx-4 bg-mileage-bg rounded-xl col-span-2">
+                                        <span className="text-mileage-font font-medium">
+                                            {
+                                                data.point > 0
+                                                    ? "+"
+                                                    : data.point == 0
+                                                        ? ""
+                                                        : "-"
+                                            }
+                                            {data.point} %
+                                        </span>
+                                    </div>
+                                    <span className="text-main-font col-span-1">{data.expectedStockQty ?? 0}</span>
+                                    <div className="flex flex-row w-full items-center justify-center gap-2 col-span-2">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max={data.expectedStockQty}
+                                            placeholder={String(expectedQty)}
+                                            value={quantities[data.wholesaleName] || ""}
+                                            onChange={(e) => handleQuantityChange(data.wholesaleName, e.target.value)}
+                                            className="w-[60%] px-3 py-2 border-2 border-gray-300 rounded focus:outline-none focus:border-selected-line focus:bg-selected-bg text-center"
                                         />
-                                    </button>
+                                        <button
+                                            name="cart button"
+                                            area-label="cart button"
+                                            onClick={() => handleAddToCart(data)}
+                                            className="w-[40%] px-4 py-2 bg-white text-white rounded-xl border-2 border-cart hover:bg-hover-green transition-colors"
+                                        >
+                                            <Image
+                                                src="/assets/cart_icon.png"
+                                                width={25}
+                                                height={25}
+                                                alt={data.wholesaleName}
+                                                priority
+                                            />
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            )))
+                            : (
+                                <div
+                                    className="flex flex-col w-full h-[300px] items-center justify-center space-y-5"
+                                >
+                                    <Image
+                                        src="/assets/no_content_icon.png"
+                                        width={100}
+                                        height={100}
+                                        alt="no wholesale data icon"
+                                        loading="lazy"
+                                    />
+                                    <div className="text-center text-sub-font whitespace-nowrap">
+                                        선택한 약품에 대한 도매상 정보가 없습니다.
+                                    </div>
+                                </div>
+                            )
+                    }
                 </div>
             </div>
         </div>

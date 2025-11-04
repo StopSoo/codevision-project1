@@ -137,8 +137,8 @@ export default function AnalysisList() {
                                     area-label="todays order list"
                                     key={index}
                                     className={(analysis.medicineId !== selectedNumber)
-                                        ? "w-full min-w-[260px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                        : "w-full min-w-[260px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                        ? "w-full min-w-[270px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                        : "w-full min-w-[270px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                     }
                                     onClick={() => {
                                         setSelectedNumber(analysis.medicineId);
@@ -147,16 +147,16 @@ export default function AnalysisList() {
                                         }
                                     }}
                                 >
-                                    <div className="flex flex-row items-center font-medium text-main-font text-left gap-2">
+                                    <div className="grid grid-cols-6 items-center justify-between font-medium text-main-font text-left gap-2">
                                         <p
                                             className={
                                                 analysis.sort === 'DAY'
-                                                    ? "text-xs text-sub-color"
+                                                    ? "text-xs col-span-1 text-sub-color"
                                                     : analysis.sort === 'WEEK'
-                                                        ? "text-xs text-hover-green"
+                                                        ? "text-xs col-span-1 text-hover-green"
                                                         : analysis.sort === 'DOW'
-                                                            ? "text-xs text-main-color"
-                                                            : "text-xs text-main-logo"
+                                                            ? "text-xs col-span-1 text-main-color"
+                                                            : "text-xs col-span-1 text-main-logo"
                                             }
                                         >
                                             {
@@ -169,20 +169,23 @@ export default function AnalysisList() {
                                                             : "month"
                                             }
                                         </p>
-                                        <p className="text-sm">{analysis.productName}</p>
-                                        <p
-                                            className={
-                                                Math.round(analysis.probOrder * 100) > 80
-                                                    ? "text-sm text-point-positive"
-                                                    : Math.round(analysis.probOrder * 100) > 60
-                                                        ? "text-sm text-main-color"
-                                                        : Math.round(analysis.probOrder * 100) > 40
-                                                            ? "text-sm text-dark-violet"
-                                                            : "text-sm text-point-negative"
-                                            }
-                                        >
-                                            {Math.round(analysis.probOrder * 100)}%
-                                        </p>
+                                        <p className="text-sm col-span-3 pl-2">{analysis.productName}</p>
+                                        <div className="flex flex-row col-span-2 w-full gap-1 items-center border px-2 py-1">
+                                            <p className="text-[10px] w-[50%]">예상</p>
+                                            <p
+                                                className={
+                                                    Math.round(analysis.probOrder * 100) > 80
+                                                        ? "w-[50%] text-[12px] text-point-positive"
+                                                        : Math.round(analysis.probOrder * 100) > 60
+                                                            ? "w-[50%] text-[12px] text-main-color"
+                                                            : Math.round(analysis.probOrder * 100) > 40
+                                                                ? "w-[50%] text-[12px] text-dark-violet"
+                                                                : "w-[50%] text-[12px] text-point-negative"
+                                                }
+                                            >
+                                                {Math.round(analysis.probOrder * 100)}%
+                                            </p>
+                                        </div>
                                     </div>
                                     <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
                                         <span>{analysis.productCompany}</span>
