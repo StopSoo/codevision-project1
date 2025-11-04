@@ -81,6 +81,12 @@ export const useEditMyInfoModalStore = create<ModalStore>((set) => ({
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
+// 회원가입 - 탈퇴한 사용자 이메일 사용
+export const useSignupInvalidEmailStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
 // 로그아웃 안내
 export const useLogoutModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,

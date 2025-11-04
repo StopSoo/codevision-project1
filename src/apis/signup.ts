@@ -1,6 +1,7 @@
 import { CheckEmailReq, SignupReq } from "@/types/signup/signup";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
+import { useSignupInvalidEmailStore } from "@/store/store";
 
 export const postSignupInfo = async ({
     username, email, password, phoneNumber, workplace, role, address
@@ -18,12 +19,8 @@ export const postSignupInfo = async ({
         }
     } catch (error) {
         const err = error as AxiosError;
-        if (err.response?.status === 401) {
-            console.error("401 Error");
-        } else if (err.response?.status === 404) {
-            console.error("404 Error");
-        } else if (err.response?.status === 409) {
-            console.log(err.response.data);
+        if (err.response?.status === 400) {
+            useSignupInvalidEmailStore.setState({ isModalOpen: true });
         } else {
             console.error("회원가입 실패:", err.message);
         }

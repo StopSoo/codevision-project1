@@ -2,7 +2,7 @@ import { KeyboardEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { useAddressModalStore, useMemberStore, useSignupModalStore } from '@/store/store';
+import { useAddressModalStore, useMemberStore, useSignupInvalidEmailStore, useSignupModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
 import { isValidEmail, isValidPassword } from '@/utils/utility';
 import { MemberProps } from '@/types/member/member';
@@ -14,6 +14,7 @@ export default function SignUp() {
 
     const { isModalOpen, setIsModalOpen, setIsModalClose } = useSignupModalStore();
     const { isModalOpen: isAddressModalOpen, setIsModalOpen: setIsAddressModalOpen, setIsModalClose: setIsAddressModalClose } = useAddressModalStore();
+    const { isModalOpen: isInvalidEmailModalOpen, setIsModalClose: setIsInvalidEmailModalClose } = useSignupInvalidEmailStore();
     const { setMember, setName: setUserName, zipCode, roadAddress, detailAddress, setZipCode, setRoadAddress, setDetailAddress } = useMemberStore();
 
     const [memberType, setMemberType] = useState<MemberProps['member']>('PHARMACY');
@@ -438,7 +439,20 @@ export default function SignUp() {
                         />
                         : null
                 }
+
+                {
+                    isInvalidEmailModalOpen
+                        ? <NotiModal
+                            type='check'
+                            message='탈퇴한 사용자는 재가입이 불가능합니다.'
+                            hasButton={true}
+                            hasTwoButton={false}
+                            onClickYes={setIsInvalidEmailModalClose}
+                            onClose={setIsInvalidEmailModalClose}
+                        />
+                        : null
+                }
             </div>
-        </div>
+        </div >
     );
 }
