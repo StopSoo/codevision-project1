@@ -137,8 +137,8 @@ export default function AnalysisList() {
                                     area-label="todays order list"
                                     key={index}
                                     className={(analysis.medicineId !== selectedNumber)
-                                        ? "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
-                                        : "w-full min-w-[225px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
+                                        ? "w-full min-w-[260px] flex flex-col space-y-2 p-4 border border-gray-300 rounded-lg hover:border-selected-line hover:bg-selected-bg transition-colors"
+                                        : "w-full min-w-[260px] flex flex-col space-y-2 p-4 border border-selected-line bg-selected-bg rounded-lg transition-colors"
                                     }
                                     onClick={() => {
                                         setSelectedNumber(analysis.medicineId);
@@ -170,10 +170,26 @@ export default function AnalysisList() {
                                             }
                                         </p>
                                         <p className="text-sm">{analysis.productName}</p>
+                                        <p
+                                            className={
+                                                Math.round(analysis.probOrder * 100) > 80
+                                                    ? "text-sm text-point-positive"
+                                                    : Math.round(analysis.probOrder * 100) > 60
+                                                        ? "text-sm text-main-color"
+                                                        : Math.round(analysis.probOrder * 100) > 40
+                                                            ? "text-sm text-dark-violet"
+                                                            : "text-sm text-point-negative"
+                                            }
+                                        >
+                                            {Math.round(analysis.probOrder * 100)}%
+                                        </p>
                                     </div>
                                     <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
                                         <span>{analysis.productCompany}</span>
-                                        <span>보험코드 {analysis.insuranceCode}</span>
+                                        {
+                                            analysis.insuranceCode
+                                            && <span>보험코드 {analysis.insuranceCode}</span>
+                                        }
                                     </div>
                                     <div className="w-full h-[1px] bg-gray-300" />
                                     <div className="flex flex-row flex-1 text-sub-font text-center text-[10px] font-medium">

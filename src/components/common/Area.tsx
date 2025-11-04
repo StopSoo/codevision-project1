@@ -9,7 +9,7 @@ interface AreaProps {
 }
 
 export default function Area({ size, hasHeader, title, children }: AreaProps) {
-    const sizeMap = { 's': 380, 'm': 530, 'l': 750, 'xl': 1300, 'default': 'full' };
+    const sizeMap = { 's': 400, 'm': 530, 'l': 750, 'xl': 1300, 'default': 'full' };
 
     const { setButtonOn: setAnalysisButtonOn, setButtonOff: setAnalysisButtonOff } = useAnalysisStore();
     const { setButtonOn: setMedButtonOn, setButtonOff: setMedButtonOff } = useMedRankingStore();
@@ -19,38 +19,40 @@ export default function Area({ size, hasHeader, title, children }: AreaProps) {
         return (
             <div
                 style={{ width: `${sizeMap[size]}px` }}
-                className={"bg-white px-[14px] py-[30px] min-w-[276.33px] rounded-xl outline-solid shadow-lg flex flex-col h-full"}
+                className={"bg-white px-[14px] py-[30px] min-w-[320px] rounded-xl outline-solid shadow-lg flex flex-col h-full"}
             >
-                {hasHeader ? (
-                    <div className="flex flex-row font-medium text-2xl md:text-3xl items-start whitespace-nowrap">
-                        {title}
-                    </div>
-                ) : (
-                    <div className="space-y-[18px]">
-                        <Button
-                            text="오늘의 주문"
-                            height={70}
-                            bgColor="main-color"
-                            hoverBgColor="hover-green"
-                            onClick={() => {
-                                setSelectedMedNumber(null);
-                                setAnalysisButtonOn();
-                                setMedButtonOff();
-                            }}
-                        />
-                        <Button
-                            text="요즘 약국 랭킹"
-                            height={70}
-                            bgColor="main-logo"
-                            hoverBgColor="hover-blue"
-                            onClick={() => {
-                                setSelectedMedNumber(null);
-                                setAnalysisButtonOff();
-                                setMedButtonOn();
-                            }}
-                        />
-                    </div>
-                )}
+                {
+                    hasHeader ? (
+                        <div className="flex flex-row font-medium text-2xl md:text-3xl items-start whitespace-nowrap">
+                            {title}
+                        </div>
+                    ) : (
+                        <div className="space-y-[18px]">
+                            <Button
+                                text="오늘의 주문"
+                                height={70}
+                                bgColor="main-color"
+                                hoverBgColor="hover-green"
+                                onClick={() => {
+                                    setSelectedMedNumber(null);
+                                    setAnalysisButtonOn();
+                                    setMedButtonOff();
+                                }}
+                            />
+                            <Button
+                                text="요즘 약국 랭킹"
+                                height={70}
+                                bgColor="main-logo"
+                                hoverBgColor="hover-blue"
+                                onClick={() => {
+                                    setSelectedMedNumber(null);
+                                    setAnalysisButtonOff();
+                                    setMedButtonOn();
+                                }}
+                            />
+                        </div>
+                    )
+                }
                 <div className="h-1 bg-gray-300 rounded-xl my-[18px]" />
                 <div className="flex-1 overflow-hidden">
                     {children}

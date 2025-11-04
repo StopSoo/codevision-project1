@@ -26,6 +26,7 @@ module.exports = {
         "cart": "#C4F6EF",
         "hover-green": "#6BC6BC",
         "hover-blue": "#4169B8",
+        "dark-violet": "#9400D3",
       },
       fontFamily: {
         recipe: ["Recipekorea", "pretendard", "sans-serif"],

@@ -99,20 +99,20 @@ export default function MedRanking() {
                                     <span className="text-sub-color text-lg">{index + 1}</span>
                                     {data.productName}
                                 </div>
-                                <div className="flex flex-row text-sub-font justify-between gap-3 text-[10px] whitespace-nowrap">
+                                <div className="text-sub-font grid grid-cols-2 text-start text-[10px] whitespace-nowrap">
                                     <span>{data.productCompany}</span>
                                     <span>보험코드 {data.insuranceCode}</span>
                                 </div>
                                 <div className="w-full h-[1px] bg-gray-300" />
-                                <div className="flex flex-row flex-1 text-sub-font text-start text-sm font-medium">
-                                    <span className="w-[40%]">주문율</span>
+                                <div className="grid grid-cols-2 text-start text-sub-font text-start text-sm font-medium">
+                                    <span>주문율</span>
                                     <span
                                         className={
                                             data.orderRate > 90
                                                 ? "w-[60%] text-point-positive"
                                                 : data.orderRate > 80
-                                                    ? "w-[60%] text-main-color"
-                                                    : "w-[60%] text-point-negative"
+                                                    ? "w-[50%] text-main-color"
+                                                    : "w-[50%] text-point-negative"
                                         }
                                     >
                                         {data.orderRate}%
