@@ -44,6 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex flex-col w-full h-screen">
             <Header pharmacy={member === 'PHARMACY'} />
+            <main className="px-[66px] py-[80px] w-full">{children}</main>
             {
                 isTokenExModalOpen
                     ? <NotiModal
@@ -113,7 +114,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     />
                     : null
             }
-            <main className="px-[66px] py-[80px] w-full">{children}</main>
         </div>
     );
 }

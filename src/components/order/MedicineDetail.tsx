@@ -40,7 +40,10 @@ export default function MedicineDetail() {
                     if (medResponse) { setMedicine(medResponse); }
                     else { console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`); }
 
-                    if (wholesaleResponse) { setWholesales(wholesaleResponse); }
+                    if (wholesaleResponse) {
+                        setIsExistWholesaleData(true);
+                        setWholesales(wholesaleResponse);
+                    }
                     else { setIsExistWholesaleData(false); }
                 }
             } catch (error) {
@@ -155,7 +158,7 @@ export default function MedicineDetail() {
                         <span className="col-span-2">도매상 명</span>
                         <span className="col-span-2">약품 단가</span>
                         <span className="col-span-2">마일리지</span>
-                        <span className="col-span-1">예상 수량</span>
+                        <span className="col-span-1">재고 수량</span>
                         <span className="col-span-2">선택 수량</span>
                     </div>
 

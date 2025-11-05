@@ -23,10 +23,8 @@ export default function PredictPharmacyList() {
     }, [setMedInfoList, selectedMedNumber]);
 
     useEffect(() => {
-        if (medInfoList.length === 0) {
-            handlePharmacyList();
-        }
-    }, [handlePharmacyList, medInfoList.length, selectedMedNumber]);
+        handlePharmacyList();
+    }, [selectedMedNumber]);
 
     return (
         <div className="h-full flex flex-col">
