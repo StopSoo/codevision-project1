@@ -8,6 +8,7 @@ import { isValidEmail, isValidPassword } from '@/utils/utility';
 import { MemberProps } from '@/types/member/member';
 import AddressModal from '@/components/modal/AddressModal';
 import { getCheckEmail, postSignupInfo } from '@/apis/signup';
+import Input from '@/components/common/Input';
 
 export default function SignUp() {
     const router = useRouter();
@@ -102,7 +103,6 @@ export default function SignUp() {
                 setIsEmailCheckOK(false);
             }
         } catch (error) {
-            alert("이메일 중복 검사 실패");
             console.log(error);
         }
     };
@@ -195,12 +195,12 @@ export default function SignUp() {
                             <span>{memberType === 'PHARMACY' ? "약국" : "도매상"}명</span>
                         </label>
                         <div className="flex-1 flex-row items-center">
-                            <input
+                            <Input
                                 type="text"
                                 value={workplace}
                                 placeholder={memberType === 'PHARMACY' ? "약국명 입력" : "도매상명 입력"}
+                                disabled={false}
                                 onChange={(e) => setWorkplace(e.target.value)}
-                                className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                             />
                         </div>
                     </div>
@@ -218,16 +218,16 @@ export default function SignUp() {
                             </label>
                             <div className="flex-1 flex-col items-center">
                                 <div className="flex flex-row items-center space-x-2">
-                                    <input
+                                    <Input
                                         type="text"
                                         value={email}
                                         placeholder="이메일 입력"
+                                        disabled={false}
                                         onChange={(e) => {
                                             setEmail(e.target.value);
                                             setIsEmailCheckButtonClick(false);
                                         }}
                                         onKeyUp={(e) => enterkey(e)}
-                                        className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
                                     <button
                                         name="check email button"
@@ -263,12 +263,12 @@ export default function SignUp() {
                                 <span className="text-point-negative">•</span> 비밀번호
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="password"
                                     value={pw}
                                     placeholder="영문 대문자/숫자/특수문자 !,@,#,$,%,^,& 중 1가지 이상 조합, 8자 이상"
+                                    disabled={false}
                                     onChange={(e) => setPw(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                                 <div className="text-xs mt-2">
                                     {pw !== "" &&
@@ -285,12 +285,12 @@ export default function SignUp() {
                                 <span className="text-point-negative">•</span> 비밀번호 확인
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="password"
                                     value={pwConfirm}
                                     placeholder="비밀번호 확인"
+                                    disabled={false}
                                     onChange={(e) => setPwConfirm(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                                 <div className="text-xs mt-2">
                                     {pwConfirm !== "" &&
@@ -307,12 +307,12 @@ export default function SignUp() {
                                 <span className="text-point-negative">•</span> 이름
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="text"
                                     value={name}
                                     placeholder="이름 입력"
+                                    disabled={false}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                             </div>
                         </div>
@@ -364,12 +364,11 @@ export default function SignUp() {
                             </label>
                             <div className="flex-1 space-y-3">
                                 <div className="flex flex-row gap-2">
-                                    <input
+                                    <Input
                                         type="text"
                                         value={zipCode}
-                                        disabled={true}
                                         placeholder="우편번호"
-                                        className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                        disabled={true}
                                     />
                                     <button
                                         name="search address button"
@@ -379,19 +378,18 @@ export default function SignUp() {
                                         주소 검색
                                     </button>
                                 </div>
-                                <input
+                                <Input
                                     type="text"
                                     value={roadAddress}
-                                    disabled={true}
                                     placeholder="기본 주소"
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                    disabled={true}
                                 />
-                                <input
+                                <Input
                                     type="text"
                                     value={detailAddress}
                                     placeholder="나머지 주소"
+                                    disabled={false}
                                     onChange={(e) => setDetailAddress(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                             </div>
                         </div>

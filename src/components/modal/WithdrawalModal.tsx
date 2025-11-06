@@ -1,5 +1,5 @@
 import { postWithdrawMember } from "@/apis/member";
-import { useWithdrawalModalStore, useWithdrawalSuccessModalStore } from "@/store/store";
+import { useWithdrawalFailModalStore, useWithdrawalModalStore, useWithdrawalSuccessModalStore } from "@/store/store";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -14,6 +14,7 @@ export default function WithdrawalModal({ type, message, onClose }: WithdrawalMo
 
     const { setIsModalClose: setIsWithdrawalModalClose } = useWithdrawalModalStore();
     const { setIsModalOpen: setIsWithdrawalSuccessModalOpen } = useWithdrawalSuccessModalStore();
+    const { setIsModalOpen: setIsWithdrawalFailModalOpen } = useWithdrawalFailModalStore();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
@@ -25,9 +26,11 @@ export default function WithdrawalModal({ type, message, onClose }: WithdrawalMo
         try {
             const result = await postWithdrawMember(password);
 
-            if (result) {
+            if (result && "data" in result) {
                 setIsWithdrawalModalClose();
                 setIsWithdrawalSuccessModalOpen();
+            } else {
+                setIsWithdrawalFailModalOpen();
             }
         } catch (error) {
             console.error('handleWithdrawMember error', error);

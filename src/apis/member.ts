@@ -9,8 +9,6 @@ export const getMyPage = async () => {
 
         if ("data" in response) {
             return response.data;
-        } else {
-            return null;
         }
     } catch (error) {
         const err = error as AxiosError;
@@ -42,17 +40,12 @@ export const patchMyPassword = async (data: UpdatePasswordReq) => {
         }
     } catch (error) {
         const err = error as AxiosError;
-        if (err.response?.status === 400) {
-            console.error("새로운 비밀번호가 일치하지 않습니다.");
-        } else if (err.response?.status === 401) {
-            console.error("비밀번호가 일치하지 않습니다.");
+        if (err.response?.status === 401) {
             useWrongPwModalStore.setState({ isModalOpen: true });
-        } else if (err.response?.status === 404) {
-            console.error("유저를 찾을 수 없습니다.");
         }
         return null;
     }
-}
+};
 // 계정 탈퇴
 export const postWithdrawMember = async (password: string) => {
     try {
@@ -66,4 +59,4 @@ export const postWithdrawMember = async (password: string) => {
         console.error("postWithdrawMember error", err);
         return null;
     }
-}
+};

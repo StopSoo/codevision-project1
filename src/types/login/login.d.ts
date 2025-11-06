@@ -5,11 +5,6 @@ export interface LoginSuccessRes {
     }
 }
 
-// interface LoginFailRes {
-//     code: string;
-//     message: string;
-// }
-
 export interface LoginReq {
     email: string;
     password: string;

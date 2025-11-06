@@ -1,12 +1,12 @@
 import { useEffect, useState, KeyboardEvent } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Button from '@/components/common/Button';
+import dynamic from 'next/dynamic';
 
+import Button from '@/components/common/Button';
 import { MemberProps } from '@/types/member/member';
 import { useMemberStore, useLoginModalStore, useLoginFailModalStore, useNotExistEmailModalStore, useWrongPwModalStore, useWithdrawalUserModalStore } from '@/store/store';
 import { postLoginInfo } from '@/apis/login';
-import dynamic from 'next/dynamic';
 
 const NotiModal = dynamic(() => import("@/components/modal/NotiModal"), {
   ssr: false

@@ -1,7 +1,7 @@
 import { AddCartReq, EditCartReq } from "@/types/cart/cart";
 import { AuthAPI } from "./axiosInstance";
 import { AxiosError } from "axios";
-
+// 장바구니 담기
 export const postAddCart = async ({
     medicineId, wholesaleId, quantity
 }: AddCartReq) => {
@@ -20,7 +20,7 @@ export const postAddCart = async ({
         }
     }
 }
-
+// 장바구니 수정(수량 변경)
 export const patchEditCart = async (
     cartItemId: number, data: EditCartReq
 ) => {
@@ -42,7 +42,7 @@ export const patchEditCart = async (
         }
     }
 };
-
+// 장바구니 부분 취소
 export const deleteCartItem = async (
     cartItemId: number
 ) => {
@@ -57,7 +57,7 @@ export const deleteCartItem = async (
         console.error("deleteCartItem error", err);
     }
 };
-
+// 장바구니 전체 취소
 export const deleteAllCart = async (
     wholesaleId?: number
 ) => {
@@ -72,7 +72,7 @@ export const deleteAllCart = async (
         console.error("deleteAllCart error", err);
     }
 };
-
+// 장바구니 전체 조회
 export const getAllCarts = async () => {
     try {
         const response = await AuthAPI.viewAllCart();
@@ -90,7 +90,6 @@ export const getAllCarts = async () => {
         console.error("getAllCarts error", err);
         if (err.response?.status === 404) {
             // 장바구니가 없는 경우
-            console.log("404 error in getAllCarts");
             return {
                 items: [],
                 totalQuantity: 0,

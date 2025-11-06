@@ -111,6 +111,12 @@ export const useWithdrawalSuccessModalStore = create<ModalStore>((set) => ({
     setIsModalOpen: () => set({ isModalOpen: true }),
     setIsModalClose: () => set({ isModalOpen: false })
 }))
+// 회원 탈퇴 실패
+export const useWithdrawalFailModalStore = create<ModalStore>((set) => ({
+    isModalOpen: false,
+    setIsModalOpen: () => set({ isModalOpen: true }),
+    setIsModalClose: () => set({ isModalOpen: false })
+}))
 // 장바구니에 약품 담기 성공
 export const useCartModalStore = create<ModalStore>((set) => ({
     isModalOpen: false,

@@ -22,11 +22,9 @@ const auth = (axiosInstance: AxiosInstance) => ({
             '/auth/login',
             data
         );
+
         if (response.data) {
-            console.log("accesstoken 저장 성공");
             localStorage.setItem('accessToken', response.data.data.accessToken);
-        } else {
-            console.log("accesstoken 저장 실패");
         }
         return response.data;
     },
