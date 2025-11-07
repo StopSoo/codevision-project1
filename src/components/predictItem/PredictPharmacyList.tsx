@@ -1,8 +1,9 @@
-import { getPredictOrderDetail } from "@/apis/predictItem";
-import { usePredictItemStore, usePredictPharmacyStore, useSelectedItemStore } from "@/store/store";
 import Image from "next/image";
 import { Suspense, useCallback, useEffect } from "react";
 import PredictItemSkeleton from "../skeleton/PredictItemSkeleton";
+import { getPredictOrderDetail } from "@/apis/predictItem";
+
+import { usePredictItemStore, usePredictPharmacyStore, useSelectedItemStore } from "@/store/store";
 
 export default function PredictPharmacyList() {
     const { result } = usePredictItemStore();

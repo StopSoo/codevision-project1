@@ -1,14 +1,15 @@
 import Image from "next/image";
-import { Suspense, useEffect, useState } from "react";
-import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
+import { useEffect, useState } from "react";
 import { MedicineDetailData } from "@/types/pharmacy/medicine";
 import { postAddCart } from "@/apis/cart";
 import { getMedicineDetail, getWholesaleDetail } from "@/apis/pharmacy";
 import { WholesaleItem } from "@/types/pharmacy/order";
 import MedicineDetailSkeleton from "../skeleton/MedicineDetailSkeleton";
 
+import { useCartStore, useCartModalStore, useCautionModalStore, useSelectedMedStore } from "@/store/store";
+
 export default function MedicineDetail() {
-    const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const [quantities, setQuantities] = useState<{ [key: string]: number }>({}); // 약품별 수량
     const [medicine, setMedicine] = useState<MedicineDetailData>(); // 선택한 약품 정보
     const [wholesales, setWholesales] = useState<WholesaleItem[]>([]); // 선택한 약품의 도매상 정보
     const [isLoading, setIsLoading] = useState<boolean>(false); // 데이터 로딩 여부
@@ -27,36 +28,6 @@ export default function MedicineDetail() {
         }));
     };
 
-    useEffect(() => {
-        const handleMedDetail = async () => {
-            setIsLoading(true);
-            try {
-                if (selectedMedNumber) {
-                    const [medResponse, wholesaleResponse] = await Promise.all([
-                        getMedicineDetail(selectedMedNumber),
-                        getWholesaleDetail(selectedMedNumber)
-                    ]);
-
-                    if (medResponse) { setMedicine(medResponse); }
-                    else { console.log(`${selectedMedNumber}번 약품 정보가 없습니다.`); }
-
-                    if (wholesaleResponse) {
-                        setIsExistWholesaleData(true);
-                        setWholesales(wholesaleResponse);
-                    }
-                    else { setIsExistWholesaleData(false); }
-                }
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        // 약품 정보 불러오기
-        if (selectedMedNumber) {
-            handleMedDetail();
-        }
-    }, [selectedMedNumber]);
 
     const handleAddToCart = async (wholesaleItem: WholesaleItem) => {
         try {
@@ -111,6 +82,36 @@ export default function MedicineDetail() {
         }
     };
 
+    useEffect(() => {
+        const handleMedDetail = async () => {
+            setIsLoading(true);
+            try {
+                if (selectedMedNumber) {
+                    const [medResponse, wholesaleResponse] = await Promise.all([
+                        getMedicineDetail(selectedMedNumber),
+                        getWholesaleDetail(selectedMedNumber)
+                    ]);
+
+                    if (medResponse) { setMedicine(medResponse); }
+
+                    if (wholesaleResponse) {
+                        setIsExistWholesaleData(true);
+                        setWholesales(wholesaleResponse);
+                    }
+                    else { setIsExistWholesaleData(false); }
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        // 약품 정보 불러오기
+        if (selectedMedNumber) {
+            handleMedDetail();
+        }
+    }, [selectedMedNumber]);
+
     if (isLoading || !medicine) {
         return <MedicineDetailSkeleton />;
     }
@@ -121,7 +122,6 @@ export default function MedicineDetail() {
             <div className="flex flex-row gap-10">
 
                 <div className="w-40 border border-gray-200 rounded-lg flex items-center justify-center bg-white p-5">
-                    {/* TODO: API에 이미지 연동되면 수정 */}
                     <Image
                         src="/assets/med_icon.png"
                         width={160}

@@ -1,4 +1,5 @@
 import Button from "./Button";
+
 import { useAnalysisStore, useMedRankingStore, useSelectedMedStore } from "@/store/store";
 
 interface AreaProps {

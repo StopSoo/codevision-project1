@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { GiMedicines } from "react-icons/gi";
 import { AiFillMedicineBox } from "react-icons/ai";
-import { useRouter } from "next/router";
 
 import { useMemberModalStore, useMemberStore } from "@/store/store";
 
@@ -14,6 +14,7 @@ interface HeaderProps {
 
 export default function Header({ pharmacy }: HeaderProps) {
     const router = useRouter();
+
     const { name } = useMemberStore();
     const { isModalOpen, setIsModalOpen } = useMemberModalStore();
 

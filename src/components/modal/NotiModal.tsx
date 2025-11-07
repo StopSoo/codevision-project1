@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface NotiModalProps {
-    type: 'check' | 'alert';
+    type: 'check' | 'alert'; // 모달 타입
     message: string; // 모달창 안내 멘트
     hasButton: boolean; // 버튼 존재 여부
     hasTwoButton?: boolean; // 예/아니오 버튼 or 확인 버튼

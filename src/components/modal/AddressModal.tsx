@@ -1,6 +1,7 @@
-import { useMemberStore } from "@/store/store";
 import DaumPostcode from "react-daum-postcode";
 import { VscChromeClose } from "react-icons/vsc";
+
+import { useMemberStore } from "@/store/store";
 
 interface AddressModalProps {
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
@@ -14,7 +15,7 @@ export default function AddressModal({ onClose }: AddressModalProps) {
             onClose();
         }
     };
-    // 선택한 주소 입력
+    // 선택한 주소를 화면에 입력
     const onCompletePost = ({ zonecode, address }: { zonecode: string, address: string }) => {
         setZipCode(zonecode);
         setRoadAddress(address);

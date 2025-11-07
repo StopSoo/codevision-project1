@@ -46,7 +46,6 @@ export default function MyPage() {
                 setDetailAddress(address.detailAddress);
             }
         } catch (error) {
-            alert("서버 오류 or 회원 정보 불러오기 실패");
             console.log(error);
         }
     };

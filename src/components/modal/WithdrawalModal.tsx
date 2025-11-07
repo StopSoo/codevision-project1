@@ -1,10 +1,11 @@
-import { postWithdrawMember } from "@/apis/member";
-import { useWithdrawalFailModalStore, useWithdrawalModalStore, useWithdrawalSuccessModalStore } from "@/store/store";
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
+import { postWithdrawMember } from "@/apis/member";
+
+import { useWithdrawalFailModalStore, useWithdrawalModalStore, useWithdrawalSuccessModalStore } from "@/store/store";
 
 interface WithdrawalModalProps {
-    type: 'process' | 'complete';
+    type: 'process' | 'complete'; // 모달창 타입
     message: string; // 모달창 안내 멘트
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
 }

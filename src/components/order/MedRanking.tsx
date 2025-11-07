@@ -15,7 +15,6 @@ export default function MedRanking() {
             const ranking = await getTodaysRanking(listCount, percent);
 
             if (ranking?.items) {
-                console.log(ranking.items);
                 setResult(ranking.items);
             }
         } catch (error) {

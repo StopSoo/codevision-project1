@@ -1,7 +1,8 @@
-import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
 import { Suspense, useCallback, useEffect } from "react";
 import DataListSkeleton from "../skeleton/DataListSkeleton";
 import { getTodaysOrderList } from "@/apis/pharmacy";
+
+import { useAnalysisStore, useSelectedMedStore } from "@/store/store";
 
 export default function AnalysisList() {
     const { result, setResult, dayData, setDayData, dowData, setDowData, weekData, setWeekData, monthData, setMonthData, filterList, setFilterList } = useAnalysisStore();

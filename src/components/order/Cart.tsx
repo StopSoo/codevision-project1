@@ -1,11 +1,11 @@
 import Image from "next/image";
+import { useCallback, useEffect } from "react";
 import Button from "@/components/common/Button";
 import { VscChromeClose } from "react-icons/vsc";
+import { deleteAllCart, deleteCartItem, getAllCarts, patchEditCart } from "@/apis/cart";
+import { postPharmacyOrder } from "@/apis/order";
 
 import { useCartStore, useCautionModalStore, useOrderedListStore, useOrderModalStore } from "@/store/store";
-import { deleteAllCart, deleteCartItem, getAllCarts, patchEditCart } from "@/apis/cart";
-import { useCallback, useEffect } from "react";
-import { postPharmacyOrder } from "@/apis/order";
 
 export default function Cart() {
     const { cart, addToCart, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCartStore();
@@ -89,7 +89,6 @@ export default function Cart() {
                 setIsModalOpen();
             }
         } catch (error) {
-            alert("장바구니에 담긴 상품들 주문하기 실패");
             console.log(error);
         }
     };

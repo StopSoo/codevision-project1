@@ -1,18 +1,18 @@
-import { useMemberModalStore, useLogoutModalStore } from "@/store/store";
 import { useRouter } from "next/router";
+
+import { useMemberModalStore, useLogoutModalStore } from "@/store/store";
 
 interface MemberModalProps {
     onClose: () => void;
 }
 
 export default function MemberModal({ onClose }: MemberModalProps) {
+    const router = useRouter();
 
     const { setIsModalClose } = useMemberModalStore();
     const { setIsModalOpen: setIsLogoutModalOpen } = useLogoutModalStore();
-    const router = useRouter();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        // 모달 이외 영역 클릭 시 모달창 종료
         if (e.target === e.currentTarget) {
             onClose();
         }
@@ -20,7 +20,7 @@ export default function MemberModal({ onClose }: MemberModalProps) {
 
     const handleLogout = () => {
         setIsModalClose();
-        setIsLogoutModalOpen(); // 로그아웃 알림창
+        setIsLogoutModalOpen();
     };
 
     return (

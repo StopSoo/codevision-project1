@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { useCartModalStore, useCautionModalStore, useOrderModalStore } from "@/store/store";
 import { useEffect } from "react";
 
+import { useCartModalStore, useCautionModalStore, useOrderModalStore } from "@/store/store";
+
 interface CartModalProps {
-    type: 'cart' | 'order' | 'caution';
+    type: 'cart' | 'order' | 'caution'; // 모달창 타입
     message: string; // 모달창 안내 멘트
     onClose: () => void; // 버튼 눌렀을 때의 동작 함수
 }
@@ -14,7 +15,6 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
     const { isModalOpen: isOrderModalOpen, setIsModalClose: setIsOrderModalClose } = useOrderModalStore();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        // 모달 이외 영역 클릭 시 모달창 종료
         if (e.target === e.currentTarget) {
             onClose();
         }
@@ -80,6 +80,7 @@ export default function CartModal({ type, message, onClose }: CartModalProps) {
                                 />
                     }
                 </div>
+
                 <p className="text-base text-main-font text-lg flex-1 whitespace-pre-line text-center">{message}</p>
                 {
                     type === 'order' && <button
