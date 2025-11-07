@@ -2,12 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { useAddressModalStore, useMemberStore, useSignupModalStore, useEditMyInfoModalStore, useWrongPwModalStore } from '@/store/store';
+import { useAddressModalStore, useMemberStore, useEditMyInfoModalStore, useWrongPwModalStore } from '@/store/store';
 import NotiModal from '@/components/modal/NotiModal';
 import { isValidPassword } from '@/utils/utility';
 import { MemberProps } from '@/types/member/member';
 import AddressModal from '@/components/modal/AddressModal';
 import { getMyPage, patchMyPassword, patchMyProfile } from '@/apis/member';
+import Input from '@/components/common/Input';
 
 export default function MyPageEdit() {
     const router = useRouter();
@@ -75,7 +76,6 @@ export default function MyPageEdit() {
                 setLongtitude(address.longtitude ?? 0);
             }
         } catch (error) {
-            alert("서버 오류 or 회원 정보 불러오기 실패");
             console.log(error);
         }
     }, []);
@@ -104,7 +104,6 @@ export default function MyPageEdit() {
                 setUserName(name);
             }
         } catch (error) {
-            alert("회원 정보 수정 실패");
             console.log(error);
         }
     };
@@ -191,7 +190,6 @@ export default function MyPageEdit() {
                         </label>
                         <div className="flex-1 flex-row items-center">
                             <input
-                                readOnly
                                 type="text"
                                 value={workplace}
                                 placeholder={memberType === 'PHARMACY' ? "약국명 입력" : "도매상명 입력"}
@@ -233,12 +231,12 @@ export default function MyPageEdit() {
                                 <span className="text-point-negative">•</span> 현재 비밀번호
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="password"
                                     value={originPw}
                                     placeholder="기존 비밀번호 입력"
                                     onChange={(e) => setOriginPw(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                    disabled={false}
                                 />
                             </div>
                         </div>
@@ -248,12 +246,12 @@ export default function MyPageEdit() {
                                 <span className="text-point-negative">•</span> 비밀번호 변경
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="password"
                                     value={pw}
                                     placeholder="새로운 비밀번호 입력"
                                     onChange={(e) => setPw(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                    disabled={false}
                                 />
                                 <div className="text-xs mt-2">
                                     {pw !== "" &&
@@ -270,12 +268,12 @@ export default function MyPageEdit() {
                                 <span className="text-point-negative">•</span> 비밀번호 확인
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="password"
                                     value={pwConfirm}
                                     placeholder="비밀번호 확인"
                                     onChange={(e) => setPwConfirm(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                    disabled={false}
                                 />
                                 <div className="text-xs mt-2">
                                     {pwConfirm !== "" &&
@@ -292,11 +290,12 @@ export default function MyPageEdit() {
                                 <span className="text-point-negative">•</span> 이름
                             </label>
                             <div className="flex-1">
-                                <input
+                                <Input
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
+                                    placeholder=''
+                                    disabled={false}
                                 />
                             </div>
                         </div>
@@ -348,12 +347,11 @@ export default function MyPageEdit() {
                             </label>
                             <div className="flex-1 space-y-3">
                                 <div className="flex flex-row gap-2">
-                                    <input
+                                    <Input
                                         type="text"
                                         value={zipCode}
                                         disabled={true}
                                         placeholder="우편번호"
-                                        className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                     />
                                     <button
                                         name="search address button"
@@ -363,19 +361,18 @@ export default function MyPageEdit() {
                                         주소 검색
                                     </button>
                                 </div>
-                                <input
+                                <Input
                                     type="text"
                                     value={roadAddress}
                                     disabled={true}
                                     placeholder="기본 주소"
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
-                                <input
+                                <Input
                                     type="text"
                                     value={detailAddress}
                                     placeholder="나머지 주소"
+                                    disabled={false}
                                     onChange={(e) => setDetailAddress(e.target.value)}
-                                    className="w-full h-15 px-4 py-3 border border-gray-300 text-sm focus:outline-none focus:border-selected-line focus:bg-selected-bg transition-colors"
                                 />
                             </div>
                         </div>
