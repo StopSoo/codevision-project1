@@ -53,7 +53,6 @@ export default function OrderHistory() {
                 setSelectedNumber(null);
             }
         } catch (error) {
-            alert("주문 목록 정보 불러오기 실패");
             console.error(error);
         }
     }, [startDate, endDate, page, paramKeyword, setSelectedNumber]);

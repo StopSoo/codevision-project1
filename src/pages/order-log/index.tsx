@@ -36,26 +36,15 @@ export default function OrderLog() {
             if (data) {
                 setTotalPages(data.totalElements);
                 const newOrderLogList = data.data.map((d) => {
-                    if (d.orderDateTime === null && d.pharmacyName === null) {
-                        // 서버 내 목데이터 경우 처리
-                        // TODO: 나중에 지울 것
-                        return {
-                            ...d,
-                            pharmacyName: '하이 약국',
-                            orderDateTime: '2025-10-30 오후 5:30'
-                        };
-                    } else {
-                        return {
-                            ...d,
-                            orderDateTime: formatDate(d.orderDateTime)
-                        };
-                    }
+                    return {
+                        ...d,
+                        orderDateTime: formatDate(d.orderDateTime)
+                    };
                 });
                 setOrderLogList(newOrderLogList);
                 setSelectedNumber(null);
             }
         } catch (error) {
-            alert("도매상 주문 목록 정보 불러오기 실패");
             console.error(error);
         }
     }, [startDate, endDate, page, setSelectedNumber]);
@@ -82,7 +71,6 @@ export default function OrderLog() {
                     setOrderDetailList(data.items);
                 }
             } catch (error) {
-                alert("주문 상세 정보 불러오기 실패");
                 console.log(error);
             } finally {
                 setIsLoading(false);
